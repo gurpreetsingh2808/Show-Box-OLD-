@@ -37,7 +37,7 @@ public class DetailedView extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
             getWindow().setEnterTransition(new AutoTransition());
-            getWindow().setReturnTransition(new AutoTransition());
+            getWindow().setReturnTransition(new Explode());
         }
     }
 

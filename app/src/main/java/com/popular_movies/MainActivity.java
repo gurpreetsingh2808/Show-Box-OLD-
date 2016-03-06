@@ -1,6 +1,5 @@
 package com.popular_movies;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -11,18 +10,12 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.ChangeClipBounds;
-import android.transition.ChangeImageTransform;
 import android.transition.Explode;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.BounceInterpolator;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -35,16 +28,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements CustomAdapter.ClickListener{
 
     RequestQueue mRequestQueue = VolleySingleton.getInstance().getmRequestQueue();
     //private String url="https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=76b802b090caa26230f414433db80485\n";
-    //private String baseImageUrl = "http://image.tmdb.org/t/p/";
-    //private String imageSize = "w185/";
-    //   you will need a ‘size’, which will be one of the following: "w92", "w154", "w185", "w342", "w500", "w780", or "original".
 
     UriBuilder uri = new UriBuilder(UriBuilder.BASE_URL , UriBuilder.MOST_POPULAR);
     String url = uri.toString();
@@ -59,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.Cli
             getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
             //getWindow().setEnterTransition(new Explode());
             getWindow().setExitTransition(new Explode());
-            getWindow().setSharedElementExitTransition(new ChangeImageTransform());
+            getWindow().setSharedElementExitTransition(new ChangeClipBounds());
         }
     }
 
@@ -83,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.Cli
         try {
             instance=this;
             recyclerViewMovie = (RecyclerView) findViewById(R.id.recyclerMovie);
-            recyclerViewMovie.setHasFixedSize(true);
+            //recyclerViewMovie.setHasFixedSize(true);
             if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 recyclerViewMovie.setLayoutManager(new GridLayoutManager(this, 5));
             }
@@ -100,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.Cli
                 }
             });
 
-            sendJsonRequest("choice", url);
+            sendJsonRequest(url);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,10 +103,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.Cli
     /*
     // sending request to fetch data from tmdb
     */
-    void sendJsonRequest(final String choice, String url) {
-
-        //UriBuilder uri = new UriBuilder(UriBuilder.BASE_URL , UriBuilder.MOST_POPULAR);
-        //String url = uri.toString();
+    void sendJsonRequest(String url) {
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 url,
@@ -126,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.Cli
                     public void onResponse(JSONObject response) {
                         //parsing request
                         Log.d("menu", "parsing req");
-                        movieItemArrayList = parseJSONResponse(response, choice);
+                        movieItemArrayList = parseJSONResponse(response);
                         customAdapter.setMoviesList(movieItemArrayList);
                         Log.d("menu", "req parsed");
                     }
@@ -142,25 +128,22 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.Cli
         Log.d("menu", "req added to queue");
     }
 
-    private ArrayList<MovieItem> parseJSONResponse(JSONObject response, String choice) {
+    private ArrayList<MovieItem> parseJSONResponse(JSONObject response) {
 
         ArrayList<MovieItem> listVideos = new ArrayList<>();
         Log.d("menu", "parse req");
-        /*
+
         if (response == null || response.length() == 0) {
             return listVideos;
         }
-        */
+
         try {
             Log.d("menu", "try");
-            //StringBuilder data = new StringBuilder();
             JSONArray jsonArrayResult = response.getJSONArray("results");
             int len = jsonArrayResult.length();
 
             Log.d("menu", "for loop");
             for (int i = 0; i < len; i++) {
-                if (choice.equals("choice")) {
-                    //Log.d("menu", "choice is police");
 
                     JSONObject itemsObject = jsonArrayResult.getJSONObject(i);
 
@@ -184,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.Cli
                     //Log.d("menu", "arraylist desc " + listVideos.get(i).getDescription());
                     //Log.d("menu", "arraylist url " + listVideos.get(i).getThumbnailURL());
 
-                }
             }
         }catch (JSONException e) {
             Log.d("menu", "json exception " + e);
@@ -222,22 +204,18 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.Cli
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
         if (id == R.id.action_most_popular) {
-            //Toast.makeText(MainActivity.this,"working", Toast.LENGTH_SHORT).show();
             UriBuilder uri = new UriBuilder(UriBuilder.BASE_URL , UriBuilder.MOST_POPULAR);
             String url = uri.toString();
-            sendJsonRequest("choice", url);
+            sendJsonRequest(url);
             return true;
         }
         else if (id == R.id.action_highest_rated) {
-            //Toast.makeText(MainActivity.this,"working", Toast.LENGTH_SHORT).show();
             UriBuilder uri = new UriBuilder(UriBuilder.BASE_URL , UriBuilder.HIGHEST_RATED);
             String url = uri.toString();
-            sendJsonRequest("choice", url);
+            sendJsonRequest(url);
             return true;
         }
         return super.onOptionsItemSelected(item);

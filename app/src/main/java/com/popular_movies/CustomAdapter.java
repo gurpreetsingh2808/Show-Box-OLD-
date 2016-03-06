@@ -41,8 +41,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
         MovieItem current = movieItemArrayList.get(position);
         holder.title.setText(current.getTitle());
-        //holder.description.setText(current.getDescription());
-        //holder.thumbnail.setImageResource();
         Picasso.with(MainActivity.getContext()).load(current.getThumbnailURL()).into(holder.thumbnail);
     }
 
@@ -56,14 +54,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView title, description;
+        TextView title;
         ImageView thumbnail;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             title = (TextView) itemView.findViewById(R.id.movie_title);
-            //description = (TextView) itemView.findViewById(R.id.video_description);
             thumbnail = (ImageView) itemView.findViewById(R.id.movie_thumbnail);
 
         }

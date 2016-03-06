@@ -79,7 +79,6 @@
         android:layout_width="80dp"
         android:layout_height="120dp"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/no_img_preview"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|start"
         android:transitionName="poster"/>
@@ -93,7 +92,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textColor="@color/white"
-        android:text="title"
+        android:text="@string/title"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|start"
         android:gravity="center_vertical"

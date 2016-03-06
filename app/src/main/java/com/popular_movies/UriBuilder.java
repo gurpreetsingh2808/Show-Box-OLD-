@@ -1,6 +1,5 @@
 package com.popular_movies;
 
-import android.content.Context;
 import android.net.Uri;
 
 /**
