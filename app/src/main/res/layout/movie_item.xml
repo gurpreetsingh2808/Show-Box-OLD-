@@ -4,9 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
     android:layout_marginLeft="10dp"
-    android:transitionName="poster">
+    android:layout_marginTop="10dp">
 
 <RelativeLayout
         android:layout_width="match_parent"
@@ -17,9 +16,10 @@
             android:id="@+id/movie_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@drawable/no_img_preview"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"/>
+            android:background="@drawable/no_img_preview"
+            android:scaleType="centerCrop"
+            android:transitionName="poster" />
 
         <TextView
             android:id="@+id/movie_title"

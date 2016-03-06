@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.ChangeClipBounds;
@@ -32,16 +32,18 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements CustomAdapter.ClickListener{
 
-    RequestQueue mRequestQueue = VolleySingleton.getInstance().getmRequestQueue();
+    private static MainActivity instance;
     //private String url="https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=76b802b090caa26230f414433db80485\n";
-
+    RequestQueue mRequestQueue = VolleySingleton.getInstance().getmRequestQueue();
     UriBuilder uri = new UriBuilder(UriBuilder.BASE_URL , UriBuilder.MOST_POPULAR);
     String url = uri.toString();
-
     ArrayList<MovieItem> movieItemArrayList = new ArrayList<>();
     private RecyclerView recyclerViewMovie;
     private  CustomAdapter customAdapter;
-    private static MainActivity instance;
+
+    public static Context getContext() {
+        return instance.getApplicationContext();
+    }
 
     public void setupWindowAnimations() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -95,9 +97,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.Cli
             e.printStackTrace();
             Log.e("MainActivity","exception "+e);
         }
-    }
-    public static Context getContext() {
-        return instance.getApplicationContext();
     }
 
     /*
@@ -189,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.Cli
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             view.setTransitionName("poster");
-            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, view.getTransitionName());
+            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view.findViewById(R.id.movie_thumbnail), view.getTransitionName());
             startActivity(intent, compat.toBundle());
         }
         else
