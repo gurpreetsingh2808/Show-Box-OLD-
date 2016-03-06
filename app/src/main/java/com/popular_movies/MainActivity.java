@@ -189,7 +189,8 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.Cli
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             view.setTransitionName("poster");
-            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, view.getTransitionName());
+            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                    view.findViewById(R.id.movie_thumbnail), view.getTransitionName());
             startActivity(intent, compat.toBundle());
         }
         else
