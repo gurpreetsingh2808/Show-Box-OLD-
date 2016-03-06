@@ -41,7 +41,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
         MovieItem current = movieItemArrayList.get(position);
         holder.title.setText(current.getTitle());
-        Picasso.with(MainActivity.getContext()).load(current.getThumbnailURL()).into(holder.thumbnail);
+        Picasso.with(MainActivity.getContext()).load(current.getThumbnailURL())
+                .placeholder(R.drawable.no_img_preview).into(holder.thumbnail);
     }
 
     public void setClickListener(ClickListener clickListener) {

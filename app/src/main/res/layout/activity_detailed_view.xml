@@ -77,7 +77,7 @@
     <ImageView
         android:id="@+id/poster"
         android:layout_width="80dp"
-        android:layout_height="120dp"
+        android:layout_height="130dp"
         android:layout_marginLeft="10dp"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|start"

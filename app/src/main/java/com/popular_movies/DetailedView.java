@@ -47,7 +47,7 @@ public class DetailedView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar); 
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
@@ -94,7 +94,8 @@ public class DetailedView extends AppCompatActivity {
         Picasso.with(DetailedView.this).load(getIntent().getStringExtra("WIDE_THUMBNAIL_URL")).into(toolbarImage);
 
         poster = (ImageView)findViewById(R.id.poster);
-        Picasso.with(DetailedView.this).load(getIntent().getStringExtra("THUMBNAIL_URL")).into(poster);
+        Picasso.with(DetailedView.this).load(getIntent().getStringExtra("THUMBNAIL_URL"))
+                .placeholder(R.drawable.no_img_preview).into(poster);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

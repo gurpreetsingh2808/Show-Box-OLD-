@@ -17,7 +17,6 @@
             android:id="@+id/movie_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@drawable/no_img_preview"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"/>
 
