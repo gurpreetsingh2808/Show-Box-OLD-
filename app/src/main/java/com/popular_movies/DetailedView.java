@@ -47,7 +47,7 @@ public class DetailedView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar); 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 

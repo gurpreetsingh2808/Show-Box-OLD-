@@ -16,9 +16,9 @@ import java.util.ArrayList;
  */
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
 
+    ArrayList<MovieItem> movieItemArrayList = new ArrayList<>();
     private LayoutInflater inflater;
     private ClickListener clickListener;
-    ArrayList<MovieItem> movieItemArrayList = new ArrayList<>();
 
 
     public CustomAdapter(Context context) {
@@ -53,6 +53,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return movieItemArrayList.size();
     }
 
+    public interface ClickListener {
+        void itemClicked(View view, int position);
+    }
+
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title;
         ImageView thumbnail;
@@ -71,9 +75,5 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 clickListener.itemClicked(v, getPosition());
             }
         }
-    }
-
-    public interface ClickListener {
-        void itemClicked(View view, int position);
     }
 }
