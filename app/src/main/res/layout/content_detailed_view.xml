@@ -9,18 +9,23 @@
     android:background="@color/black"
     android:paddingTop="70dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:fillViewport="true"
     tools:context="com.popular_movies.DetailedView"
-    tools:showIn="@layout/activity_detailed_view">
+    tools:showIn="@layout/fragment_detailed_view">
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+<!--
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
-
+-->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/synopsisHeader"
@@ -29,7 +34,7 @@
                 android:layout_marginTop="@dimen/text_margin"
                 android:layout_marginLeft="@dimen/text_margin"
                 android:layout_marginRight="@dimen/text_margin"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="12dp"
                 android:textAllCaps="true"
                 android:text="@string/synopsis_heading"
                 android:textColor="@color/colorAccent"
@@ -40,12 +45,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/synopsisHeader"
+                android:textColor="@color/white"
                 android:layout_marginBottom="@dimen/text_margin"
                 android:layout_marginLeft="@dimen/text_margin"
                 android:layout_marginRight="@dimen/text_margin"
                 android:text="large_text" />
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom" />
+
+        <Button
+            android:id="@+id/buttonUserReviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/user_reviews"
+            android:textAllCaps="true"
+            android:background="@color/colorAccent"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:layout_margin="10dp"/>
 
 
+</LinearLayout>
 </android.support.v4.widget.NestedScrollView>

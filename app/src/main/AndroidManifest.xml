@@ -13,17 +13,35 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".DetailedView"
-            android:label="@string/title_activity_detailed_view"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".MovieDetail"
+            android:label="@string/title_activity_movie_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ReviewActivity"
+            android:label="@string/title_activity_review"
+            android:parentActivityName=".MovieDetail"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.popular_movies.MovieDetail" />
+        </activity>
+
+        <provider
+            android:name=".database.MovieProvider"
+            android:authorities="com.popular_movies.provider"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

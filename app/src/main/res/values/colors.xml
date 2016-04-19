@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#607D8B</color>
+    <color name="colorPrimaryDark">#455A64</color>
+    <color name="colorAccent">#795548</color>
     <color name="white">#ffffff</color>
     <color name="grey">#727272</color>
+
+    <color name="lightGrey">#E0E0E0</color>
+    <color name="lighterGrey">#EEEEEE</color>
+    <color name="whiteGrey">#F5F5F5</color>
     <color name="black">#212121</color>
     <color name="transparentPrimary">#323F51B5</color>
+
+    <array name="progress_colors">
+        <item>#2196F3</item>
+        <item>#E91E63</item>
+        <item>#9C27B0</item>
+        <item>#673AB7</item>
+        <item>#3F51B5</item>
+        <item>#F44336</item>
+        <item>#009688</item>
+        <item>#8BC34A</item>
+        <item>#FF5722</item>
+    </array>
 </resources>
