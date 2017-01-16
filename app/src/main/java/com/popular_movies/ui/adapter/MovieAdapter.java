@@ -102,6 +102,4 @@ public class MovieAdapter extends RecyclerView.Adapter<MyViewHolder> {
     public interface ClickListener {
         void itemClicked(View view, int position);
     }
-
-
 }
