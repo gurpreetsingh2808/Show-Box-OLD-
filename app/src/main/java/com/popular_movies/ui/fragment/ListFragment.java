@@ -1,12 +1,9 @@
-package com.popular_movies;
+package com.popular_movies.ui.fragment;
 
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -24,6 +21,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.popular_movies.MainActivity;
+import com.popular_movies.R;
+import com.popular_movies.VolleySingleton;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.framework.JsonParser;
 import com.popular_movies.framework.MovieAdapter;

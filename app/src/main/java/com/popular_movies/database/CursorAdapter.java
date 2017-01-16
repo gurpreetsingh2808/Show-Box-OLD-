@@ -1,30 +1,26 @@
 package com.popular_movies.database;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.popular_movies.MovieDetail;
+import com.popular_movies.ui.activity.MovieDetail;
 import com.popular_movies.framework.MyViewHolder;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 
-import com.popular_movies.DetailedViewFragment;
+import com.popular_movies.ui.fragment.DetailedViewFragment;
 import com.popular_movies.MainActivity;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.R;

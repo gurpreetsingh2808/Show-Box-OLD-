@@ -1,4 +1,4 @@
-package com.popular_movies;
+package com.popular_movies.ui.fragment;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -25,11 +25,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.popular_movies.MainActivity;
+import com.popular_movies.R;
+import com.popular_movies.VolleySingleton;
 import com.popular_movies.database.FavoritesDataSource;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.framework.DateConvert;
 import com.popular_movies.framework.JsonParser;
 import com.popular_movies.framework.UriBuilder;
+import com.popular_movies.ui.activity.ReviewActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -216,6 +220,10 @@ public class DetailedViewFragment extends Fragment {
         super.onDestroyView();
         if (dataSource != null)
             dataSource.close();
+    }
+
+    public TextView getTitle() {
+        return title;
     }
 
 }

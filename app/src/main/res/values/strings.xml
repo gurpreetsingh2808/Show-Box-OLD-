@@ -15,5 +15,6 @@
     <string name="title">title</string>
 
     <string name="title_activity_review">User Reviews</string>
+    <string name="widgetTitle">Upcoming</string>
 
 </resources>
