@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setupWindowAnimations();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         View detailView = findViewById(R.id.movie_detail);
         mIsDualPane = detailView != null && detailView.getVisibility() == View.VISIBLE;
         if (savedInstanceState != null && savedInstanceState.getInt(KEY_MENU_ITEM) != 0)
