@@ -1,4 +1,4 @@
-package com.popular_movies;
+package com.popular_movies.ui.fragment;
 
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.popular_movies.MainActivity;
+import com.popular_movies.R;
 import com.popular_movies.database.CursorAdapter;
 import com.popular_movies.database.FavoritesDataSource;
 

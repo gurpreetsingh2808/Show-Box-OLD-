@@ -1,4 +1,4 @@
-package com.popular_movies;
+package com.popular_movies.ui.activity;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,6 +17,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.popular_movies.R;
+import com.popular_movies.VolleySingleton;
 import com.popular_movies.domain.ReviewData;
 import com.popular_movies.framework.JsonParser;
 import com.popular_movies.framework.ReviewsAdapter;

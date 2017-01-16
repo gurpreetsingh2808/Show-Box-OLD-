@@ -1,18 +1,17 @@
-package com.popular_movies;
+package com.popular_movies.ui.activity;
 
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.transition.AutoTransition;
 import android.transition.Explode;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
-import android.view.WindowManager;
 
-import com.popular_movies.domain.MovieData;
+import com.popular_movies.ui.fragment.DetailedViewFragment;
+import com.popular_movies.R;
 
 public class MovieDetail extends AppCompatActivity {
     public static final String TAG = "MovieDetail";
@@ -42,7 +41,7 @@ public class MovieDetail extends AppCompatActivity {
         //setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) {
             Log.d("moviedetail", "action bar not null");
-            getSupportActionBar().setTitle(DetailedViewFragment.getInstance(getIntent().getParcelableExtra(KEY_MOVIE)).title.toString());
+            getSupportActionBar().setTitle(DetailedViewFragment.getInstance(getIntent().getParcelableExtra(KEY_MOVIE)).getTitle().toString());
         }
 
         if (savedInstanceState == null) {

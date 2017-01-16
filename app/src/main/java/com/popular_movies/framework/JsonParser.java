@@ -5,7 +5,7 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
-import com.popular_movies.ListFragment;
+import com.popular_movies.ui.fragment.ListFragment;
 import com.popular_movies.R;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.domain.ReviewData;

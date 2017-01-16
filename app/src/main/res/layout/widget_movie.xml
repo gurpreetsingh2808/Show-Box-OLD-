@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widgetRoot"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/flMovieIcon"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="8dp">
+
+        <ImageView
+            android:id="@+id/ivMovieIcon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@mipmap/ic_launcher" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/flMovieIcon"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp">
+
+    <TextView
+        android:id="@+id/tvMovieName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:text="Heading"
+        android:textColor="#787878"
+        android:textSize="16sp"
+        tools:ignore="MissingPrefix" />
+
+    <TextView
+        android:id="@+id/tvReleaseDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="Description"
+        android:textColor="#787878"
+        android:textSize="14sp"
+        android:singleLine="true"
+        tools:ignore="MissingPrefix" />
+
+</LinearLayout>
+
+
+</RelativeLayout>

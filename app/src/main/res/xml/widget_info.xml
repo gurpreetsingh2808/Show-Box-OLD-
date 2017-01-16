@@ -1,0 +1,13 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="300dp"
+    android:minHeight="60dp"
+    android:updatePeriodMillis="86400000"
+    android:previewImage="@mipmap/ic_launcher"
+    android:initialLayout="@layout/widget_movie"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen">
+</appwidget-provider>
+
+<!--
+    android:configure="com.example.android.ExampleAppWidgetConfigure"
+-->

@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.Window;
 
 import com.popular_movies.framework.UriBuilder;
+import com.popular_movies.ui.fragment.FavoritesFragment;
+import com.popular_movies.ui.fragment.ListFragment;
 
 public class MainActivity extends AppCompatActivity {
     private static final String KEY_MENU_ITEM = "MENU_ITEM";

@@ -8,8 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.popular_movies.BuildConfig;
+
 public class MovieProvider extends ContentProvider {
-    static final String PROVIDER_NAME = "com.popular_movies.provider";
+    static final String PROVIDER_NAME = BuildConfig.APPLICATION_ID + ".provider";
     static final String URL = "content://" + PROVIDER_NAME + '/' + MoviesDbHelper.TABLE_FAVORITES;
     static final Uri CONTENT_URI = Uri.parse(URL);
     private SQLiteDatabase db;
