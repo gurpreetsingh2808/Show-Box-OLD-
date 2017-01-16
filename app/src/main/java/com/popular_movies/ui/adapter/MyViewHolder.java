@@ -1,4 +1,4 @@
-package com.popular_movies.framework;
+package com.popular_movies.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.popular_movies.R;
+import com.popular_movies.ui.adapter.MovieAdapter;
 
 /**
  * Created by Gurpreet on 4/17/2016.

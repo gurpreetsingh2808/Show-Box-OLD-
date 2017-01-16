@@ -37,12 +37,6 @@
                 android:value="com.popular_movies.ui.activity.MovieDetail" />
         </activity>
 
-        <provider
-            android:name=".database.MovieProvider"
-            android:authorities="com.capstone.showbox.provider"
-            android:enabled="true"
-            android:exported="false" />
-
         <receiver
             android:name=".widget.MovieWidgetProvider"
             android:label="@string/widgetTitle">
@@ -54,6 +48,11 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
+
+        <provider
+            android:authorities="com.capstone.showbox"
+            android:name="com.popular_movies.database.MovieProvider"/>
+
     </application>
 
 </manifest>

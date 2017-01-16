@@ -1,6 +1,7 @@
 package com.popular_movies.ui.fragment;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -28,10 +29,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.popular_movies.MainActivity;
 import com.popular_movies.R;
 import com.popular_movies.VolleySingleton;
-import com.popular_movies.database.FavoritesDataSource;
+import com.popular_movies.database.MovieProviderHelper;
 import com.popular_movies.domain.MovieData;
+import com.popular_movies.domain.MovieDataTable;
 import com.popular_movies.framework.DateConvert;
-import com.popular_movies.framework.JsonParser;
+import com.popular_movies.JsonParser;
 import com.popular_movies.framework.UriBuilder;
 import com.popular_movies.ui.activity.ReviewActivity;
 import com.squareup.picasso.Picasso;
@@ -48,15 +50,12 @@ public class DetailedViewFragment extends Fragment {
     AppBarLayout.OnOffsetChangedListener mListener;
     String trailerKey = null;
     RequestQueue mRequestQueue = VolleySingleton.getInstance().getmRequestQueue();
-    private static final String LOGTAG = "DetailedView";
+    private static final String TAG = DetailedViewFragment.class.getSimpleName();
     MovieData movieData;
-    FavoritesDataSource dataSource;
     FloatingActionButton favoritesButton;
     public static final String KEY_MOVIE = "movie";
-    public static Toolbar toolbar;
-
-    private static DetailedViewFragment instance;
     Button btnUserReview;
+    private Cursor cursor;
 
     public static DetailedViewFragment getInstance(Parcelable movie) {
         DetailedViewFragment detailsFragment = new DetailedViewFragment();
@@ -71,17 +70,16 @@ public class DetailedViewFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_detailed_view, container, false);
 
-        instance = this;
+        DetailedViewFragment instance = this;
         movieData = getArguments().getParcelable(KEY_MOVIE);
-        Log.d("detailedview", "" + movieData);
-
-        if (!MainActivity.mIsDualPane) {
-            toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        if (movieData != null) {
+            Log.d("detailedview", "" + movieData.id);
         }
 
-        dataSource = new FavoritesDataSource(getActivity());
-        dataSource.open(false);
+        if (!MainActivity.mIsDualPane) {
+            Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        }
 
         indicator = (CircleIndicator) view.findViewById(R.id.indicator);
 
@@ -147,7 +145,7 @@ public class DetailedViewFragment extends Fragment {
         });
 
         ImageView toolbarImage = (ImageView) view.findViewById(R.id.toolbarImage);
-        Picasso.with(getActivity()).load(movieData.wideThumbnailURL).into(toolbarImage);
+        Picasso.with(getActivity()).load(movieData.backdropImage).into(toolbarImage);
         toolbarImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,14 +167,18 @@ public class DetailedViewFragment extends Fragment {
         favoritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (dataSource.doesMovieExist(movieData.id)) {
+                if (MovieProviderHelper.getInstance().doesMovieExist(movieData.id)) {
                     favoritesButton.setImageResource(R.drawable.ic_favorite_grey_24px);
-                    dataSource.removeMovie(movieData.id);
+                    //  delete movie from database
+                    MovieProviderHelper.getInstance().delete(movieData.id);
+                    //dataSource.removeMovie(movieData.id);
                     Snackbar.make(view, "Removed " + movieData.title + " from Favorites!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 } else {
                     favoritesButton.setImageResource(R.drawable.ic_favorite_brown_24px);
-                    dataSource.insertMovie(movieData);
+                    //  add movie to database
+                    MovieProviderHelper.getInstance().insert(movieData);
+                    //dataSource.insertMovie(movieData);
                     Snackbar.make(view, "Added " + movieData.title + " To Favorites!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
@@ -188,9 +190,7 @@ public class DetailedViewFragment extends Fragment {
         String url = uri.toString();
         sendTrailerKeyRequest(url);
 
-        dataSource = new FavoritesDataSource(getActivity());
-        dataSource.open(false);
-        if (dataSource.doesMovieExist(movieData.id)) {
+        if (MovieProviderHelper.getInstance().doesMovieExist(movieData.id)) {
             favoritesButton.setImageResource(R.drawable.ic_favorite_brown_24px);
         }
         return  view;
@@ -218,8 +218,8 @@ public class DetailedViewFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (dataSource != null)
-            dataSource.close();
+        //if (dataSource != null)
+          //  dataSource.close();
     }
 
     public TextView getTitle() {
