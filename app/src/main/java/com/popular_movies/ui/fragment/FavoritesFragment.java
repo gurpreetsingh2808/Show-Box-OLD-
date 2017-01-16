@@ -14,21 +14,16 @@ import android.view.ViewGroup;
 
 import com.popular_movies.MainActivity;
 import com.popular_movies.R;
-import com.popular_movies.database.CursorAdapter;
-import com.popular_movies.database.FavoritesDataSource;
+import com.popular_movies.database.MovieProviderHelper;
+import com.popular_movies.ui.adapter.MovieAdapter;
 
 
 public class FavoritesFragment extends Fragment {
     RecyclerView recyclerView;
-    FavoritesDataSource dataSource;
-    Cursor cursor;
-    private CursorAdapter mAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataSource = new FavoritesDataSource(getContext());
-        dataSource.open(true);
     }
 
     @Nullable
@@ -50,9 +45,6 @@ public class FavoritesFragment extends Fragment {
             else
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 5));
         }
-        cursor = dataSource.getAllMovies();
-        mAdapter = new CursorAdapter(getContext(), cursor);
-        recyclerView.setAdapter(mAdapter);
         return layout;
     }
 
@@ -67,18 +59,9 @@ public class FavoritesFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        dataSource.close();
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
-        if (cursor != null) {
-            cursor.close();
-        }
-        cursor = dataSource.getAllMovies();
-        mAdapter.swapCursor(cursor);
+        MovieAdapter movieAdapter = new MovieAdapter(getContext(), MovieProviderHelper.getInstance().getAllFavouriteMovies());
+        recyclerView.setAdapter(movieAdapter);
     }
 }

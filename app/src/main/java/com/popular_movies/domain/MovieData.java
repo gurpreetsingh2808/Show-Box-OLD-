@@ -5,35 +5,53 @@ import android.os.Parcelable;
 
 import java.util.Date;
 
+import ckm.simple.sql_provider.annotation.SimpleSQLColumn;
+import ckm.simple.sql_provider.annotation.SimpleSQLTable;
+
 /**
  * Created by Gurpreet on 2/21/2016.
  */
+
+@SimpleSQLTable(table = "movieData", provider = "MovieProvider")
+
 public class MovieData implements Parcelable {
-    public String title;
-    public String description;
-    public String thumbnailURL;
-    public String wideThumbnailURL;
-    public String userRatings;
-    public Date releaseDate;
+
+    @SimpleSQLColumn("col_id")
     public int id;
+    @SimpleSQLColumn("col_title")
+    public String title;
+    @SimpleSQLColumn("col_description")
+    public String description;
+    @SimpleSQLColumn("col_thumbnail")
+    public String thumbnailURL;
+    @SimpleSQLColumn("col_backdrop")
+    public String backdropImage;
+    @SimpleSQLColumn("col_rating")
+    public String userRatings;
+    @SimpleSQLColumn("col_releaseDate")
+    public Date releaseDate;
+
+    public MovieData() {
+    }
 
     public MovieData(String title, String description, String thumbnailURL, String wideThumbnailURL, String userRatings, Date release_date, int id) {
         this.title = title;
         this.description = description;
         this.thumbnailURL = thumbnailURL;
-        this.wideThumbnailURL = wideThumbnailURL;
+        this.backdropImage = wideThumbnailURL;
         this.userRatings = userRatings;
         this.releaseDate = release_date;
-        this.id=id;
+        this.id = id;
     }
 
     public MovieData(Parcel in) {
         title = in.readString();
         description = in.readString();
         thumbnailURL = in.readString();
-        wideThumbnailURL = in.readString();
+        backdropImage = in.readString();
         userRatings = in.readString();
-        releaseDate = new Date(in.readLong());;
+        releaseDate = new Date(in.readLong());
+        ;
         id = in.readInt();
     }
 
@@ -59,7 +77,7 @@ public class MovieData implements Parcelable {
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(thumbnailURL);
-        dest.writeString(wideThumbnailURL);
+        dest.writeString(backdropImage);
         dest.writeString(userRatings);
         dest.writeLong(releaseDate.getTime());
         dest.writeInt(id);

@@ -1,4 +1,4 @@
-package com.popular_movies.framework;
+package com.popular_movies.ui.adapter;
 
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -28,12 +28,12 @@ import java.util.List;
  */
 public class MovieAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
-    List<MovieData> movieItemArrayList;
+    private List<MovieData> movieItemArrayList;
     private LayoutInflater inflater;
-    Context context;
-    public static ClickListener clickListener;
+    private Context context;
+    static ClickListener clickListener;
 
-    public MovieAdapter(Context context, ArrayList<MovieData> movieDataList) {
+    public MovieAdapter(Context context, List<MovieData> movieDataList) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.movieItemArrayList = movieDataList;

@@ -15,7 +15,7 @@ public class VolleySingleton {
     }
 
     private VolleySingleton() {
-        mRequestQueue= Volley.newRequestQueue(MyApplication.getAppContext());
+        mRequestQueue= Volley.newRequestQueue(MyApplication.getInstance().getApplicationContext());
     }
 
     public RequestQueue getmRequestQueue()  {

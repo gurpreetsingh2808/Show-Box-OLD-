@@ -1,10 +1,12 @@
-package com.popular_movies.framework;
+package com.popular_movies;
 
 import android.os.Parcel;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
+import com.popular_movies.framework.UriBuilder;
+import com.popular_movies.ui.adapter.MovieAdapter;
 import com.popular_movies.ui.fragment.ListFragment;
 import com.popular_movies.R;
 import com.popular_movies.domain.MovieData;

@@ -20,8 +20,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.popular_movies.R;
 import com.popular_movies.VolleySingleton;
 import com.popular_movies.domain.ReviewData;
-import com.popular_movies.framework.JsonParser;
-import com.popular_movies.framework.ReviewsAdapter;
+import com.popular_movies.JsonParser;
+import com.popular_movies.ui.adapter.ReviewsAdapter;
 import com.popular_movies.framework.UriBuilder;
 
 import org.json.JSONObject;
