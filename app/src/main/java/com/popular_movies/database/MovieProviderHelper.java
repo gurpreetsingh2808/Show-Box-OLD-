@@ -50,6 +50,18 @@ public class MovieProviderHelper {
         return contentResolver.query(MovieDataTable.CONTENT_URI, null, null, null, null);
     }
 
+    public Cursor getFilledCursor() {
+        if (contentResolver == null) {
+            getInstance();
+        }
+        return contentResolver.query(MovieDataTable.CONTENT_URI,
+                new String[]{MovieDataTable.FIELD_COL_THUMBNAIL, MovieDataTable.FIELD_COL_TITLE,
+                        MovieDataTable.FIELD_COL_RELEASEDATE},
+                null,
+                null,
+                null);
+    }
+
 
     public void insert(MovieData movieData) {
         contentResolver.insert(MovieDataTable.CONTENT_URI,

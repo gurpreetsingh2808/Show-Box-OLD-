@@ -53,6 +53,11 @@
             android:authorities="com.capstone.showbox"
             android:name="com.popular_movies.database.MovieProvider"/>
 
+        <service
+            android:name=".widget.FavouriteWidgetRemoteViewsService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
     </application>
 
 </manifest>

@@ -6,6 +6,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.popular_movies.MainActivity;
@@ -15,6 +17,7 @@ import com.popular_movies.R;
  * Created by Gurpreet on 16-01-2017.
  */
 public class MovieWidgetProvider extends AppWidgetProvider {
+    private static final String TAG  = MovieWidgetProvider.class.getSimpleName();
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -28,12 +31,13 @@ public class MovieWidgetProvider extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_movie);
             views.setOnClickPendingIntent(R.id.widgetRoot, pendingIntent);
 
-            //this changes the image in the imageview btnToggle, remoteViews lets you use setText
-            // and a couple of other to manipulate certain widget items
-            //  UPDATE NEW DATA EVERYTIME FROM CONTENT PROVIDER OR DATABASE
-            views.setImageViewResource(R.id.ivMovieIcon, R.drawable.no_img_preview);
-            views.setTextViewText(R.id.tvMovieName, "aaa");
-            views.setTextViewText(R.id.tvReleaseDate, "123");
+
+            Intent svcIntent = new Intent(context.getApplicationContext(), FavouriteWidgetRemoteViewsService.class);
+            Log.d(TAG, "onUpdate: widget provider ");
+            svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+            svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
+            views.setRemoteAdapter(R.id.widget_list, svcIntent);
+
 
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);

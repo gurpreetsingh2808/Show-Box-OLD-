@@ -1,19 +1,23 @@
-/*
 package com.popular_movies.widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Movie;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.popular_movies.R;
+import com.popular_movies.database.MovieProvider;
+import com.popular_movies.database.MovieProviderHelper;
+import com.squareup.picasso.Picasso;
 
-*/
+
 /**
  * Created by Gurpreet on 16-01-2017.
- *//*
+ */
 
 
 public class FavouriteWidgetRemoteViewsService extends RemoteViewsService {
@@ -36,19 +40,18 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         this.context = context;
         this.intent = intent;
         this.AppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        Log.d(TAG, "ListRemoteViewsFactory: constructor");
     }
 
     private void loadCursor() {
-        mCursor = context.getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
-                new String[]{QuoteColumns._ID, QuoteColumns.SYMBOL, QuoteColumns.BIDPRICE,
-                        QuoteColumns.PERCENT_CHANGE, QuoteColumns.CHANGE, QuoteColumns.ISUP},
-                QuoteColumns.ISCURRENT + " = ?",
-                new String[]{"1"},
-                null);
+        mCursor = MovieProviderHelper.getInstance().getFilledCursor();
+        if(mCursor == null)
+            Log.d(TAG, "loadCursor: cursor is null");
     }
 
     @Override
     public void onCreate() {
+        Log.d(TAG, "onCreate: widget service started");
         loadCursor();
     }
 
@@ -71,11 +74,15 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public RemoteViews getViewAt(int position) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_collection_item);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_movie);
         mCursor.moveToPosition(position);
-        views.setTextViewText(R.id.stock_symbol, mCursor.getString(mCursor.getColumnIndex("symbol")));
-        views.setTextViewText(R.id.bid_price, mCursor.getString(mCursor.getColumnIndex("bid_price")));
-        views.setTextViewText(R.id.change, mCursor.getString(Utils.showPercent ? mCursor.getColumnIndex("percent_change") : mCursor.getColumnIndex("change")));
+       /* Picasso.with(context).load(mCursor.getString(mCursor.getColumnIndex("col_title")))
+                .error(R.drawable.no_img_preview)
+                .into(R.id.ivMovieIcon);*/
+        //views.setImageViewResource(R.id.ivMovieIcon, R.drawable.no_img_preview);
+        Log.d(TAG, "getViewAt: title "+mCursor.getString(mCursor.getColumnIndex("col_title")));
+        views.setTextViewText(R.id.tvMovieName, mCursor.getString(mCursor.getColumnIndex("col_title")));
+        views.setTextViewText(R.id.tvReleaseDate, mCursor.getString(mCursor.getColumnIndex("col_releaseDate")));
         return views;
     }
 
@@ -100,4 +107,4 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
 }
-*/
+
