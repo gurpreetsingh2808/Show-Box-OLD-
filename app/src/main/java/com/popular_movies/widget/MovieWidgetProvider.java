@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -21,7 +22,7 @@ public class MovieWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        for (int appWidgetId : appWidgetIds) {
+       /* for (int appWidgetId : appWidgetIds) {
             // Create an Intent to launch Activity
             Intent intent = new Intent(context, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
@@ -41,6 +42,16 @@ public class MovieWidgetProvider extends AppWidgetProvider {
 
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
-        }
+        }*/
+        // Get all ids
+        ComponentName thisWidget = new ComponentName(context, MovieWidgetProvider.class);
+        int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+
+        // Build the intent to call the service
+        Intent intent = new Intent(context.getApplicationContext(), FavouritesWidgetService.class);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
+
+        // Update the widgets via the service
+        context.startService(intent);
     }
 }
