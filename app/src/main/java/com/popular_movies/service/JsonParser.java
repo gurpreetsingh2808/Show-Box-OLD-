@@ -1,4 +1,4 @@
-package com.popular_movies;
+package com.popular_movies.service;
 
 import android.os.Parcel;
 import android.support.design.widget.Snackbar;

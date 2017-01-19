@@ -1,7 +1,6 @@
 package com.popular_movies.ui.fragment;
 
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.popular_movies.MainActivity;
+import com.popular_movies.ui.activity.MainActivity;
 import com.popular_movies.R;
 import com.popular_movies.database.MovieProviderHelper;
 import com.popular_movies.ui.adapter.MovieAdapter;

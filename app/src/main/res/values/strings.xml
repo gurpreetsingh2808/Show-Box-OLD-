@@ -17,5 +17,11 @@
     <string name="title_activity_review">User Reviews</string>
     <string name="widgetTitle">Upcoming</string>
     <string name="widget_title">Favourites</string>
+    <string name="empty_view_text">Empty</string>
+    <string name="nowPlaying">Now playing</string>
+    <string name="topRated">Top rated</string>
+    <string name="popular">Popular</string>
+    <string name="favourite">Favourites</string>
+    <string name="upcoming">Upcoming</string>
 
 </resources>

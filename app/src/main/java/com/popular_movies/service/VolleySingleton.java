@@ -1,7 +1,8 @@
-package com.popular_movies;
+package com.popular_movies.service;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.popular_movies.MyApplication;
 
 /**
  * Created by Gurpreet Singh on 10/25/2015.

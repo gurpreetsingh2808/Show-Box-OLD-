@@ -1,6 +1,10 @@
-package com.popular_movies;
+package com.popular_movies.ui.activity;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
+import com.popular_movies.R;
 import com.popular_movies.framework.UriBuilder;
 import com.popular_movies.ui.fragment.FavoritesFragment;
 import com.popular_movies.ui.fragment.ListFragment;
@@ -46,6 +51,37 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.main_content, ListFragment.getInstance(UriBuilder.POPULAR))
                     .commit();
 
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.action_popular:
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.main_content, ListFragment.getInstance(UriBuilder.POPULAR))
+                                        .commit();
+                                //item.getIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                //bottomNavigationView.setSelected(true);
+                                //bottomNavigationView.setItemTextColor(getResources().getColorStateList(R.color.selector));
+                                return true;
+                            case R.id.action_top_rated:
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.main_content, ListFragment.getInstance(UriBuilder.TOP_RATED))
+                                        .commit();
+                                return true;
+                            case R.id.action_favorite:
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.main_content, new FavoritesFragment())
+                                        .commit();
+                                return true;
+
+                        }
+                        return true;
+                    }
+                });
     }
 
     @Override

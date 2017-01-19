@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/black"
-    tools:context="com.popular_movies.DetailedView">
+    tools:context="com.popular_movies.ui.activity.MovieDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="@color/lighterGrey"
-        android:src="@drawable/ic_favorite_grey_24px"
+        android:src="@drawable/ic_favorite"
         app:layout_anchor="@id/app_bar"
         android:elevation="7dp"
         app:layout_anchorGravity="bottom|end" />
@@ -83,7 +83,6 @@
         android:layout_width="80dp"
         android:layout_height="130dp"
         android:layout_marginLeft="10dp"
-        app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|start"
         android:transitionName="poster"/>
 
@@ -97,7 +96,6 @@
         android:textSize="20sp"
         android:textColor="@color/white"
         android:text="@string/title"
-        app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|start"
         android:gravity="center_vertical"
         android:textStyle="bold"/>

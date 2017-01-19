@@ -18,9 +18,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.popular_movies.R;
-import com.popular_movies.VolleySingleton;
+import com.popular_movies.service.VolleySingleton;
 import com.popular_movies.domain.ReviewData;
-import com.popular_movies.JsonParser;
+import com.popular_movies.service.JsonParser;
 import com.popular_movies.ui.adapter.ReviewsAdapter;
 import com.popular_movies.framework.UriBuilder;
 

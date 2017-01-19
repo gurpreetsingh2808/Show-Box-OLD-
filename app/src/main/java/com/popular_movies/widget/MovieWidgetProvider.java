@@ -1,18 +1,10 @@
 package com.popular_movies.widget;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.util.Log;
-import android.widget.RemoteViews;
-
-import com.popular_movies.MainActivity;
-import com.popular_movies.R;
 
 /**
  * Created by Gurpreet on 16-01-2017.

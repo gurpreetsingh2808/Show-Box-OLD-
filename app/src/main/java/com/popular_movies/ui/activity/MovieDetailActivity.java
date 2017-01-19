@@ -9,12 +9,13 @@ import android.transition.Explode;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.popular_movies.ui.fragment.DetailedViewFragment;
 import com.popular_movies.R;
 
-public class MovieDetail extends AppCompatActivity {
-    public static final String TAG = "MovieDetail";
+public class MovieDetailActivity extends AppCompatActivity {
+    public static final String TAG = "MovieDetailActivity";
     public static final String KEY_MOVIE = "MOVIE";
 
     public void setupWindowAnimations() {
@@ -29,13 +30,13 @@ public class MovieDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setupWindowAnimations();
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-            // Set the status bar to dark-semi-transparentish
-            //getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-            //        WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
         setContentView(R.layout.activity_movie_detail);
+
+        // Set the status bar to dark-semi-transparentish
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);

@@ -21,11 +21,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.popular_movies.MainActivity;
+import com.popular_movies.ui.activity.MainActivity;
 import com.popular_movies.R;
-import com.popular_movies.VolleySingleton;
+import com.popular_movies.service.VolleySingleton;
 import com.popular_movies.domain.MovieData;
-import com.popular_movies.JsonParser;
+import com.popular_movies.service.JsonParser;
 import com.popular_movies.ui.adapter.MovieAdapter;
 import com.popular_movies.framework.UriBuilder;
 

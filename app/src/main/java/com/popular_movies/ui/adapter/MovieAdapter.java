@@ -14,8 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.popular_movies.ui.fragment.DetailedViewFragment;
-import com.popular_movies.MainActivity;
-import com.popular_movies.ui.activity.MovieDetail;
+import com.popular_movies.ui.activity.MainActivity;
+import com.popular_movies.ui.activity.MovieDetailActivity;
 import com.popular_movies.R;
 import com.popular_movies.domain.MovieData;
 import com.squareup.picasso.Picasso;
@@ -66,8 +66,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MyViewHolder> {
             holder.thumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, MovieDetail.class);
-                    intent.putExtra(MovieDetail.KEY_MOVIE, current);
+                    Intent intent = new Intent(context, MovieDetailActivity.class);
+                    intent.putExtra(MovieDetailActivity.KEY_MOVIE, current);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         AppBarLayout barLayout = (AppBarLayout) ((AppCompatActivity) context).findViewById(R.id.actionbar);
                         ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation((AppCompatActivity) context, Pair.create((View) holder.thumbnail, "poster"), Pair.create((View) barLayout, "actionbar"));

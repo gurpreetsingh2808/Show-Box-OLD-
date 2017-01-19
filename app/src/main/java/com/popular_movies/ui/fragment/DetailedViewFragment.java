@@ -26,14 +26,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.popular_movies.MainActivity;
+import com.popular_movies.ui.activity.MainActivity;
 import com.popular_movies.R;
-import com.popular_movies.VolleySingleton;
+import com.popular_movies.service.VolleySingleton;
 import com.popular_movies.database.MovieProviderHelper;
 import com.popular_movies.domain.MovieData;
-import com.popular_movies.domain.MovieDataTable;
 import com.popular_movies.framework.DateConvert;
-import com.popular_movies.JsonParser;
+import com.popular_movies.service.JsonParser;
 import com.popular_movies.framework.UriBuilder;
 import com.popular_movies.ui.activity.ReviewActivity;
 import com.squareup.picasso.Picasso;
@@ -168,7 +167,7 @@ public class DetailedViewFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (MovieProviderHelper.getInstance().doesMovieExist(movieData.id)) {
-                    favoritesButton.setImageResource(R.drawable.ic_favorite_grey_24px);
+                    favoritesButton.setImageResource(R.drawable.ic_favorite);
                     //  delete movie from database
                     MovieProviderHelper.getInstance().delete(movieData.id);
                     //dataSource.removeMovie(movieData.id);
