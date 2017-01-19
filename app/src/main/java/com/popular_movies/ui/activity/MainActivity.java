@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         mIsDualPane = detailView != null && detailView.getVisibility() == View.VISIBLE;
         if (savedInstanceState != null && savedInstanceState.getInt(KEY_MENU_ITEM) != 0)
             menuitem = savedInstanceState.getInt(KEY_MENU_ITEM);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (savedInstanceState == null)
             getSupportFragmentManager().beginTransaction()
@@ -58,20 +58,20 @@ public class MainActivity extends AppCompatActivity {
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        toolbar.setTitle(item.getTitle());
                         switch (item.getItemId()) {
                             case R.id.action_popular:
                                 getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.main_content, ListFragment.getInstance(UriBuilder.POPULAR))
                                         .commit();
-                                //item.getIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-                                //bottomNavigationView.setSelected(true);
-                                //bottomNavigationView.setItemTextColor(getResources().getColorStateList(R.color.selector));
                                 return true;
+
                             case R.id.action_top_rated:
                                 getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.main_content, ListFragment.getInstance(UriBuilder.TOP_RATED))
                                         .commit();
                                 return true;
+
                             case R.id.action_favorite:
                                 getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.main_content, new FavoritesFragment())

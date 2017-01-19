@@ -12,8 +12,8 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
-        android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+>
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
@@ -32,6 +32,12 @@
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#32000000"
+                />
 
             <ImageView
                 android:id="@+id/playImage"

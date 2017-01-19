@@ -20,7 +20,7 @@
         <activity
             android:name=".ui.activity.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.ActionBar.Transparent" />
         <activity
             android:name=".ui.activity.ReviewActivity"
             android:label="@string/title_activity_review"
