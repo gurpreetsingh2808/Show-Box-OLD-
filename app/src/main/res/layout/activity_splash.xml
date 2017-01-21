@@ -37,7 +37,7 @@
         android:layout_gravity="center"
         android:textColor="@color/themeDark"
         android:textSize="30sp"
-        android:text="@string/app_name"/>
+        android:text="@string/app_name" />
     </LinearLayout>
 
 </RelativeLayout>

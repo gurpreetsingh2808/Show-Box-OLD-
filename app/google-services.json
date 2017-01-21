@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "32272478762",
+    "firebase_url": "https://showbox-851b6.firebaseio.com",
+    "project_id": "showbox-851b6",
+    "storage_bucket": "showbox-851b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32272478762:android:38f0b76b63acce95",
+        "android_client_info": {
+          "package_name": "com.popular_movies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "32272478762-hk33sci9a8icjeec7vgm1lj93m3760dk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.popular_movies",
+            "certificate_hash": "33B8D6E757C44C08815A98361F15832F8E73D1A5"
+          }
+        },
+        {
+          "client_id": "32272478762-ajlmpd6elt11gstbhr1tlmkebk0el5q8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE-6abSuV3XPux5SHoCYtEHekbM1ncR54"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "32272478762-ajlmpd6elt11gstbhr1tlmkebk0el5q8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
