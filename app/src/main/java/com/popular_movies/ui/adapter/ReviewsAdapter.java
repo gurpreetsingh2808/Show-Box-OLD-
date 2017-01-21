@@ -9,43 +9,38 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.popular_movies.R;
-import com.popular_movies.domain.ReviewData;
+import com.popular_movies.domain.Review;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Gurpreet on 4/9/2016.
  */
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.MyViewHolder> {
 
-    ArrayList<ReviewData> reviewDataArrayList = new ArrayList<>();
+    List<Review> reviewDataArrayList = new ArrayList<>();
     private LayoutInflater inflater;
+    private Context context;
     private static final String TAG = ReviewsAdapter.class.getSimpleName();
 
-    public ReviewsAdapter(Context context) {
-        inflater = LayoutInflater.from(context);
-    }
-
-    public void setReviewsList(ArrayList<ReviewData> listReviews) {
-        if(listReviews != null) {
-            this.reviewDataArrayList = listReviews;
-            notifyItemRangeChanged(0, listReviews.size());
-        }
-        else {
-            Log.e(TAG, "setReviewsList: list reviews is null");
+    public ReviewsAdapter(Context context, List<Review> reviewList) {
+        if(context != null) {
+            this.context = context;
+            this.reviewDataArrayList = reviewList;
+            inflater = LayoutInflater.from(context);
         }
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.review_data, parent, false);
-        MyViewHolder viewHolder = new MyViewHolder(view);
-        return viewHolder;
+        return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        ReviewData current = reviewDataArrayList.get(position);
+        Review current = reviewDataArrayList.get(position);
         holder.user.setText(current.getAuthor());
         holder.review.setText(current.getContent());
     }

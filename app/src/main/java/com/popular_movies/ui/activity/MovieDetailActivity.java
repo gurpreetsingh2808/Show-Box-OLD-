@@ -15,7 +15,7 @@ import com.popular_movies.ui.fragment.DetailedViewFragment;
 import com.popular_movies.R;
 
 public class MovieDetailActivity extends AppCompatActivity {
-    public static final String TAG = "MovieDetailActivity";
+    public static final String TAG = MovieDetailActivity.class.getSimpleName();
     public static final String KEY_MOVIE = "MOVIE";
 
     public void setupWindowAnimations() {

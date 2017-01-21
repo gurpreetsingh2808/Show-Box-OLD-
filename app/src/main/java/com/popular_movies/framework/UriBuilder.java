@@ -8,7 +8,7 @@ import com.popular_movies.BuildConfig;
  * Created by Gurpreet on 2/25/2016.
  */
 public class UriBuilder {
-    public static final String BASE_URL = "https://api.themoviedb.org/3/movie";
+    public static final String BASE_URL = "http://api.themoviedb.org/3/";
     public static final String BASE_URL_IMAGE = "http://image.tmdb.org/t/p/";
 
     public static String[] imageSize = {"w92", "w154", "w185", "w342", "w500", "w780"};

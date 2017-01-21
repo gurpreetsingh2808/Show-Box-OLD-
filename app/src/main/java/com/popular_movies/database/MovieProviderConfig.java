@@ -12,7 +12,7 @@ import ckm.simple.sql_provider.annotation.SimpleSQLConfig;
         name = "MovieProvider",
         authority = "com.capstone.showbox",
         database = "movie.db",
-        version = 1)
+        version = 2)
 
 public class MovieProviderConfig implements ProviderConfig {
     @Override

@@ -5,7 +5,8 @@
     android:id="@+id/widgetRoot"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/stack_widget_item_background">
 
     <FrameLayout
         android:id="@+id/flMovieIcon"

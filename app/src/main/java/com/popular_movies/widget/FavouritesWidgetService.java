@@ -51,8 +51,8 @@ public class FavouritesWidgetService extends Service {
             mID = (new Random().nextInt(11) + 1);
 
             Uri uri = ContentUris.withAppendedId(MovieDataTable.CONTENT_URI, mID);
-            String[] projection = {MovieDataTable.FIELD_COL_THUMBNAIL, MovieDataTable.FIELD_COL_TITLE,
-                    MovieDataTable.FIELD_COL_RELEASEDATE };
+            String[] projection = {MovieDataTable.FIELD_COL_POSTER_PATH, MovieDataTable.FIELD_COL_TITLE,
+                    MovieDataTable.FIELD_COL_RELEASE_DATE };
             String selection = null;
             String[] selectionArgs = null;
             String sortOrder = null;
@@ -63,8 +63,8 @@ public class FavouritesWidgetService extends Service {
                 cursor.moveToFirst();
                 //mName = cursor.getString(cursor.getColumnIndex(EmployeeDatabase.COLUMN_LASTNAME)) + ", " + cursor.getString(cursor.getColumnIndex(EmployeeDatabase.COLUMN_FIRSTNAME));
                 mTitle = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_TITLE));
-                mReleaseDate = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_RELEASEDATE));
-                mPicture = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_THUMBNAIL));
+                mReleaseDate = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_RELEASE_DATE));
+                mPicture = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_POSTER_PATH));
             } else {
                 mTitle = "empty cursor";
             }
