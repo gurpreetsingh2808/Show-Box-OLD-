@@ -9,8 +9,8 @@ import android.transition.Explode;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
-import android.view.WindowManager;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.popular_movies.ui.fragment.DetailedViewFragment;
 import com.popular_movies.R;
 

@@ -1,12 +1,9 @@
 package com.popular_movies;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.WindowManager;
 
 import com.popular_movies.ui.activity.MainActivity;
 

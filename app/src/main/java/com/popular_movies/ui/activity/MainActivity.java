@@ -1,7 +1,5 @@
 package com.popular_movies.ui.activity;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
