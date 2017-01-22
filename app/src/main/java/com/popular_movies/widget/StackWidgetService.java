@@ -57,7 +57,7 @@ public class StackWidgetService extends RemoteViewsService {
 
         Uri uri = MovieDataTable.CONTENT_URI;
         String[] projection = {MovieDataTable.FIELD_COL_ID, MovieDataTable.FIELD_COL_TITLE,
-                MovieDataTable.FIELD_COL_RELEASEDATE, MovieDataTable.FIELD_COL_THUMBNAIL };
+                MovieDataTable.FIELD_COL_RELEASE_DATE, MovieDataTable.FIELD_COL_POSTER_PATH };
         String selection = null;
         String[] selectionArgs = null;
         String sortOrder = null;
@@ -72,8 +72,8 @@ public class StackWidgetService extends RemoteViewsService {
                 mID = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_ID));
                 //mName = cursor.getString(cursor.getColumnIndex(EmployeeDatabase.COLUMN_LASTNAME)) + ", " + cursor.getString(cursor.getColumnIndex(EmployeeDatabase.COLUMN_FIRSTNAME));
                 mTitle = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_TITLE));
-                mReleaseDate = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_RELEASEDATE));
-                mPicture = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_THUMBNAIL));
+                mReleaseDate = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_RELEASE_DATE));
+                mPicture = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_POSTER_PATH));
 
                 mWidgetItems.add(new WidgetItem(mID, mTitle, mReleaseDate, mPicture));
                 mCount = mCount + 1;
@@ -107,7 +107,7 @@ public class StackWidgetService extends RemoteViewsService {
         remoteViews.setTextViewText(R.id.tvReleaseDate, mReleaseDate);
         Bundle extras = new Bundle();
 
-        extras.putInt(StackWidgetProvider.MOVIE_ID, mWidgetItems.get(position).id);
+        extras.putInt(StackWidgetProvider.MOVIE_ID, mWidgetItems.get(position).getId());
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
         remoteViews.setOnClickFillInIntent(R.id.tvMovieName, fillInIntent);
@@ -116,7 +116,7 @@ public class StackWidgetService extends RemoteViewsService {
         try {
             System.out.println("Loading view " + position);
 
-            is = mContext.getAssets().open("pics/" + mWidgetItems.get(position).thumbnailURL);
+            is = mContext.getAssets().open("pics/" + mWidgetItems.get(position).getPoster_path());
             Bitmap bit = BitmapFactory.decodeStream(is);
 
             remoteViews.setImageViewBitmap(R.id.ivMovieIcon, bit);

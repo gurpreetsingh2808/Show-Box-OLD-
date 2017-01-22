@@ -26,6 +26,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.popular_movies.framework.ImageLoader;
 import com.popular_movies.ui.activity.MainActivity;
 import com.popular_movies.R;
 import com.popular_movies.service.VolleySingleton;
@@ -72,7 +73,7 @@ public class DetailedViewFragment extends Fragment {
         DetailedViewFragment instance = this;
         movieData = getArguments().getParcelable(KEY_MOVIE);
         if (movieData != null) {
-            Log.d("detailedview", "" + movieData.id);
+            Log.d("detailedview", "" + movieData.getId());
         }
 
         if (!MainActivity.mIsDualPane) {
@@ -90,7 +91,7 @@ public class DetailedViewFragment extends Fragment {
                 if (!MainActivity.mIsDualPane) {
                     if (collapsingToolbar.getHeight() + verticalOffset < 340) {
                         title.setVisibility(View.GONE);
-                        collapsingToolbar.setTitle(movieData.title);
+                        collapsingToolbar.setTitle(movieData.getOriginal_title());
                         releaseDate.setVisibility(View.GONE);
                         userRatings.setVisibility(View.GONE);
                         poster.setVisibility(View.GONE);
@@ -120,16 +121,16 @@ public class DetailedViewFragment extends Fragment {
         ((AppBarLayout) view.findViewById(R.id.app_bar)).addOnOffsetChangedListener(mListener);
 
         title = (TextView) view.findViewById(R.id.title);
-        title.setText(movieData.title);
+        title.setText(movieData.getOriginal_title());
 
         releaseDate = (TextView) view.findViewById(R.id.releaseDate);
-        releaseDate.setText(DateConvert.convert(movieData.releaseDate));
+        releaseDate.setText(DateConvert.convert(movieData.getRelease_date()));
 
         synopsis = (TextView) view.findViewById(R.id.synopsis);
-        synopsis.setText(movieData.overview);
+        synopsis.setText(movieData.getOverview());
 
         userRatings = (TextView) view.findViewById(R.id.userRatings);
-        userRatings.setText(movieData.userRatings);
+        userRatings.setText(movieData.getVote_average());
 
         btnUserReview = (Button) view.findViewById(R.id.buttonUserReviews);
         btnUserReview.setOnClickListener(new View.OnClickListener() {
@@ -137,14 +138,14 @@ public class DetailedViewFragment extends Fragment {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getActivity(), ReviewActivity.class);
-                intent.putExtra("ID", movieData.id);
-                Log.d("detailed", "" + movieData.id);
+                intent.putExtra("ID", movieData.getId());
+                Log.d("detailed", "" + movieData.getId());
                 startActivity(intent);
             }
         });
 
         ImageView toolbarImage = (ImageView) view.findViewById(R.id.toolbarImage);
-        Picasso.with(getActivity()).load(movieData.backdrop_path).into(toolbarImage);
+        ImageLoader.loadBackdropImage(getContext(), movieData.getBackdrop_path(), toolbarImage);
         toolbarImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,37 +160,37 @@ public class DetailedViewFragment extends Fragment {
         });
 
         poster = (ImageView) view.findViewById(R.id.poster);
-        Picasso.with(getActivity()).load(movieData.thumbnailURL)
-                .placeholder(R.drawable.no_img_preview).into(poster);
+        ImageLoader.loadPosterImage(getContext(), movieData.getPoster_path(), poster);
+
 
         favoritesButton = (FloatingActionButton) view.findViewById(R.id.fab);
         favoritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (MovieProviderHelper.getInstance().doesMovieExist(movieData.id)) {
+                if (MovieProviderHelper.getInstance().doesMovieExist(movieData.getId())) {
                     favoritesButton.setImageResource(R.drawable.ic_favorite);
                     //  delete movie from database
-                    MovieProviderHelper.getInstance().delete(movieData.id);
+                    MovieProviderHelper.getInstance().delete(movieData.getId());
                     //dataSource.removeMovie(movieData.id);
-                    Snackbar.make(view, "Removed " + movieData.title + " from Favorites!", Snackbar.LENGTH_LONG)
+                    Snackbar.make(view, "Removed " + movieData.getOriginal_title() + " from Favorites!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 } else {
                     favoritesButton.setImageResource(R.drawable.ic_favorite_brown_24px);
                     //  add movie to database
                     MovieProviderHelper.getInstance().insert(movieData);
                     //dataSource.insertMovie(movieData);
-                    Snackbar.make(view, "Added " + movieData.title + " To Favorites!", Snackbar.LENGTH_LONG)
+                    Snackbar.make(view, "Added " + movieData.getOriginal_title() + " To Favorites!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
             }
         });
 
-        UriBuilder uri = new UriBuilder(UriBuilder.BASE_URL + "/" + movieData.id,
+        UriBuilder uri = new UriBuilder(UriBuilder.BASE_URL + "/" + movieData.getId(),
                 UriBuilder.VIDEOS);
         String url = uri.toString();
         sendTrailerKeyRequest(url);
 
-        if (MovieProviderHelper.getInstance().doesMovieExist(movieData.id)) {
+        if (MovieProviderHelper.getInstance().doesMovieExist(movieData.getId())) {
             favoritesButton.setImageResource(R.drawable.ic_favorite_brown_24px);
         }
         return  view;
