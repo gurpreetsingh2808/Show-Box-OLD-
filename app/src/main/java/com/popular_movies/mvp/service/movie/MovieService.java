@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.popular_movies.BuildConfig;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.domain.MovieResponse;
+import com.popular_movies.domain.ReviewResponse;
 import com.popular_movies.domain.Trailer;
 import com.popular_movies.domain.TrailerResponse;
 
@@ -27,10 +28,10 @@ public interface MovieService {
 
         @GET ("movie/{id}/videos?api_key="+ BuildConfig.TMDB_API_KEY)
         Call<TrailerResponse> getTrailers(@Path("id") int id);
-/*
+
         @GET ("movie/{id}/reviews?api_key="+BuildConfig.TMDB_API_KEY)
-        Call<Review> getReview(@Path("id") int id);
-        */
+        Call<ReviewResponse> getReview(@Path("id") int id);
+
     }
 
     /**
@@ -51,6 +52,17 @@ public interface MovieService {
 
     interface GetTrailersCallback {
         void onSuccess(TrailerResponse trailerResponse);
+
+        void onFailure(Throwable throwable);
+    }
+
+    /**
+     * Get movie reviews model
+     */
+    void getReviews(int id, Activity activity, GetReviewsCallback getReviewsCallback);
+
+    interface GetReviewsCallback {
+        void onSuccess(ReviewResponse reviewResponse);
 
         void onFailure(Throwable throwable);
     }

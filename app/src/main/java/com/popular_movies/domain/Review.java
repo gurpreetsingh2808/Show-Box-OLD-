@@ -6,24 +6,24 @@ import android.os.Parcelable;
 /**
  * Created by Gurpreet on 4/9/2016.
  */
-public class ReviewData implements Parcelable{
+public class Review implements Parcelable{
     private String author;
     private String content;
 
-    public ReviewData(Parcel in) {
+    public Review(Parcel in) {
         author = in.readString();
         content = in.readString();
     }
 
-    public static final Creator<ReviewData> CREATOR = new Creator<ReviewData>() {
+    public static final Creator<Review> CREATOR = new Creator<Review>() {
         @Override
-        public ReviewData createFromParcel(Parcel in) {
-            return new ReviewData(in);
+        public Review createFromParcel(Parcel in) {
+            return new Review(in);
         }
 
         @Override
-        public ReviewData[] newArray(int size) {
-            return new ReviewData[size];
+        public Review[] newArray(int size) {
+            return new Review[size];
         }
     };
 

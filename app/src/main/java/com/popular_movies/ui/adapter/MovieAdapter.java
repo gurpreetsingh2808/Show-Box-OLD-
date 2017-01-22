@@ -52,11 +52,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MyViewHolder> {
         }
     }
 
-    public void setMoviesList(ArrayList<MovieData> listMovies) {
-        this.movieItemArrayList = listMovies;
-        notifyItemRangeChanged(0, listMovies.size());
-    }
-
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.movie_data, parent, false);

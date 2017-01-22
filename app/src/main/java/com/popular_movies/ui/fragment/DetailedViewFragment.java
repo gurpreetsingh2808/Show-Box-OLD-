@@ -21,29 +21,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.popular_movies.domain.MovieResponse;
+import com.popular_movies.R;
+import com.popular_movies.database.MovieProviderHelper;
+import com.popular_movies.domain.MovieData;
 import com.popular_movies.domain.Trailer;
 import com.popular_movies.domain.TrailerResponse;
+import com.popular_movies.framework.DateConvert;
 import com.popular_movies.framework.ImageLoader;
 import com.popular_movies.mvp.presenter.TrailerPresenter;
 import com.popular_movies.mvp.presenter.TrailerPresenterImpl;
 import com.popular_movies.ui.activity.MainActivity;
-import com.popular_movies.R;
-import com.popular_movies.service.VolleySingleton;
-import com.popular_movies.database.MovieProviderHelper;
-import com.popular_movies.domain.MovieData;
-import com.popular_movies.framework.DateConvert;
-import com.popular_movies.service.JsonParser;
-import com.popular_movies.framework.UriBuilder;
 import com.popular_movies.ui.activity.ReviewActivity;
-import com.squareup.picasso.Picasso;
-
-import org.json.JSONObject;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -54,7 +42,6 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
     CircleIndicator indicator;
     AppBarLayout.OnOffsetChangedListener mListener;
     String trailerKey = null;
-    RequestQueue mRequestQueue = VolleySingleton.getInstance().getmRequestQueue();
     private static final String TAG = DetailedViewFragment.class.getSimpleName();
     MovieData movieData;
     FloatingActionButton favoritesButton;
@@ -76,7 +63,6 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
 
         final View view = inflater.inflate(R.layout.fragment_detailed_view, container, false);
 
-        DetailedViewFragment instance = this;
         movieData = getArguments().getParcelable(KEY_MOVIE);
         if (movieData != null) {
             Log.d("detailedview", "" + movieData.getId());
@@ -120,7 +106,6 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
                         collapsingToolbar.setTitle("");
                     }
                 }
-
             }
         };
 
@@ -142,10 +127,8 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
         btnUserReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(getActivity(), ReviewActivity.class);
                 intent.putExtra("ID", movieData.getId());
-                Log.d("detailed", "" + movieData.getId());
                 startActivity(intent);
             }
         });
@@ -177,14 +160,12 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
                     favoritesButton.setImageResource(R.drawable.ic_favorite);
                     //  delete movie from database
                     MovieProviderHelper.getInstance().delete(movieData.getId());
-                    //dataSource.removeMovie(movieData.id);
                     Snackbar.make(view, "Removed " + movieData.getOriginal_title() + " from Favorites!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 } else {
                     favoritesButton.setImageResource(R.drawable.ic_favorite_brown_24px);
                     //  add movie to database
                     MovieProviderHelper.getInstance().insert(movieData);
-                    //dataSource.insertMovie(movieData);
                     Snackbar.make(view, "Added " + movieData.getOriginal_title() + " To Favorites!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
@@ -200,20 +181,14 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
         return  view;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        //if (dataSource != null)
-          //  dataSource.close();
-    }
 
     public TextView getTitle() {
         return title;
     }
 
+
     @Override
     public void onTrailersRetreivalSuccess(TrailerResponse trailerResponse) {
-
         for (Trailer trailer : trailerResponse.getResults()) {
             if(trailer.getSite().equalsIgnoreCase("YouTube")) {
                 trailerKey = trailer.getKey();
