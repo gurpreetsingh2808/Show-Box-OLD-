@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.popular_movies.framework.ImageLoader;
 import com.popular_movies.ui.fragment.DetailedViewFragment;
 import com.popular_movies.ui.activity.MainActivity;
 import com.popular_movies.ui.activity.MovieDetailActivity;
@@ -58,9 +59,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final MovieData current = movieItemArrayList.get(position);
-        holder.title.setText(current.title);
-        Picasso.with(context).load(current.thumbnailURL)
-                .placeholder(R.drawable.no_img_preview).into(holder.thumbnail);
+        holder.title.setText(current.getOriginal_title());
+        ImageLoader.loadPosterImage(context, current.getPoster_path(), holder.thumbnail);
 
         if (!MainActivity.mIsDualPane) {
             holder.thumbnail.setOnClickListener(new View.OnClickListener() {

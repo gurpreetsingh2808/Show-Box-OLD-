@@ -55,8 +55,8 @@ public class MovieProviderHelper {
             getInstance();
         }
         return contentResolver.query(MovieDataTable.CONTENT_URI,
-                new String[]{MovieDataTable.FIELD_COL_THUMBNAIL, MovieDataTable.FIELD_COL_TITLE,
-                        MovieDataTable.FIELD_COL_RELEASEDATE},
+                new String[]{MovieDataTable.FIELD_COL_POSTER_PATH, MovieDataTable.FIELD_COL_TITLE,
+                        MovieDataTable.FIELD_COL_RELEASE_DATE},
                 null,
                 null,
                 null);
@@ -77,8 +77,8 @@ public class MovieProviderHelper {
     public Boolean doesMovieExist(int id) {
         List<MovieData> listMovies = MovieDataTable.getRows(getCursor(), false);
         for (MovieData movieData : listMovies) {
-            Log.d(TAG, "doesMovieExist: movie id "+movieData.id);
-            if(movieData.id == id) {
+            Log.d(TAG, "doesMovieExist: movie id "+movieData.getId());
+            if(movieData.getId() == id) {
                 return true;
             }
         }
