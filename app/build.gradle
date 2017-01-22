@@ -20,6 +20,8 @@ android {
     }
     buildTypes.each {
         it.buildConfigField 'String', 'TMDB_API_KEY', '"4705c2a1e4480d0d92ea0d8f56e37b00"'
+        it.buildConfigField 'String', 'BASE_URL', '"http://api.themoviedb.org/3/"'
+        it.buildConfigField 'String', 'BASE_URL_IMAGE', '"http://image.tmdb.org/t/p/w185"'
         it.buildConfigField 'String', 'MOVIE_TYPE_POPULAR', '"popular"'
         it.buildConfigField 'String', 'MOVIE_TYPE_TOP_RATED', '"top_rated"'
         it.buildConfigField 'String', 'CONTENT_TYPE_VIDEO', '"videos"'

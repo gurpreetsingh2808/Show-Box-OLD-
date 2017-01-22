@@ -17,7 +17,6 @@ import android.view.Window;
 
 import com.popular_movies.BuildConfig;
 import com.popular_movies.R;
-import com.popular_movies.framework.UriBuilder;
 import com.popular_movies.ui.fragment.FavoritesFragment;
 import com.popular_movies.ui.fragment.ListFragment;
 
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.main_content, ListFragment.getInstance(UriBuilder.POPULAR))
+                    .replace(R.id.main_content, ListFragment.getInstance(BuildConfig.MOVIE_TYPE_TOP_RATED))
                     .commit();
         }
 

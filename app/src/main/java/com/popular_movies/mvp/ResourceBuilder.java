@@ -3,7 +3,6 @@ package com.popular_movies.mvp;
 import android.app.Activity;
 
 import com.popular_movies.BuildConfig;
-import com.popular_movies.framework.UriBuilder;
 import com.popular_movies.mvp.service.interceptors.ErrorInterceptor;
 
 import java.util.concurrent.TimeUnit;
@@ -45,7 +44,7 @@ public class ResourceBuilder {
 
 
     public static <T> T buildResource(final Class<T> service, Activity activity) {
-        return buildResource(service, UriBuilder.BASE_URL, activity);
+        return buildResource(service, BuildConfig.BASE_URL, activity);
     }
 
 
