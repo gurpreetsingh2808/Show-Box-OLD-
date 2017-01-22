@@ -13,9 +13,7 @@
 
     <color name="lightGrey">#E0E0E0</color>
     <color name="lighterGrey">#EEEEEE</color>
-    <color name="whiteGrey">#F5F5F5</color>
     <color name="black">#212121</color>
-    <color name="transparentPrimary">#323F51B5</color>
 
     <array name="progress_colors">
         <item>#2196F3</item>

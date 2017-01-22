@@ -31,13 +31,9 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax"/>
+                app:layout_collapseMode="parallax"
+                android:contentDescription="@string/movie_video"/>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#32000000"
-                />
 
             <ImageView
                 android:id="@+id/playImage"
@@ -47,7 +43,8 @@
                 android:adjustViewBounds="true"
                 android:scaleType="center"
                 android:background="@drawable/circular_bg"
-                android:src="@android:drawable/ic_media_play"/>
+                android:src="@android:drawable/ic_media_play"
+                android:contentDescription="@string/play_movie_trailer"/>
 
 
             <android.support.v7.widget.Toolbar
@@ -90,7 +87,8 @@
         android:layout_height="130dp"
         android:layout_marginLeft="10dp"
         app:layout_anchorGravity="bottom|start"
-        android:transitionName="@string/transition_name"/>
+        android:transitionName="@string/transition_name"
+        android:contentDescription="@string/movie_icon"/>
 
     <TextView
         android:id="@+id/title"
@@ -115,7 +113,7 @@
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:textColor="@color/white"
-        android:text="release date"
+        android:text="@string/empty_view_text"
         android:textStyle="bold"/>
 
     <TextView
@@ -127,7 +125,7 @@
         android:layout_height="wrap_content"
         android:textSize="15sp"
         android:textColor="@color/colorAccent"
-        android:text="ratings"
+        android:text="@string/empty_view_text"
         android:textStyle="bold"/>
 </RelativeLayout>
 

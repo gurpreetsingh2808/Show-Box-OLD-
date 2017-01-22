@@ -18,7 +18,8 @@
             android:id="@+id/ivMovieIcon"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            android:contentDescription="@string/movie_icon"/>
     </FrameLayout>
 
     <LinearLayout

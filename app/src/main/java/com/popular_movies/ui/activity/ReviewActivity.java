@@ -2,6 +2,7 @@ package com.popular_movies.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,8 +31,6 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
     ArrayList<Review> reviewDataArrayList = new ArrayList<>();
     private RecyclerView recyclerViewReviews;
     private ReviewsAdapter reviewsAdapter;
-    Toolbar toolbar;
-    private static final String STATE_REVIEWS = "state_reviews";
     ProgressBar progressBar;
     SwipeRefreshLayout refreshLayout;
     private ReviewPresenterImpl reviewPresenterImpl;
@@ -67,21 +66,21 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
         refreshLayout.setOnRefreshListener(this);
         onRefresh();
 
-        if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(STATE_REVIEWS) != null) {
-            reviewDataArrayList = savedInstanceState.getParcelableArrayList(STATE_REVIEWS);
+        if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(getString(R.string.state_reviews)) != null) {
+            reviewDataArrayList = savedInstanceState.getParcelableArrayList(getString(R.string.state_reviews));
             if (recyclerViewReviews.getAdapter() != null) {
                 recyclerViewReviews.swapAdapter(reviewsAdapter, false);
             } else {
                 recyclerViewReviews.setAdapter(reviewsAdapter);
             }
         } else {
-            reviewPresenterImpl.fetchReviews(getIntent().getIntExtra("ID", 0));
+            reviewPresenterImpl.fetchReviews(getIntent().getIntExtra(getString(R.string.key_movie_id), 0));
         }
     }
 
     @Override
     public void onRefresh() {
-        reviewPresenterImpl.fetchReviews(getIntent().getIntExtra("ID", 0));
+        reviewPresenterImpl.fetchReviews(getIntent().getIntExtra(getString(R.string.key_movie_id), 0));
     }
 
     @Override
@@ -105,7 +104,8 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
 
     @Override
     public void onReviewsRetreivalFailure(Throwable throwable) {
-        Toast.makeText(ReviewActivity.this, "There was an error retreiving the request", Toast.LENGTH_SHORT).show();
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.connection_error) , Snackbar.LENGTH_LONG)
+                .show();
         progressBar.setVisibility(View.INVISIBLE);
     }
 
@@ -113,7 +113,7 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (reviewDataArrayList != null) {
-            outState.putParcelableArrayList(STATE_REVIEWS, reviewDataArrayList);
+            outState.putParcelableArrayList(getString(R.string.state_reviews), reviewDataArrayList);
         }
     }
 }

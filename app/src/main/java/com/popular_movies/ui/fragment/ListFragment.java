@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -28,15 +29,15 @@ import java.util.ArrayList;
 
 public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
         MoviesPresenter.View /*, MovieAdapter.ClickListener*/ {
-    public static final String KEY_DATA = "DATA";
-    public static final String KEY_TITLE = "title";
     public ArrayList<MovieData> movieDataList = new ArrayList<>();
     public RecyclerView recyclerView;
     public MovieAdapter adapter;
     public ProgressBar progressBar;
     public SwipeRefreshLayout refreshLayout;
     private MoviesPresenterImpl moviesPresenterImpl;
+    private static final String KEY_TITLE = "KEY_TITLE";
     static String movieType;
+    private View view;
 
     public ListFragment() {
 
@@ -46,6 +47,7 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         ListFragment fragment = new ListFragment();
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
+        //bundle.putString(fragment.getActivity().getString(R.string.key_title), title);
         fragment.setArguments(bundle);
         movieType = title;
         return fragment;
@@ -54,8 +56,8 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.list_layout, container, false);
-        recyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
+        view = inflater.inflate(R.layout.list_layout, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         if (MainActivity.mIsDualPane) {
 
             DisplayMetrics metrics = getResources().getDisplayMetrics();
@@ -71,20 +73,20 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             } else
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         }
-        refreshLayout = (SwipeRefreshLayout) layout.findViewById(R.id.refresh);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.progress_colors));
-        progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         moviesPresenterImpl = new MoviesPresenterImpl(this, getActivity());
-        return layout;
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(KEY_DATA) != null) {
-            movieDataList = savedInstanceState.getParcelableArrayList(KEY_DATA);
+        if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(getString(R.string.key_data)) != null) {
+            movieDataList = savedInstanceState.getParcelableArrayList(getString(R.string.key_data));
             progressBar.setVisibility(View.GONE);
             adapter = new MovieAdapter(getContext(), movieDataList);
 
@@ -112,7 +114,7 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (movieDataList != null) {
-            outState.putParcelableArrayList(KEY_DATA, (ArrayList<? extends Parcelable>) movieDataList);
+            outState.putParcelableArrayList(getString(R.string.key_data),  movieDataList);
         }
     }
 
@@ -136,7 +138,8 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onMoviesRetreivalFailure(Throwable throwable) {
-        Toast.makeText(getActivity(), "There was an error retreiving the request", Toast.LENGTH_SHORT).show();
+        Snackbar.make(view, getString(R.string.connection_error) , Snackbar.LENGTH_LONG)
+                .show();
         refreshLayout.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
     }

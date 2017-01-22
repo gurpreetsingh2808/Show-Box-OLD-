@@ -14,27 +14,7 @@ public class MovieWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-       /* for (int appWidgetId : appWidgetIds) {
-            // Create an Intent to launch Activity
-            Intent intent = new Intent(context, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-            // Get the layout for the App Widget and attach an on-click listener
-            // to the button
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_movie);
-            views.setOnClickPendingIntent(R.id.widgetRoot, pendingIntent);
-
-
-            Intent svcIntent = new Intent(context.getApplicationContext(), FavouriteWidgetRemoteViewsService.class);
-            Log.d(TAG, "onUpdate: widget provider ");
-            svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
-            views.setRemoteAdapter(R.id.widget_list, svcIntent);
-
-
-            // Tell the AppWidgetManager to perform an update on the current app widget
-            appWidgetManager.updateAppWidget(appWidgetId, views);
-        }*/
         // Get all ids
         ComponentName thisWidget = new ComponentName(context, MovieWidgetProvider.class);
         int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
