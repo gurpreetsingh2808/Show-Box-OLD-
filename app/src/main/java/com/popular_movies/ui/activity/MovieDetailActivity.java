@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.crash.FirebaseCrash;
 import com.popular_movies.ui.fragment.DetailedViewFragment;
 import com.popular_movies.R;
@@ -17,6 +19,7 @@ import com.popular_movies.R;
 public class MovieDetailActivity extends AppCompatActivity {
     public static final String TAG = MovieDetailActivity.class.getSimpleName();
     public static final String KEY_MOVIE = "MOVIE";
+
 
     public void setupWindowAnimations() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -50,6 +53,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                     .replace(R.id.detailFragment, DetailedViewFragment.getInstance(getIntent().getParcelableExtra(KEY_MOVIE)), "TAG")
                     .commit();
         }
+
+
     }
 
     @Override

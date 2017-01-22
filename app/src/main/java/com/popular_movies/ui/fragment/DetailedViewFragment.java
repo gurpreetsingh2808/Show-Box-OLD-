@@ -21,6 +21,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.popular_movies.R;
 import com.popular_movies.database.MovieProviderHelper;
 import com.popular_movies.domain.MovieData;
@@ -48,7 +51,8 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
     public static final String KEY_MOVIE = "movie";
     Button btnUserReview;
     private Cursor cursor;
-    private TrailerPresenterImpl trailerPresenterImpl;
+    private InterstitialAd mInterstitialAd;
+
 
     public static DetailedViewFragment getInstance(Parcelable movie) {
         DetailedViewFragment detailsFragment = new DetailedViewFragment();
@@ -63,6 +67,7 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
 
         final View view = inflater.inflate(R.layout.fragment_detailed_view, container, false);
 
+        initializeAd();
         movieData = getArguments().getParcelable(KEY_MOVIE);
         if (movieData != null) {
             Log.d("detailedview", "" + movieData.getId());
@@ -127,9 +132,7 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
         btnUserReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ReviewActivity.class);
-                intent.putExtra("ID", movieData.getId());
-                startActivity(intent);
+                showAd();
             }
         });
 
@@ -172,13 +175,65 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
             }
         });
 
-        trailerPresenterImpl = new TrailerPresenterImpl(this, getActivity());
+        TrailerPresenterImpl trailerPresenterImpl = new TrailerPresenterImpl(this, getActivity());
         trailerPresenterImpl.fetchTrailers(movieData.getId());
 
         if (MovieProviderHelper.getInstance().doesMovieExist(movieData.getId())) {
             favoritesButton.setImageResource(R.drawable.ic_favorite_brown_24px);
         }
-        return  view;
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(!mInterstitialAd.isLoaded()) {
+            requestNewInterstitial();
+        }
+    }
+
+    private void initializeAd() {
+        //  initialize interstitial ad
+        mInterstitialAd = new InterstitialAd(getActivity());
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                moveToReviewActivity();
+            }
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Log.d(TAG, "onAdLoaded: woohoo! add loaded successfully");
+            }
+        });
+    }
+
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                //.addTestDevice("BC6C6B77CEF61830841859B30835E10C")
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
+    }
+
+
+    private void showAd() {
+        //  check whether app is loaded or not
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            moveToReviewActivity();
+        }
+    }
+
+    private void moveToReviewActivity() {
+        Intent intent = new Intent(getActivity(), ReviewActivity.class);
+        intent.putExtra("ID", movieData.getId());
+        startActivity(intent);
     }
 
 
@@ -190,7 +245,7 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
     @Override
     public void onTrailersRetreivalSuccess(TrailerResponse trailerResponse) {
         for (Trailer trailer : trailerResponse.getResults()) {
-            if(trailer.getSite().equalsIgnoreCase("YouTube")) {
+            if (trailer.getSite().equalsIgnoreCase("YouTube")) {
                 trailerKey = trailer.getKey();
                 break;
             }
