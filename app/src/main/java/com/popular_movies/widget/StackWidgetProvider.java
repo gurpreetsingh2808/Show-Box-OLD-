@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.popular_movies.domain.MovieDataTable;
 
 public class StackWidgetProvider extends AppWidgetProvider {
 
+    private static final String TAG = StackWidgetProvider.class.getSimpleName();
     public static final String TOAST_ACTION = "com.popular_movies.widget.stackwidget.TOAST_ACTION";
     public static final String CLICK_ACTION = "com.popular_movies.widget.stackwidget.CLICK_ACTION";
     public static final String EXTRA_ITEM = "com.popular_movies.widget.stackwidget.EXTRA_ITEM";
@@ -45,6 +47,7 @@ public class StackWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         AppWidgetManager mgr = AppWidgetManager.getInstance(context);
 
+        Log.d(TAG, "onReceive: action "+intent.getAction());
         if (intent.getAction().equals(TOAST_ACTION)) {
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
             int viewIndex = intent.getIntExtra(EXTRA_ITEM, 0);
@@ -54,6 +57,7 @@ public class StackWidgetProvider extends AppWidgetProvider {
         if (intent.getAction().equals(CLICK_ACTION)) {
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
             int empID = intent.getIntExtra(MOVIE_ID, 0);
+            Log.d(TAG, "onReceive: movie id"+empID);
 
             Uri details = Uri.withAppendedPath(MovieDataTable.CONTENT_URI, "" + empID);
             Intent detailsIntent = new Intent(Intent.ACTION_VIEW, details);

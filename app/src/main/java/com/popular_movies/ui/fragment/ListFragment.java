@@ -21,6 +21,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.popular_movies.domain.MovieResponse;
+import com.popular_movies.mvp.presenter.PopularMoviesPresenter;
+import com.popular_movies.mvp.presenter.PopularMoviesPresenterImpl;
 import com.popular_movies.ui.activity.MainActivity;
 import com.popular_movies.R;
 import com.popular_movies.service.VolleySingleton;
@@ -33,9 +36,11 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener /*, MovieAdapter.ClickListener*/ {
+public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener ,
+        PopularMoviesPresenter.View /*, MovieAdapter.ClickListener*/ {
     public static final String KEY_DATA = "DATA";
     public static final String KEY_TITLE = "title";
     public ArrayList<MovieData> movieDataList = new ArrayList<>();
@@ -43,6 +48,7 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public MovieAdapter adapter;
     public ProgressBar progressBar;
     public SwipeRefreshLayout refreshLayout;
+    private PopularMoviesPresenterImpl popularMoviesPresenterImpl;
 
     RequestQueue mRequestQueue = VolleySingleton.getInstance().getmRequestQueue();
     //private String url="https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=76b802b090caa26230f414433db80485\n";
@@ -89,6 +95,14 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.progress_colors));
         progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
+
+        popularMoviesPresenterImpl = new PopularMoviesPresenterImpl(this, getActivity());
+        return layout;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null && savedInstanceState.getParcelableArrayList(KEY_DATA) != null) {
             movieDataList = savedInstanceState.getParcelableArrayList(KEY_DATA);
             progressBar.setVisibility(View.GONE);
@@ -100,9 +114,9 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 recyclerView.setAdapter(adapter);
             }
         } else {
-            sendMoviesRequest(url);
+            popularMoviesPresenterImpl.fetchPopularMovies();
+            ////////sendMoviesRequest(url);
         }
-        return layout;
     }
 
     @Override
@@ -125,7 +139,8 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefresh() {
-        sendMoviesRequest(url);
+        popularMoviesPresenterImpl.fetchPopularMovies();
+        /////sendMoviesRequest(url);
     }
 
     /*
@@ -158,4 +173,22 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         mRequestQueue.add(request);
     }
 
+    @Override
+    public void onPopularMoviesRetreivalSuccess(MovieResponse movieResponse) {
+        adapter = new MovieAdapter(getContext(), movieResponse.getResults());
+        if (recyclerView.getAdapter() != null) {
+            recyclerView.swapAdapter(adapter, false);
+        } else {
+            recyclerView.setAdapter(adapter);
+        }
+        refreshLayout.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);    }
+
+    @Override
+    public void onPopularMoviesRetreivalFailure(Throwable throwable) {
+        Toast.makeText(getActivity(), "There was an error retreiving the request", Toast.LENGTH_SHORT).show();
+        refreshLayout.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
+    }
 }

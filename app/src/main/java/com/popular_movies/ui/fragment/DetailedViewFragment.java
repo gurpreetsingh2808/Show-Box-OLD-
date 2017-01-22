@@ -126,7 +126,7 @@ public class DetailedViewFragment extends Fragment {
         releaseDate.setText(DateConvert.convert(movieData.releaseDate));
 
         synopsis = (TextView) view.findViewById(R.id.synopsis);
-        synopsis.setText(movieData.description);
+        synopsis.setText(movieData.overview);
 
         userRatings = (TextView) view.findViewById(R.id.userRatings);
         userRatings.setText(movieData.userRatings);
@@ -144,7 +144,7 @@ public class DetailedViewFragment extends Fragment {
         });
 
         ImageView toolbarImage = (ImageView) view.findViewById(R.id.toolbarImage);
-        Picasso.with(getActivity()).load(movieData.backdropImage).into(toolbarImage);
+        Picasso.with(getActivity()).load(movieData.backdrop_path).into(toolbarImage);
         toolbarImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

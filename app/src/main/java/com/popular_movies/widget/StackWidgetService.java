@@ -43,7 +43,7 @@ public class StackWidgetService extends RemoteViewsService {
     private Context mContext;
     private int mAppWidgetId;
 
-    private int mID;
+    private String mID;
     private String mReleaseDate;
     private String mTitle;
     private String mPicture;
@@ -55,9 +55,9 @@ public class StackWidgetService extends RemoteViewsService {
 
     public void onCreate() {
 
-        Uri uri = ContentUris.withAppendedId(MovieDataTable.CONTENT_URI, mID);
-        String[] projection = {MovieDataTable.FIELD_COL_THUMBNAIL, MovieDataTable.FIELD_COL_TITLE,
-                MovieDataTable.FIELD_COL_RELEASEDATE };
+        Uri uri = MovieDataTable.CONTENT_URI;
+        String[] projection = {MovieDataTable.FIELD_COL_ID, MovieDataTable.FIELD_COL_TITLE,
+                MovieDataTable.FIELD_COL_RELEASEDATE, MovieDataTable.FIELD_COL_THUMBNAIL };
         String selection = null;
         String[] selectionArgs = null;
         String sortOrder = null;
@@ -65,13 +65,20 @@ public class StackWidgetService extends RemoteViewsService {
         Cursor cursor = this.mContext.getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
 
         if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            //mName = cursor.getString(cursor.getColumnIndex(EmployeeDatabase.COLUMN_LASTNAME)) + ", " + cursor.getString(cursor.getColumnIndex(EmployeeDatabase.COLUMN_FIRSTNAME));
-            mTitle = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_TITLE));
-            mReleaseDate = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_RELEASEDATE));
-            mPicture = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_THUMBNAIL));
-        } else {
-            mTitle = "empty cursor";
+           //     cursor.moveToFirst();
+            for (int i = 0; i < cursor.getCount(); i++) {
+                cursor.moveToNext();
+
+                mID = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_ID));
+                //mName = cursor.getString(cursor.getColumnIndex(EmployeeDatabase.COLUMN_LASTNAME)) + ", " + cursor.getString(cursor.getColumnIndex(EmployeeDatabase.COLUMN_FIRSTNAME));
+                mTitle = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_TITLE));
+                mReleaseDate = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_RELEASEDATE));
+                mPicture = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_THUMBNAIL));
+
+                mWidgetItems.add(new WidgetItem(mID, mTitle, mReleaseDate, mPicture));
+                mCount = mCount + 1;
+
+            }
         }
 
         cursor.close();

@@ -32,8 +32,6 @@ dependencies {
     compile 'com.android.support:cardview-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
-    //  network requests
-    compile 'com.mcxiaoke.volley:library:1.0.19'
     //  progress loader
     compile 'me.relex:circleindicator:1.1.7@aar'
     //  image loader
@@ -41,4 +39,12 @@ dependencies {
     //  for content provider
     compile 'ckm.simple:simple_sql_provider_annotation:1.0.6'
     compile 'ckm.simple:simple_sql_provider_processor:1.0.6'
+    //  for network requests
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+
 }
