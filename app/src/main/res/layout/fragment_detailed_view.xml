@@ -69,9 +69,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="@color/lighterGrey"
-        android:src="@drawable/ic_favorite"
+        app:srcCompat="@drawable/ic_favorite"
         app:layout_anchor="@id/app_bar"
-        android:elevation="7dp"
+        app:elevation="7dp"
         app:layout_anchorGravity="bottom|end" />
 
 
@@ -90,7 +90,7 @@
         android:layout_height="130dp"
         android:layout_marginLeft="10dp"
         app:layout_anchorGravity="bottom|start"
-        android:transitionName="poster"/>
+        android:transitionName="@string/transition_name"/>
 
     <TextView
         android:id="@+id/title"

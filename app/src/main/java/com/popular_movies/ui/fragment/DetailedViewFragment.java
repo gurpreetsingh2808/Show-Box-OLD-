@@ -29,7 +29,7 @@ import com.popular_movies.database.MovieProviderHelper;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.domain.Trailer;
 import com.popular_movies.domain.TrailerResponse;
-import com.popular_movies.framework.DateConvert;
+import com.popular_movies.util.DateConvert;
 import com.popular_movies.framework.ImageLoader;
 import com.popular_movies.mvp.presenter.TrailerPresenter;
 import com.popular_movies.mvp.presenter.TrailerPresenterImpl;

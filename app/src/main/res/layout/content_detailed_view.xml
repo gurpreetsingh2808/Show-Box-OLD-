@@ -50,7 +50,7 @@
                 android:layout_marginBottom="@dimen/text_margin"
                 android:layout_marginLeft="@dimen/text_margin"
                 android:layout_marginRight="@dimen/text_margin"
-                android:text="large_text" />
+                android:text="@string/empty_view_text" />
         </RelativeLayout>
 
     <me.relex.circleindicator.CircleIndicator

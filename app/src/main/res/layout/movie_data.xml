@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:adjustViewBounds="true"
-                android:transitionName="poster"
+                android:transitionName="@string/transition_name"
                 android:scaleType="centerCrop"/>
 
             <TextView
@@ -32,7 +32,7 @@
                 android:layout_below="@id/movie_thumbnail"
                 android:gravity="center_horizontal"
                 android:padding="6dp"
-                android:text="title"
+                android:text="@string/empty_view_text"
                 android:textSize="15sp" />
 
         </RelativeLayout>

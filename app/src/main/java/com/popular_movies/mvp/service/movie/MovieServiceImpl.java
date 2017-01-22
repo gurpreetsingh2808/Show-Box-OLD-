@@ -87,4 +87,27 @@ public class MovieServiceImpl implements MovieService {
         });
     }
 
+    @Override
+    public void getSearchResults(String query, Activity activity, final GetMoviesCallback getMoviesCallback) {
+        MovieResource movieResource = ResourceBuilder.buildResource(MovieResource.class, activity);
+        Call<MovieResponse> call = movieResource.getSearchResults(query);
+        call.enqueue(new Callback<MovieResponse>() {
+            @Override
+            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+                if (response.body() != null && response.isSuccessful())
+                    getMoviesCallback.onSuccess(response.body());
+                else
+                    getMoviesCallback.onFailure(new Throwable("Error"));
+            }
+
+            @Override
+            public void onFailure(Call<MovieResponse> call, Throwable t) {
+                if (!call.isCanceled()) {
+                    //SnackBarManager.renderFailureSnackBar(activity, null);
+                    getMoviesCallback.onFailure(t);
+                }
+            }
+        });
+    }
+
 }

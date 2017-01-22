@@ -7,6 +7,15 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
 
+    signingConfigs {
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+    }
+
     defaultConfig {
         applicationId "com.popular_movies"
         minSdkVersion 15
@@ -19,6 +28,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     buildTypes.each {
@@ -27,9 +37,14 @@ android {
         it.buildConfigField 'String', 'BASE_URL_IMAGE', '"http://image.tmdb.org/t/p/w185"'
         it.buildConfigField 'String', 'MOVIE_TYPE_POPULAR', '"popular"'
         it.buildConfigField 'String', 'MOVIE_TYPE_TOP_RATED', '"top_rated"'
-        it.buildConfigField 'String', 'CONTENT_TYPE_VIDEO', '"videos"'
-        it.buildConfigField 'String', 'CONTENT_TYPE_REVIEW', '"reviews"'
+    }
 
+    task appStart(type: Exec, dependsOn: ':installRelease') {
+        // linux, mac
+        //commandLine 'adb', 'shell', 'am', 'start', '-n', 'com.alwawee.multiverse/com.alwawee.main.MainActivity'
+
+        // windows
+        commandLine 'cmd', '/c', 'adb', 'shell', 'am', 'start', '-n', 'com.popular_movies/.SplashActivity'
     }
 }
 

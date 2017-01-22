@@ -1,3 +1,4 @@
+/*
 package com.popular_movies.widget;
 
 import java.io.IOException;
@@ -24,9 +25,11 @@ import com.popular_movies.domain.MovieData;
 import com.popular_movies.domain.MovieDataTable;
 
 
+*/
 /**
  * Created by Gurpreet on 16-01-2017.
- */
+ *//*
+
 
 public class StackWidgetService extends RemoteViewsService {
     @Override
@@ -149,3 +152,4 @@ public class StackWidgetService extends RemoteViewsService {
     }
 }
 
+*/

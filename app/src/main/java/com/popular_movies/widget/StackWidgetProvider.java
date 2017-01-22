@@ -1,3 +1,4 @@
+/*
 package com.popular_movies.widget;
 
 import android.annotation.TargetApi;
@@ -16,9 +17,11 @@ import com.popular_movies.R;
 import com.popular_movies.database.MovieProvider;
 import com.popular_movies.domain.MovieDataTable;
 
+*/
 /**
  * Created by Gurpreet on 18-01-2017.
- */
+ *//*
+
 
 public class StackWidgetProvider extends AppWidgetProvider {
 
@@ -95,4 +98,4 @@ public class StackWidgetProvider extends AppWidgetProvider {
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
-}
+}*/

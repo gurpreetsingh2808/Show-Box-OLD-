@@ -36,4 +36,19 @@ public class MoviesPresenterImpl implements MoviesPresenter.Presenter {
             }
         });
     }
+
+    @Override
+    public void getSearchResults(String query) {
+        movieService.getSearchResults(query, activity, new MovieService.GetMoviesCallback() {
+            @Override
+            public void onSuccess(MovieResponse movieResponse) {
+                view.onMoviesRetreivalSuccess(movieResponse);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                view.onMoviesRetreivalFailure(throwable);
+            }
+        });
+    }
 }
