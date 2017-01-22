@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
-        android:text="title"
+        android:text="@string/empty_view_text"
         android:textStyle="bold"
         android:textColor="@color/colorAccent"
         android:textSize="15sp" />
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="6dp"
-        android:text="title"
+        android:text="@string/empty_view_text"
         android:textSize="15sp" />
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.popular_movies.framework;
+package com.popular_movies.util;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -11,7 +11,7 @@ public class DateConvert {
         return monthToName(cal.get(Calendar.MONTH)) + " " + cal.get(Calendar.DAY_OF_MONTH) + ", " + cal.get(Calendar.YEAR);
     }
 
-    public static String monthToName(int id) {
+    private static String monthToName(int id) {
         switch (id) {
             case 0:
                 return "Jan";
