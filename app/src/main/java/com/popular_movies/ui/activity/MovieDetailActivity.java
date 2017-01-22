@@ -1,5 +1,6 @@
 package com.popular_movies.ui.activity;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,9 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.crash.FirebaseCrash;
 import com.popular_movies.ui.fragment.DetailedViewFragment;
 import com.popular_movies.R;
+import com.popular_movies.util.AppUtils;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MovieDetailActivity extends AppCompatActivity {
     public static final String TAG = MovieDetailActivity.class.getSimpleName();
@@ -30,9 +34,15 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         setupWindowAnimations();
         super.onCreate(savedInstanceState);
+        AppUtils.initializeCalligraphy();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
               //      WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

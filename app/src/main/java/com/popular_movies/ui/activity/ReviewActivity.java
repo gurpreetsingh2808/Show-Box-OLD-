@@ -1,5 +1,6 @@
 package com.popular_movies.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +18,12 @@ import com.popular_movies.domain.ReviewResponse;
 import com.popular_movies.mvp.presenter.ReviewPresenter;
 import com.popular_movies.mvp.presenter.ReviewPresenterImpl;
 import com.popular_movies.ui.adapter.ReviewsAdapter;
+import com.popular_movies.util.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, ReviewPresenter.View {
 
@@ -32,9 +36,16 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
     SwipeRefreshLayout refreshLayout;
     private ReviewPresenterImpl reviewPresenterImpl;
 
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppUtils.initializeCalligraphy();
         setContentView(R.layout.activity_review);
 
         //getSupportActionBar().setTitle("User Reviews");

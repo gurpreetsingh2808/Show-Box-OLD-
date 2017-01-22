@@ -1,5 +1,6 @@
 package com.popular_movies.ui.activity;
 
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -17,6 +18,9 @@ import com.popular_movies.BuildConfig;
 import com.popular_movies.R;
 import com.popular_movies.ui.fragment.FavoritesFragment;
 import com.popular_movies.ui.fragment.ListFragment;
+import com.popular_movies.util.AppUtils;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
     private static final String KEY_MENU_ITEM = "MENU_ITEM";
@@ -33,9 +37,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         setupWindowAnimations();
         super.onCreate(savedInstanceState);
+        AppUtils.initializeCalligraphy();
         setContentView(R.layout.activity_main);
 
         View detailView = findViewById(R.id.movie_detail);
@@ -91,42 +101,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (menuitem != 0) {
-            menu.findItem(menuitem).setChecked(true);
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.isChecked())
-            return super.onOptionsItemSelected(item);
-        else {
-            item.setChecked(true);
-            getSupportActionBar().setTitle(item.getTitle());
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_content, ListFragment.getInstance(BuildConfig.MOVIE_TYPE_POPULAR))
+                        .commit();
+                return true;
 
-            //if (item.getItemId() == R.id.action_favorites || item.getItemId() == R.id.action_popluar || item.getItemId() == R.id.action_rated)
-                menuitem = item.getItemId();
-            switch (item.getItemId()) {
-                case R.id.action_popular:
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.main_content, ListFragment.getInstance(BuildConfig.MOVIE_TYPE_POPULAR))
-                            .commit();
-                    return true;
-                case R.id.action_top_rated:
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.main_content, ListFragment.getInstance(BuildConfig.MOVIE_TYPE_TOP_RATED))
-                            .commit();
-                    return true;
-                case R.id.action_favorite:
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.main_content, new FavoritesFragment())
-                            .commit();
-                    return true;
-                default:
-                    return super.onOptionsItemSelected(item);
-            }
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
