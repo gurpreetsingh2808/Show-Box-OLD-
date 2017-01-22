@@ -21,5 +21,7 @@ public class MoviesPresenter {
 
     interface Presenter {
         void fetchMovies(String movieType);
+
+        void getSearchResults(String query);
     }
 }

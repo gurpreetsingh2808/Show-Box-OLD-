@@ -7,16 +7,24 @@ import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.widget.RemoteViews;
 
+import com.popular_movies.BuildConfig;
 import com.popular_movies.R;
 import com.popular_movies.domain.MovieDataTable;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Gurpreet on 17-01-2017.
@@ -25,7 +33,7 @@ import java.util.Random;
 public class FavouritesWidgetService extends Service {
 
     private int mID;
-    private String mReleaseDate;
+    private String mRating;
     private String mTitle;
     private String mPicture;
 
@@ -52,7 +60,7 @@ public class FavouritesWidgetService extends Service {
 
             Uri uri = ContentUris.withAppendedId(MovieDataTable.CONTENT_URI, mID);
             String[] projection = {MovieDataTable.FIELD_COL_POSTER_PATH, MovieDataTable.FIELD_COL_TITLE,
-                    MovieDataTable.FIELD_COL_RELEASE_DATE };
+                    MovieDataTable.FIELD_COL_VOTE_AVERAGE };
             String selection = null;
             String[] selectionArgs = null;
             String sortOrder = null;
@@ -63,30 +71,33 @@ public class FavouritesWidgetService extends Service {
                 cursor.moveToFirst();
                 //mName = cursor.getString(cursor.getColumnIndex(EmployeeDatabase.COLUMN_LASTNAME)) + ", " + cursor.getString(cursor.getColumnIndex(EmployeeDatabase.COLUMN_FIRSTNAME));
                 mTitle = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_TITLE));
-                mReleaseDate = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_RELEASE_DATE));
+                mRating = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_VOTE_AVERAGE));
                 mPicture = cursor.getString(cursor.getColumnIndex(MovieDataTable.FIELD_COL_POSTER_PATH));
             } else {
                 mTitle = "empty cursor";
             }
 
-            cursor.close();
+            if (cursor != null) {
+                cursor.close();
+            }
 
             RemoteViews remoteViews = new RemoteViews(this.getApplicationContext().getPackageName(), R.layout.widget_movie);
 
             // Set the text
             remoteViews.setTextViewText(R.id.tvMovieName, mTitle);
-            remoteViews.setTextViewText(R.id.tvReleaseDate, mReleaseDate);
-            //remoteViews.setTextViewText(R.id.appwidget_layout_department, mDepartment);
+            remoteViews.setTextViewText(R.id.tvReleaseDate, mRating +"/10");
 
-            /*InputStream is;
+            Bitmap bmp = null;
             try {
-                is = getAssets().open("pics/" + mPicture );
-                Bitmap bit = BitmapFactory.decodeStream(is);
-
-                remoteViews.setImageViewBitmap(R.id.appwidget_layout_picture, bit);
-            } catch (IOException e) {
+                bmp = new ImageLoadTask().execute().get();
+            } catch (InterruptedException e) {
                 e.printStackTrace();
-            }*/
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            if(bmp != null)
+            remoteViews.setImageViewBitmap(R.id.ivMovieIcon, bmp);
+
 
             // Register an onClickListener
             Intent clickIntent = new Intent(this.getApplicationContext(), MovieWidgetProvider.class);
@@ -106,4 +117,29 @@ public class FavouritesWidgetService extends Service {
 
         return super.onStartCommand(intent, flags, startId);
     }
+
+    class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String url;
+
+        public ImageLoadTask() {
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+
+            URL url = null;
+            Bitmap bmp = null;
+            try {
+                url = new URL(BuildConfig.BASE_URL_IMAGE + mPicture);
+                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+
+    }
+
 }

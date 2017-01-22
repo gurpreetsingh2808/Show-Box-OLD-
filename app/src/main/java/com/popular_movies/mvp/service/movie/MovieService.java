@@ -32,6 +32,8 @@ public interface MovieService {
         @GET ("movie/{id}/reviews?api_key="+BuildConfig.TMDB_API_KEY)
         Call<ReviewResponse> getReview(@Path("id") int id);
 
+        @GET ("search/movie?api_key="+BuildConfig.TMDB_API_KEY )
+        Call<MovieResponse> getSearchResults(@Query("query") String searchQuery);
     }
 
     /**
@@ -66,4 +68,10 @@ public interface MovieService {
 
         void onFailure(Throwable throwable);
     }
+
+    /**
+     * search model
+     */
+    void getSearchResults(String query, Activity activity, GetMoviesCallback getMoviesCardCalback);
+
 }
