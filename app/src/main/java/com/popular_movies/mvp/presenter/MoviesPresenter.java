@@ -9,17 +9,17 @@ import java.util.List;
  * Created by Gurpreet on 21-01-2017.
  */
 
-public class PopularMoviesPresenter {
+public class MoviesPresenter {
 
     public interface View {
         //  handle response
-        void onPopularMoviesRetreivalSuccess(MovieResponse movieResponse);
+        void onMoviesRetreivalSuccess(MovieResponse movieResponse);
 
         //  handle failure
-        void onPopularMoviesRetreivalFailure(Throwable throwable);
+        void onMoviesRetreivalFailure(Throwable throwable);
     }
 
     interface Presenter {
-        void fetchPopularMovies();
+        void fetchMovies(String movieType);
     }
 }

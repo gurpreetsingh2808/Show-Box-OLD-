@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
+import com.popular_movies.BuildConfig;
 import com.popular_movies.R;
 import com.popular_movies.framework.UriBuilder;
 import com.popular_movies.ui.fragment.FavoritesFragment;
@@ -46,10 +47,11 @@ public class MainActivity extends AppCompatActivity {
             menuitem = savedInstanceState.getInt(KEY_MENU_ITEM);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (savedInstanceState == null)
+        if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.main_content, ListFragment.getInstance(UriBuilder.POPULAR))
                     .commit();
+        }
 
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -62,13 +64,13 @@ public class MainActivity extends AppCompatActivity {
                         switch (item.getItemId()) {
                             case R.id.action_popular:
                                 getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.main_content, ListFragment.getInstance(UriBuilder.POPULAR))
+                                        .replace(R.id.main_content, ListFragment.getInstance(BuildConfig.MOVIE_TYPE_POPULAR))
                                         .commit();
                                 return true;
 
                             case R.id.action_top_rated:
                                 getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.main_content, ListFragment.getInstance(UriBuilder.TOP_RATED))
+                                        .replace(R.id.main_content, ListFragment.getInstance(BuildConfig.MOVIE_TYPE_TOP_RATED))
                                         .commit();
                                 return true;
 
@@ -112,12 +114,12 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.action_popular:
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.main_content, ListFragment.getInstance(UriBuilder.POPULAR))
+                            .replace(R.id.main_content, ListFragment.getInstance(BuildConfig.MOVIE_TYPE_POPULAR))
                             .commit();
                     return true;
                 case R.id.action_top_rated:
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.main_content, ListFragment.getInstance(UriBuilder.TOP_RATED))
+                            .replace(R.id.main_content, ListFragment.getInstance(BuildConfig.MOVIE_TYPE_TOP_RATED))
                             .commit();
                     return true;
                 case R.id.action_favorite:

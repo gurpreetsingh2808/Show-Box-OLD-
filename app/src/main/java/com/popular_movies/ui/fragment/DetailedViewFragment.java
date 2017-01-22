@@ -26,7 +26,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.popular_movies.domain.MovieResponse;
+import com.popular_movies.domain.Trailer;
+import com.popular_movies.domain.TrailerResponse;
 import com.popular_movies.framework.ImageLoader;
+import com.popular_movies.mvp.presenter.TrailerPresenter;
+import com.popular_movies.mvp.presenter.TrailerPresenterImpl;
 import com.popular_movies.ui.activity.MainActivity;
 import com.popular_movies.R;
 import com.popular_movies.service.VolleySingleton;
@@ -42,7 +47,7 @@ import org.json.JSONObject;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class DetailedViewFragment extends Fragment {
+public class DetailedViewFragment extends Fragment implements TrailerPresenter.View {
 
     TextView title, releaseDate, synopsis, userRatings;
     ImageView poster;
@@ -56,6 +61,7 @@ public class DetailedViewFragment extends Fragment {
     public static final String KEY_MOVIE = "movie";
     Button btnUserReview;
     private Cursor cursor;
+    private TrailerPresenterImpl trailerPresenterImpl;
 
     public static DetailedViewFragment getInstance(Parcelable movie) {
         DetailedViewFragment detailsFragment = new DetailedViewFragment();
@@ -185,34 +191,13 @@ public class DetailedViewFragment extends Fragment {
             }
         });
 
-        UriBuilder uri = new UriBuilder(UriBuilder.BASE_URL + "/" + movieData.getId(),
-                UriBuilder.VIDEOS);
-        String url = uri.toString();
-        sendTrailerKeyRequest(url);
+        trailerPresenterImpl = new TrailerPresenterImpl(this, getActivity());
+        trailerPresenterImpl.fetchTrailers(movieData.getId());
 
         if (MovieProviderHelper.getInstance().doesMovieExist(movieData.getId())) {
             favoritesButton.setImageResource(R.drawable.ic_favorite_brown_24px);
         }
         return  view;
-    }
-
-    void sendTrailerKeyRequest(String url) {
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                url,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        trailerKey = JsonParser.parseTrailer(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), "There was an error retreiving the request", Toast.LENGTH_SHORT).show();
-                    }
-                });
-        mRequestQueue.add(request);
     }
 
     @Override
@@ -226,4 +211,19 @@ public class DetailedViewFragment extends Fragment {
         return title;
     }
 
+    @Override
+    public void onTrailersRetreivalSuccess(TrailerResponse trailerResponse) {
+
+        for (Trailer trailer : trailerResponse.getResults()) {
+            if(trailer.getSite().equalsIgnoreCase("YouTube")) {
+                trailerKey = trailer.getKey();
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onTrailersRetreivalFailure(Throwable throwable) {
+        Toast.makeText(getActivity(), "There was an error retreiving the request", Toast.LENGTH_SHORT).show();
+    }
 }

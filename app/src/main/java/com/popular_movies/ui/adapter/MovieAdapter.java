@@ -8,6 +8,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,19 +30,25 @@ import java.util.List;
  */
 public class MovieAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
+    private static String TAG = MovieAdapter.class.getSimpleName();
     private List<MovieData> movieItemArrayList;
     private LayoutInflater inflater;
     private Context context;
-    static ClickListener clickListener;
+    public static ClickListener clickListener;
 
     public MovieAdapter(Context context, List<MovieData> movieDataList) {
-        this.context = context;
-        inflater = LayoutInflater.from(context);
-        this.movieItemArrayList = movieDataList;
-        if (MainActivity.mIsDualPane ) {
-            ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.movie_detail, DetailedViewFragment.getInstance(movieItemArrayList.get(0)))
-                    .commit();
+        if(context != null) {
+            this.context = context;
+            inflater = LayoutInflater.from(context);
+            this.movieItemArrayList = movieDataList;
+            if (MainActivity.mIsDualPane) {
+                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.movie_detail, DetailedViewFragment.getInstance(movieItemArrayList.get(0)))
+                        .commit();
+            }
+        }
+        else{
+            Log.e(TAG, "MovieAdapter: context is null");
         }
     }
 
@@ -58,16 +65,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        final MovieData current = movieItemArrayList.get(position);
-        holder.title.setText(current.getOriginal_title());
-        ImageLoader.loadPosterImage(context, current.getPoster_path(), holder.thumbnail);
+        final MovieData movieData = movieItemArrayList.get(position);
+        holder.title.setText(movieData.getOriginal_title());
+        ImageLoader.loadPosterImage(context, movieData.getPoster_path(), holder.thumbnail);
 
         if (!MainActivity.mIsDualPane) {
             holder.thumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, MovieDetailActivity.class);
-                    intent.putExtra(MovieDetailActivity.KEY_MOVIE, current);
+                    intent.putExtra(MovieDetailActivity.KEY_MOVIE, movieData);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         AppBarLayout barLayout = (AppBarLayout) ((AppCompatActivity) context).findViewById(R.id.actionbar);
                         ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation((AppCompatActivity) context, Pair.create((View) holder.thumbnail, "poster"), Pair.create((View) barLayout, "actionbar"));
@@ -82,7 +89,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MyViewHolder> {
                 public void onClick(View v) {
                     ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top)
-                            .replace(R.id.movie_detail, DetailedViewFragment.getInstance(current))
+                            .replace(R.id.movie_detail, DetailedViewFragment.getInstance(movieData))
                             .commit();
                 }
             });
