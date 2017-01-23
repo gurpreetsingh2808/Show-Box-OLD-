@@ -15,6 +15,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:paddingRight="16dp"
+        android:paddingLeft="10dp"
         android:background="@color/lighterGrey"
         android:layout_weight="1" />
 

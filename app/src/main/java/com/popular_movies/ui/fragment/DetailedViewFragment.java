@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.popular_movies.BuildConfig;
 import com.popular_movies.R;
 import com.popular_movies.database.MovieProviderHelper;
 import com.popular_movies.domain.MovieData;
@@ -48,16 +49,16 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
     private static final String TAG = DetailedViewFragment.class.getSimpleName();
     MovieData movieData;
     FloatingActionButton favoritesButton;
-    public static final String KEY_MOVIE = "movie";
+    //public static final String KEY_MOVIE = "movie";
     Button btnUserReview;
     private Cursor cursor;
     private InterstitialAd mInterstitialAd;
-
+    private View view;
 
     public static DetailedViewFragment getInstance(Parcelable movie) {
         DetailedViewFragment detailsFragment = new DetailedViewFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(KEY_MOVIE, movie);
+        bundle.putParcelable(detailsFragment.getString(R.string.key_movie), movie);
         detailsFragment.setArguments(bundle);
         return detailsFragment;
     }
@@ -65,14 +66,10 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        final View view = inflater.inflate(R.layout.fragment_detailed_view, container, false);
+        view = inflater.inflate(R.layout.fragment_detailed_view, container, false);
 
         initializeAd();
-        movieData = getArguments().getParcelable(KEY_MOVIE);
-        if (movieData != null) {
-            Log.d("detailedview", "" + movieData.getId());
-        }
-
+        movieData = getArguments().getParcelable(getString(R.string.key_movie));
         if (!MainActivity.mIsDualPane) {
             Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -84,7 +81,7 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
         mListener = new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                Log.d("toolbar", "" + collapsingToolbar.getHeight() + verticalOffset);
+                Log.d(TAG, "" + collapsingToolbar.getHeight() + verticalOffset);
                 if (!MainActivity.mIsDualPane) {
                     if (collapsingToolbar.getHeight() + verticalOffset < 340) {
                         title.setVisibility(View.GONE);
@@ -143,10 +140,10 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
             public void onClick(View v) {
                 if (trailerKey != null) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("https://www.youtube.com/watch?v=" + trailerKey));
+                    intent.setData(Uri.parse(BuildConfig.BASE_URL_TRAILER + trailerKey));
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getActivity(), "Trailer for this movie is not available", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.trailer_error), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -163,14 +160,16 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
                     favoritesButton.setImageResource(R.drawable.ic_favorite);
                     //  delete movie from database
                     MovieProviderHelper.getInstance().delete(movieData.getId());
-                    Snackbar.make(view, "Removed " + movieData.getOriginal_title() + " from Favorites!", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    Snackbar.make(view, getString(R.string.removed) + " " + movieData.getOriginal_title() +
+                            " " + getString(R.string.from_favourite), Snackbar.LENGTH_LONG)
+                            .show();
                 } else {
                     favoritesButton.setImageResource(R.drawable.ic_favorite_brown_24px);
                     //  add movie to database
                     MovieProviderHelper.getInstance().insert(movieData);
-                    Snackbar.make(view, "Added " + movieData.getOriginal_title() + " To Favorites!", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    Snackbar.make(view, getString(R.string.added) + " " + movieData.getOriginal_title() +
+                            " " +getString(R.string.to_favourite) , Snackbar.LENGTH_LONG)
+                            .show();
                 }
             }
         });
@@ -232,7 +231,7 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
 
     private void moveToReviewActivity() {
         Intent intent = new Intent(getActivity(), ReviewActivity.class);
-        intent.putExtra("ID", movieData.getId());
+        intent.putExtra(getString(R.string.key_movie_id), movieData.getId());
         startActivity(intent);
     }
 
@@ -245,7 +244,7 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
     @Override
     public void onTrailersRetreivalSuccess(TrailerResponse trailerResponse) {
         for (Trailer trailer : trailerResponse.getResults()) {
-            if (trailer.getSite().equalsIgnoreCase("YouTube")) {
+            if (trailer.getSite().equalsIgnoreCase(getString(R.string.youtube))) {
                 trailerKey = trailer.getKey();
                 break;
             }
@@ -254,6 +253,7 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
 
     @Override
     public void onTrailersRetreivalFailure(Throwable throwable) {
-        Toast.makeText(getActivity(), "There was an error retreiving the request", Toast.LENGTH_SHORT).show();
+        Snackbar.make(view, getString(R.string.connection_error) , Snackbar.LENGTH_LONG)
+                .show();
     }
 }

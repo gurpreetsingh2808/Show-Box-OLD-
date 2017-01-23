@@ -1,28 +1,24 @@
 package com.popular_movies.ui.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeClipBounds;
 import android.transition.Explode;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ImageView;
 
 import com.popular_movies.BuildConfig;
 import com.popular_movies.R;
 import com.popular_movies.ui.fragment.FavoritesFragment;
 import com.popular_movies.ui.fragment.ListFragment;
 import com.popular_movies.util.AppUtils;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity  {

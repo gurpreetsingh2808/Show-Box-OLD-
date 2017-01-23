@@ -22,7 +22,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MovieDetailActivity extends AppCompatActivity {
     public static final String TAG = MovieDetailActivity.class.getSimpleName();
-    public static final String KEY_MOVIE = "MOVIE";
 
 
     public void setupWindowAnimations() {
@@ -55,16 +54,16 @@ public class MovieDetailActivity extends AppCompatActivity {
         //setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) {
             Log.d("moviedetail", "action bar not null");
-            getSupportActionBar().setTitle(DetailedViewFragment.getInstance(getIntent().getParcelableExtra(KEY_MOVIE)).getTitle().toString());
+            getSupportActionBar().setTitle(DetailedViewFragment.getInstance(getIntent().
+                    getParcelableExtra(getString(R.string.key_movie))).getTitle().toString());
         }
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.detailFragment, DetailedViewFragment.getInstance(getIntent().getParcelableExtra(KEY_MOVIE)), "TAG")
+                    .replace(R.id.detailFragment, DetailedViewFragment.getInstance(getIntent()
+                            .getParcelableExtra(getString(R.string.key_movie))), getString(R.string.tag))
                     .commit();
         }
-
-
     }
 
     @Override

@@ -14,7 +14,7 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".ui.activity.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
@@ -45,12 +45,6 @@
             android:name=".database.MovieProvider"
             android:authorities="com.capstone.showbox"
             android:exported="false" />
-<!--
-        <service
-            android:name=".widget.StackWidgetService"
-            android:exported="false"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
-            -->
         <service android:name=".widget.FavouritesWidgetService" />
 
         <activity android:name=".SplashActivity">
@@ -60,20 +54,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--
-
-        <receiver
-            android:name=".widget.StackWidgetProvider"
-            android:label="Employee Widget 3">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info" />
-        </receiver>
--->
 
     </application>
 

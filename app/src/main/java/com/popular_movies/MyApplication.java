@@ -20,8 +20,4 @@ public class MyApplication extends Application {
         return myApplication;
     }
 
-   /* public static Context getAppContext(){
-        return sInstance.getApplicationContext();
-    }
-*/
 }
