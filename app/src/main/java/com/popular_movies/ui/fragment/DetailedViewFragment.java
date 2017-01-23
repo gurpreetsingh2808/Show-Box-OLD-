@@ -49,7 +49,7 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
     private static final String TAG = DetailedViewFragment.class.getSimpleName();
     MovieData movieData;
     FloatingActionButton favoritesButton;
-    //public static final String KEY_MOVIE = "movie";
+    private static final String KEY_MOVIE = "KEY_MOVIE";
     Button btnUserReview;
     private Cursor cursor;
     private InterstitialAd mInterstitialAd;
@@ -58,7 +58,8 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
     public static DetailedViewFragment getInstance(Parcelable movie) {
         DetailedViewFragment detailsFragment = new DetailedViewFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(detailsFragment.getString(R.string.key_movie), movie);
+        bundle.putParcelable(KEY_MOVIE, movie);
+        //bundle.putParcelable(detailsFragment.getString(R.string.key_movie), movie);
         detailsFragment.setArguments(bundle);
         return detailsFragment;
     }

@@ -1,9 +1,15 @@
 package com.popular_movies.ui.fragment;
 
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -11,18 +17,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.popular_movies.domain.MovieData;
+import com.popular_movies.domain.MovieDataTable;
 import com.popular_movies.ui.activity.MainActivity;
 import com.popular_movies.R;
 import com.popular_movies.database.MovieProviderHelper;
+import com.popular_movies.ui.adapter.FavouriteAdapter;
 import com.popular_movies.ui.adapter.MovieAdapter;
 
 
-public class FavoritesFragment extends Fragment {
-    RecyclerView recyclerView;
+public class FavoritesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private RecyclerView recyclerView;
+    private FavouriteAdapter mAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
@@ -37,14 +49,23 @@ public class FavoritesFragment extends Fragment {
             boolean isTablet = getResources().getBoolean(R.bool.isTablet);
             width = isTablet ? (width / 2) : width;
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), width / 140));
-        }
-        else {
+        } else {
             if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
             else
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 5));
         }
+        mAdapter = new FavouriteAdapter(getContext(), null);
+        recyclerView.setAdapter(mAdapter);
+
         return layout;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // Prepare the loader.  Either re-connect with an existing one, or start a new one.
+        getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
@@ -57,10 +78,24 @@ public class FavoritesFragment extends Fragment {
         }
     }
 
+
     @Override
-    public void onStart() {
-        super.onStart();
-        MovieAdapter movieAdapter = new MovieAdapter(getContext(), MovieProviderHelper.getInstance().getAllFavouriteMovies());
-        recyclerView.setAdapter(movieAdapter);
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Uri CONTENT_URI = MovieDataTable.CONTENT_URI;
+        return new CursorLoader(getContext(), CONTENT_URI, null, null, null, null);
     }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        mAdapter.swapCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // This is called when the last Cursor provided to onLoadFinished()
+        // above is about to be closed.  We need to make sure we are no
+        // longer using it.
+        mAdapter.swapCursor(null);
+    }
+
 }

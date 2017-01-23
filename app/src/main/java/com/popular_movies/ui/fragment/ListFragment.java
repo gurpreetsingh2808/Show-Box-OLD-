@@ -35,6 +35,7 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public ProgressBar progressBar;
     public SwipeRefreshLayout refreshLayout;
     private MoviesPresenterImpl moviesPresenterImpl;
+    private static final String KEY_TITLE = "KEY_TITLE";
     static String movieType;
     private View view;
 
@@ -45,7 +46,8 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public static ListFragment getInstance(String title) {
         ListFragment fragment = new ListFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(fragment.getString(R.string.key_title), title);
+        bundle.putString(KEY_TITLE, title);
+        //bundle.putString(fragment.getActivity().getString(R.string.key_title), title);
         fragment.setArguments(bundle);
         movieType = title;
         return fragment;
