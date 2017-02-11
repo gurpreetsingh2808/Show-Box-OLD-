@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
         MoviesPresenter.View /*, MovieAdapter.ClickListener*/ {
+
     public ArrayList<MovieData> movieDataList = new ArrayList<>();
     public RecyclerView recyclerView;
     public MovieAdapter adapter;

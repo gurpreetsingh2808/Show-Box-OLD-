@@ -32,5 +32,9 @@
     <string name="key_data">KEY_DATA</string>
     <string name="state_reviews">STATE_REVIEWS</string>
     <string name="tag">TAG</string>
+    <string name="Menu.Movies">MOVIES</string>
+    <string name="Menu.TvShows">TV SHOWS</string>
+    <string name="Menu.People">PEOPLE</string>
+    <string name="Menu.Discover">DISCOVER</string>
 
 </resources>

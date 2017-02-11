@@ -29,4 +29,23 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Toolbar">
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="TextView" />
+
+    <style name="TextView.Menu">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/themeDark</item>
+        <item name="fontPath">fonts/Brandon_bold.otf</item>
+
+    </style>
+
 </resources>

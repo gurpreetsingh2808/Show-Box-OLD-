@@ -75,6 +75,9 @@ dependencies {
     //  firebase
     compile 'com.google.firebase:firebase-crash:10.0.1'
     compile 'com.google.firebase:firebase-ads:10.0.1'
+    //  nav drawer
+    compile 'com.github.Yalantis:GuillotineMenu-Android:1.2'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
