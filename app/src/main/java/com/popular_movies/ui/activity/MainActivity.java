@@ -80,26 +80,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        View guillotineMenu = LayoutInflater.from(this).inflate(R.layout.navigation, null);
-        root.addView(guillotineMenu);
-
-        GuillotineAnimation guillotineAnimation = new GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.guillotine_hamburger), contentHamburger)
-                //.setStartDelay(500)
-                .setActionBarViewForAnimation(toolbar)
-                .setClosedOnStart(true)
-                .setGuillotineListener(new GuillotineListener() {
-                    @Override
-                    public void onGuillotineOpened() {
-                        toolbar.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onGuillotineClosed() {
-                        toolbar.setVisibility(View.VISIBLE);
-                    }
-                })
-                .build();
-
+        //  add guillotine menu to rootview
+        addMenu();
 
         final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -132,6 +114,31 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    /**
+     *   This method adds navigation menu to rootview
+     */
+    private void addMenu() {
+        View guillotineMenu = LayoutInflater.from(this).inflate(R.layout.navigation, null);
+        root.addView(guillotineMenu);
+
+        GuillotineAnimation guillotineAnimation = new GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.guillotine_hamburger), contentHamburger)
+                //.setStartDelay(500)
+                .setActionBarViewForAnimation(toolbar)
+                .setClosedOnStart(true)
+                .setGuillotineListener(new GuillotineListener() {
+                    @Override
+                    public void onGuillotineOpened() {
+                        toolbar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onGuillotineClosed() {
+                        toolbar.setVisibility(View.VISIBLE);
+                    }
+                })
+                .build();
     }
 
 

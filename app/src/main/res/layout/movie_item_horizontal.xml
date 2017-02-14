@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:foreground="?selectableItemBackground">
 
@@ -10,10 +10,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginLeft="10dp">
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="120dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -31,6 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
                 android:layout_below="@id/movie_thumbnail"
+                android:background="@color/lighterGrey"
                 android:gravity="center_horizontal"
                 android:padding="6dp"
                 android:text="@string/empty_view_text"

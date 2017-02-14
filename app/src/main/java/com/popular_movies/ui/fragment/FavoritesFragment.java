@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -17,13 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.popular_movies.domain.MovieData;
 import com.popular_movies.domain.MovieDataTable;
 import com.popular_movies.ui.activity.MainActivity;
 import com.popular_movies.R;
-import com.popular_movies.database.MovieProviderHelper;
 import com.popular_movies.ui.adapter.FavouriteAdapter;
-import com.popular_movies.ui.adapter.MovieAdapter;
 
 
 public class FavoritesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {

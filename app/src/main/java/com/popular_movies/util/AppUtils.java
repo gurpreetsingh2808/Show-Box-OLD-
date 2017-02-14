@@ -15,7 +15,7 @@ public class AppUtils {
      */
     public static void initializeCalligraphy() {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Brandon_reg.otf")
+                .setDefaultFontPath("fonts/Brandon_Regular.otf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
