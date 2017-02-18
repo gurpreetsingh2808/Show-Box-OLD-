@@ -14,12 +14,15 @@ import com.popular_movies.domain.Review;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Gurpreet on 4/9/2016.
  */
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.MyViewHolder> {
 
-    List<Review> reviewDataArrayList = new ArrayList<>();
+    private List<Review> reviewDataArrayList = new ArrayList<>();
     private LayoutInflater inflater;
     private Context context;
     private static final String TAG = ReviewsAdapter.class.getSimpleName();
@@ -51,13 +54,14 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.MyViewHo
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView user, review;
+        @BindView(R.id.tvUsername)
+        TextView user;
+        @BindView(R.id.tvReview)
+        TextView review;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
-            user = (TextView) itemView.findViewById(R.id.tvUsername);
-            review = (TextView) itemView.findViewById(R.id.tvReview);
-
+            ButterKnife.bind(this, itemView);
         }
     }
 }

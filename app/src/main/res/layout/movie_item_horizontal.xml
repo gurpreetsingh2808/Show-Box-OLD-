@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
                 android:layout_below="@id/movie_thumbnail"
-                android:background="@color/lighterGrey"
+                android:background="@color/white"
                 android:gravity="center_horizontal"
                 android:padding="6dp"
                 android:text="@string/empty_view_text"

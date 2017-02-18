@@ -44,5 +44,7 @@
     <string name="Collection.Popular">POPULAR</string>
     <string name="Collection.ViewAll">VIEW ALL</string>
     <string name="Collection.Latest">LATEST</string>
+    <string name="Collection.NowPlaying">NOW PLAYING</string>
+    <string name="Collection.Upcoming">UPCOMING</string>
 
 </resources>

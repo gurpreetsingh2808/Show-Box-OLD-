@@ -24,15 +24,27 @@ import com.popular_movies.util.AppUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, ReviewPresenter.View {
 
-    ArrayList<Review> reviewDataArrayList = new ArrayList<>();
-    private RecyclerView recyclerViewReviews;
-    private ReviewsAdapter reviewsAdapter;
+    //  toolbar
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    //  recycler view
+    @BindView(R.id.recyclerReview)
+    RecyclerView recyclerViewReviews;
+    //  progress bar
+    @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    //  swipe refresh layout
+    @BindView(R.id.refresh)
     SwipeRefreshLayout refreshLayout;
+
+    ArrayList<Review> reviewDataArrayList = new ArrayList<>();
+    private ReviewsAdapter reviewsAdapter;
     private ReviewPresenterImpl reviewPresenterImpl;
 
 
@@ -46,9 +58,10 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
         super.onCreate(savedInstanceState);
         AppUtils.initializeCalligraphy();
         setContentView(R.layout.activity_review);
+        ButterKnife.bind(this);
+
 
         //getSupportActionBar().setTitle("User Reviews");
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -56,12 +69,8 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
         }
 
         reviewPresenterImpl = new ReviewPresenterImpl(this, this);
-
-        recyclerViewReviews = (RecyclerView) findViewById(R.id.recyclerReview);
         recyclerViewReviews.setLayoutManager(new LinearLayoutManager(this));
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
         refreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.progress_colors));
         refreshLayout.setOnRefreshListener(this);
         onRefresh();

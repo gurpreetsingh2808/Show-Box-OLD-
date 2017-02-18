@@ -25,6 +25,9 @@ import com.popular_movies.ui.fragment.DetailedViewFragment;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Gurpreet on 1/17/2016.
  */
@@ -34,7 +37,7 @@ public class MovieAdapterVertical extends RecyclerView.Adapter<MovieAdapterVerti
     private List<MovieData> movieItemArrayList;
     private LayoutInflater inflater;
     private Context context;
-    public static ClickListener clickListener;
+    private static ClickListener clickListener;
 
     public MovieAdapterVertical(Context context, List<MovieData> movieDataList) {
         if (context != null) {
@@ -64,18 +67,18 @@ public class MovieAdapterVertical extends RecyclerView.Adapter<MovieAdapterVerti
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView title;
-        private ImageView thumbnail;
-        private TextView synopsis;
+        @BindView(R.id.movie_title)
+        TextView title;
+        @BindView(R.id.movie_thumbnail)
+        ImageView thumbnail;
+        @BindView(R.id.movie_synopsis)
+        TextView synopsis;
         //public MovieAdapterHorizontal.ClickListener clickListener;
 
-
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
-            title = (TextView) itemView.findViewById(R.id.movie_title);
-            thumbnail = (ImageView) itemView.findViewById(R.id.movie_thumbnail);
-            synopsis = (TextView) itemView.findViewById(R.id.movie_synopsis);
         }
 
         @Override

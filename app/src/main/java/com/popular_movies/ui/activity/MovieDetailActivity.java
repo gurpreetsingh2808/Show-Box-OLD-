@@ -18,6 +18,7 @@ import com.popular_movies.ui.fragment.DetailedViewFragment;
 import com.popular_movies.R;
 import com.popular_movies.util.AppUtils;
 
+import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MovieDetailActivity extends AppCompatActivity {
@@ -49,9 +50,8 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         }
         setContentView(R.layout.activity_movie_detail);
+        ButterKnife.bind(this);
 
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) {
             Log.d("moviedetail", "action bar not null");
             getSupportActionBar().setTitle(DetailedViewFragment.getInstance(getIntent().

@@ -37,20 +37,54 @@ import com.popular_movies.mvp.presenter.TrailerPresenterImpl;
 import com.popular_movies.ui.activity.MainActivity;
 import com.popular_movies.ui.activity.ReviewActivity;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.relex.circleindicator.CircleIndicator;
 
 public class DetailedViewFragment extends Fragment implements TrailerPresenter.View {
 
-    TextView title, releaseDate, synopsis, userRatings;
+    private static final String TAG = DetailedViewFragment.class.getSimpleName();
+    //  toolbar
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    //  textview
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.releaseDate)
+    TextView releaseDate;
+    @BindView(R.id.synopsis)
+    TextView synopsis;
+    @BindView(R.id.userRatings)
+    TextView userRatings;
+
+    //  image view
+    @BindView(R.id.toolbarImage)
+    ImageView toolbarImage;
+    @BindView(R.id.poster)
     ImageView poster;
+
+    //  collapsing toolbar layout
+    @BindView(R.id.toolbar_layout)
+    CollapsingToolbarLayout collapsingToolbar;
+    //  appbar layout
+    @BindView(R.id.app_bar)
+    AppBarLayout appBarLayout;
+
+    //  circular progress bar
+    @BindView(R.id.indicator)
     CircleIndicator indicator;
+
+    //  fab
+    @BindView(R.id.fab)
+    FloatingActionButton favoritesButton;
+    //  button
+    @BindView(R.id.buttonUserReviews)
+    Button btnUserReview;
+
+    private static final String KEY_MOVIE = "KEY_MOVIE";
     AppBarLayout.OnOffsetChangedListener mListener;
     String trailerKey = null;
-    private static final String TAG = DetailedViewFragment.class.getSimpleName();
     MovieData movieData;
-    FloatingActionButton favoritesButton;
-    private static final String KEY_MOVIE = "KEY_MOVIE";
-    Button btnUserReview;
     private Cursor cursor;
     private InterstitialAd mInterstitialAd;
     private View view;
@@ -68,17 +102,14 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_detailed_view, container, false);
+        ButterKnife.bind(this, view);
 
         initializeAd();
         movieData = getArguments().getParcelable(getString(R.string.key_movie));
         if (!MainActivity.mIsDualPane) {
-            Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         }
 
-        indicator = (CircleIndicator) view.findViewById(R.id.indicator);
-
-        final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) view.findViewById(R.id.toolbar_layout);
         mListener = new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -112,21 +143,12 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
             }
         };
 
-        ((AppBarLayout) view.findViewById(R.id.app_bar)).addOnOffsetChangedListener(mListener);
+        appBarLayout.addOnOffsetChangedListener(mListener);
 
-        title = (TextView) view.findViewById(R.id.title);
         title.setText(movieData.getOriginal_title());
-
-        releaseDate = (TextView) view.findViewById(R.id.releaseDate);
         releaseDate.setText(DateConvert.convert(movieData.getRelease_date()));
-
-        synopsis = (TextView) view.findViewById(R.id.synopsis);
         synopsis.setText(movieData.getOverview());
-
-        userRatings = (TextView) view.findViewById(R.id.userRatings);
         userRatings.setText(movieData.getVote_average());
-
-        btnUserReview = (Button) view.findViewById(R.id.buttonUserReviews);
         btnUserReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +156,6 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
             }
         });
 
-        ImageView toolbarImage = (ImageView) view.findViewById(R.id.toolbarImage);
         ImageLoader.loadBackdropImage(getContext(), movieData.getBackdrop_path(), toolbarImage);
         toolbarImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,11 +170,7 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
             }
         });
 
-        poster = (ImageView) view.findViewById(R.id.poster);
         ImageLoader.loadPosterImage(getContext(), movieData.getPoster_path(), poster);
-
-
-        favoritesButton = (FloatingActionButton) view.findViewById(R.id.fab);
         favoritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,7 +186,7 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
                     //  add movie to database
                     MovieProviderHelper.getInstance().insert(movieData);
                     Snackbar.make(view, getString(R.string.added) + " " + movieData.getOriginal_title() +
-                            " " +getString(R.string.to_favourite) , Snackbar.LENGTH_LONG)
+                            " " + getString(R.string.to_favourite), Snackbar.LENGTH_LONG)
                             .show();
                 }
             }
@@ -187,7 +204,7 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
     @Override
     public void onStart() {
         super.onStart();
-        if(!mInterstitialAd.isLoaded()) {
+        if (!mInterstitialAd.isLoaded()) {
             requestNewInterstitial();
         }
     }
@@ -254,7 +271,7 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
 
     @Override
     public void onTrailersRetreivalFailure(Throwable throwable) {
-        Snackbar.make(view, getString(R.string.connection_error) , Snackbar.LENGTH_LONG)
+        Snackbar.make(view, getString(R.string.connection_error), Snackbar.LENGTH_LONG)
                 .show();
     }
 }

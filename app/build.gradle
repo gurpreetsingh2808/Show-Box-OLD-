@@ -79,6 +79,10 @@ dependencies {
     compile 'com.github.Yalantis:GuillotineMenu-Android:1.2'
     //  Sticky headers
     compile 'se.emilsjolander:StickyScrollViewItems:1.1.0'
+    //  view injection
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.3.0'
+
 
 
 }
