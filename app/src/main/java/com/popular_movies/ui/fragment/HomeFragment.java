@@ -17,8 +17,6 @@ import android.widget.ProgressBar;
 import com.popular_movies.R;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.domain.MovieResponse;
-import com.popular_movies.mvp.presenter.MoviesPresenter;
-import com.popular_movies.mvp.presenter.MoviesPresenterImpl;
 import com.popular_movies.mvp.presenter.NowPlayingMoviesPresenter;
 import com.popular_movies.mvp.presenter.NowPlayingMoviesPresenterImpl;
 import com.popular_movies.mvp.presenter.PopularMoviesPresenter;
@@ -32,14 +30,13 @@ import com.popular_movies.ui.adapter.MovieAdapterHorizontal;
 import com.popular_movies.ui.adapter.MovieAdapterVertical;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
         TopRatedMoviesPresenter.View, PopularMoviesPresenter.View, UpcomingMoviesPresenter.View, NowPlayingMoviesPresenter.View /*, MovieAdapterHorizontal.ClickListener*/{
 
     //  recycler view
@@ -74,12 +71,12 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private NowPlayingMoviesPresenterImpl nowPlayingMoviesPresenterImpl;
     private UpcomingMoviesPresenterImpl upcomingMoviesPresenterImpl;
 
-    public ListFragment() {
+    public HomeFragment() {
 
     }
 
-    public static ListFragment getInstance(String title) {
-        ListFragment fragment = new ListFragment();
+    public static HomeFragment getInstance(String title) {
+        HomeFragment fragment = new HomeFragment();
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
         //bundle.putString(fragment.getActivity().getString(R.string.key_title), title);

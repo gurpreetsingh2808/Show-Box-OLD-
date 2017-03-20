@@ -5,6 +5,12 @@ import ckm.simple.sql_provider.annotation.ProviderConfig;
 import ckm.simple.sql_provider.annotation.SimpleSQLConfig;
 
 /**
+ * This class file says - Create a ContentProvider called MovieProvider -
+ * The authority for this Provider is "com.capstone.showbox" -
+ * The Provider uses a database file named "movie.db" -
+ * The Current database version is 2 -
+ * provider UpdateScripts as a defined by the UpdateScripts class
+ *
  * Created by Gurpreet on 16-01-2017.
  */
 

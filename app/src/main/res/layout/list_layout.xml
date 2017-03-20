@@ -36,7 +36,7 @@
                     android:tag="sticky">
 
                     <TextView
-                        fontPath="fonts/Brandon_bold.otf"
+                        fontPath="fonts/Brandon_Bold.otf"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -103,7 +103,7 @@
                     android:tag="sticky">
 
                     <TextView
-                        fontPath="fonts/Brandon_bold.otf"
+                        fontPath="fonts/Brandon_Bold.otf"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -169,7 +169,7 @@
                     android:tag="sticky">
 
                     <TextView
-                        fontPath="fonts/Brandon_bold.otf"
+                        fontPath="fonts/Brandon_Bold.otf"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -181,7 +181,7 @@
 
                     <TextView
                         android:id="@+id/tvTopRatedViewAll"
-                        fontPath="fonts/Brandon_reg.otf"
+                        fontPath="fonts/Brandon_Regular.otf"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
@@ -249,7 +249,7 @@
                     android:tag="sticky">
 
                     <TextView
-                        fontPath="fonts/Brandon_bold.otf"
+                        fontPath="fonts/Brandon_Bold.otf"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
