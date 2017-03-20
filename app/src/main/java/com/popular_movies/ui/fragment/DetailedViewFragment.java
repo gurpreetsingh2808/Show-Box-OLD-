@@ -92,13 +92,13 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
             //       WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             getActivity().getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
 
         }
-
+*/
         view = inflater.inflate(R.layout.fragment_detailed_view, container, false);
         ButterKnife.bind(this, view);
 
@@ -233,10 +233,12 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
 
     @Override
     public void onTrailersRetreivalSuccess(TrailerResponse trailerResponse) {
-        for (Trailer trailer : trailerResponse.getResults()) {
-            if (trailer.getSite().equalsIgnoreCase(getContext().getString(R.string.youtube))) {
-                trailerKey = trailer.getKey();
-                break;
+        if(getContext() != null) {
+            for (Trailer trailer : trailerResponse.getResults()) {
+                if (trailer.getSite().equalsIgnoreCase(getContext().getString(R.string.youtube))) {
+                    trailerKey = trailer.getKey();
+                    break;
+                }
             }
         }
     }
