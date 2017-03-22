@@ -3,35 +3,55 @@ package com.popular_movies.ui.activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeClipBounds;
 import android.transition.Explode;
-import android.view.MenuItem;
+import android.transition.Slide;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
-import com.popular_movies.BuildConfig;
 import com.popular_movies.R;
-import com.popular_movies.ui.fragment.FavoritesFragment;
-import com.popular_movies.ui.fragment.ListFragment;
+import com.popular_movies.ui.fragment.HomeFragment;
 import com.popular_movies.util.AppUtils;
+import com.yalantis.guillotine.animation.GuillotineAnimation;
+import com.yalantis.guillotine.interfaces.GuillotineListener;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     public static boolean mIsDualPane;
+
+    //  toolbar
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
+    //  root frame layout
+    @BindView(R.id.root)
+    FrameLayout root;
+    //  view
+    @BindView(R.id.content_hamburger)
+    View contentHamburger;
+    @Nullable
+    @BindView(R.id.movie_detail)
+    View detailView;
+    //  textview for toolbar
+    @BindView(R.id.tvToolbarTitleMain)
+    TextView tvToolbarTitle;
+
 
     public void setupWindowAnimations() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-            getWindow().setEnterTransition(new Explode());
-            getWindow().setExitTransition(new Explode());
-            getWindow().setSharedElementExitTransition(new ChangeClipBounds());
+            getWindow().setEnterTransition(new Slide());
+            getWindow().setExitTransition(new Slide());
+            //getWindow().setSharedElementExitTransition(new ChangeClipBounds());
         }
     }
 
@@ -46,50 +66,51 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         AppUtils.initializeCalligraphy();
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        View detailView = findViewById(R.id.movie_detail);
         mIsDualPane = detailView != null && detailView.getVisibility() == View.VISIBLE;
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.main_content, ListFragment.getInstance(BuildConfig.MOVIE_TYPE_TOP_RATED))
+                    .replace(R.id.main_content, new HomeFragment())
                     .commit();
         }
 
+        if (toolbar != null ) {
+            setSupportActionBar(toolbar);
+            if(getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(null);
+            }
+        }
 
-        final BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.bottom_navigation);
+        //  add guillotine menu to rootview
+        addMenu();
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
+    }
+
+    /**
+     *   This method adds navigation menu to rootview
+     */
+    private void addMenu() {
+        View guillotineMenu = LayoutInflater.from(this).inflate(R.layout.navigation, null);
+        root.addView(guillotineMenu);
+
+        GuillotineAnimation guillotineAnimation = new GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.guillotine_hamburger), contentHamburger)
+                //.setStartDelay(500)
+                .setActionBarViewForAnimation(toolbar)
+                .setClosedOnStart(true)
+                .setGuillotineListener(new GuillotineListener() {
                     @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        toolbar.setTitle(item.getTitle());
-                        switch (item.getItemId()) {
-                            case R.id.action_popular:
-                                getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.main_content, ListFragment.getInstance(BuildConfig.MOVIE_TYPE_POPULAR))
-                                        .commit();
-                                return true;
-
-                            case R.id.action_top_rated:
-                                getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.main_content, ListFragment.getInstance(BuildConfig.MOVIE_TYPE_TOP_RATED))
-                                        .commit();
-                                return true;
-
-                            case R.id.action_favorite:
-                                getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.main_content, new FavoritesFragment())
-                                        .commit();
-                                return true;
-
-                        }
-                        return true;
+                    public void onGuillotineOpened() {
+                        toolbar.setVisibility(View.GONE);
                     }
-                });
+
+                    @Override
+                    public void onGuillotineClosed() {
+                        toolbar.setVisibility(View.VISIBLE);
+                    }
+                })
+                .build();
     }
 
 
@@ -97,6 +118,7 @@ public class MainActivity extends AppCompatActivity  {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
+
 
 }
 

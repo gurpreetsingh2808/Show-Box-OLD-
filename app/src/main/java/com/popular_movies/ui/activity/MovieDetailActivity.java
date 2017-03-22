@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.AutoTransition;
 import android.transition.Explode;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.InterstitialAd;
@@ -18,6 +20,7 @@ import com.popular_movies.ui.fragment.DetailedViewFragment;
 import com.popular_movies.R;
 import com.popular_movies.util.AppUtils;
 
+import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MovieDetailActivity extends AppCompatActivity {
@@ -27,8 +30,11 @@ public class MovieDetailActivity extends AppCompatActivity {
     public void setupWindowAnimations() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-            getWindow().setEnterTransition(new AutoTransition());
-            getWindow().setReturnTransition(new Explode());
+            //getWindow().setEnterTransition(new AutoTransition());
+            //getWindow().setReturnTransition(new Explode());
+
+            getWindow().setEnterTransition(new Slide());
+            getWindow().setExitTransition(new Slide());
         }
     }
 
@@ -43,15 +49,15 @@ public class MovieDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppUtils.initializeCalligraphy();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-              //      WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
+            // getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+            //       WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.pureBlack));
 
         }
-        setContentView(R.layout.activity_movie_detail);
 
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_movie_detail);
+        ButterKnife.bind(this);
+
         if(getSupportActionBar() != null) {
             Log.d("moviedetail", "action bar not null");
             getSupportActionBar().setTitle(DetailedViewFragment.getInstance(getIntent().

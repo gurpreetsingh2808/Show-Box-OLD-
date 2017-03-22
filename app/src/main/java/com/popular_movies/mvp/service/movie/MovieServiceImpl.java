@@ -41,6 +41,120 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public void getPopularMovies(Activity activity, final GetMoviesCallback getPopularMoviesCardCalback) {
+        MovieResource movieResource = ResourceBuilder.buildResource(MovieResource.class, activity);
+        Call<MovieResponse> call = movieResource.getPopularMovies();
+        call.enqueue(new Callback<MovieResponse>() {
+            @Override
+            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+                if (response.body() != null && response.isSuccessful())
+                    getPopularMoviesCardCalback.onSuccess(response.body());
+                else
+                    getPopularMoviesCardCalback.onFailure(new Throwable("Error"));
+            }
+
+            @Override
+            public void onFailure(Call<MovieResponse> call, Throwable t) {
+                if (!call.isCanceled()) {
+                    //SnackBarManager.renderFailureSnackBar(activity, null);
+                    getPopularMoviesCardCalback.onFailure(t);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getTopRatedMovies(Activity activity, final GetMoviesCallback getTopRatedMoviesCardCalback) {
+        MovieResource movieResource = ResourceBuilder.buildResource(MovieResource.class, activity);
+        Call<MovieResponse> call = movieResource.getTopRatedMovies();
+        call.enqueue(new Callback<MovieResponse>() {
+            @Override
+            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+                if (response.body() != null && response.isSuccessful())
+                    getTopRatedMoviesCardCalback.onSuccess(response.body());
+                else
+                    getTopRatedMoviesCardCalback.onFailure(new Throwable("Error"));
+            }
+
+            @Override
+            public void onFailure(Call<MovieResponse> call, Throwable t) {
+                if (!call.isCanceled()) {
+                    //SnackBarManager.renderFailureSnackBar(activity, null);
+                    getTopRatedMoviesCardCalback.onFailure(t);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getUpcomingMovies(Activity activity, final GetMoviesCallback getUpcomingMoviesCardCalback) {
+        MovieResource movieResource = ResourceBuilder.buildResource(MovieResource.class, activity);
+        Call<MovieResponse> call = movieResource.getUpcomingMovies();
+        call.enqueue(new Callback<MovieResponse>() {
+            @Override
+            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+                if (response.body() != null && response.isSuccessful())
+                    getUpcomingMoviesCardCalback.onSuccess(response.body());
+                else
+                    getUpcomingMoviesCardCalback.onFailure(new Throwable("Error"));
+            }
+
+            @Override
+            public void onFailure(Call<MovieResponse> call, Throwable t) {
+                if (!call.isCanceled()) {
+                    //SnackBarManager.renderFailureSnackBar(activity, null);
+                    getUpcomingMoviesCardCalback.onFailure(t);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getNowPlayingMovies(Activity activity, final GetMoviesCallback getNowPlayingMoviesCardCalback) {
+        MovieResource movieResource = ResourceBuilder.buildResource(MovieResource.class, activity);
+        Call<MovieResponse> call = movieResource.getNowPlayingMovies();
+        call.enqueue(new Callback<MovieResponse>() {
+            @Override
+            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+                if (response.body() != null && response.isSuccessful())
+                    getNowPlayingMoviesCardCalback.onSuccess(response.body());
+                else
+                    getNowPlayingMoviesCardCalback.onFailure(new Throwable("Error"));
+            }
+
+            @Override
+            public void onFailure(Call<MovieResponse> call, Throwable t) {
+                if (!call.isCanceled()) {
+                    //SnackBarManager.renderFailureSnackBar(activity, null);
+                    getNowPlayingMoviesCardCalback.onFailure(t);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getLatestMovies(Activity activity, final GetMoviesCallback getMoviesCallback) {
+        MovieResource movieResource = ResourceBuilder.buildResource(MovieResource.class, activity);
+        Call<MovieResponse> call = movieResource.getLatestMovies();
+        call.enqueue(new Callback<MovieResponse>() {
+            @Override
+            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
+                if (response.body() != null && response.isSuccessful())
+                    getMoviesCallback.onSuccess(response.body());
+                else
+                    getMoviesCallback.onFailure(new Throwable("Error"));
+            }
+
+            @Override
+            public void onFailure(Call<MovieResponse> call, Throwable t) {
+                if (!call.isCanceled()) {
+                    getMoviesCallback.onFailure(t);
+                }
+            }
+        });
+    }
+
+    @Override
     public void getTrailers(int id, Activity activity, final GetTrailersCallback getTrailersCallback) {
 
         MovieResource movieResource = ResourceBuilder.buildResource(MovieResource.class, activity);
@@ -57,7 +171,6 @@ public class MovieServiceImpl implements MovieService {
             @Override
             public void onFailure(Call<TrailerResponse> call, Throwable t) {
                 if (!call.isCanceled()) {
-                    //SnackBarManager.renderFailureSnackBar(activity, null);
                     getTrailersCallback.onFailure(t);
                 }
             }
@@ -80,7 +193,6 @@ public class MovieServiceImpl implements MovieService {
             @Override
             public void onFailure(Call<ReviewResponse> call, Throwable t) {
                 if (!call.isCanceled()) {
-                    //SnackBarManager.renderFailureSnackBar(activity, null);
                     getReviewsCallback.onFailure(t);
                 }
             }
@@ -103,7 +215,6 @@ public class MovieServiceImpl implements MovieService {
             @Override
             public void onFailure(Call<MovieResponse> call, Throwable t) {
                 if (!call.isCanceled()) {
-                    //SnackBarManager.renderFailureSnackBar(activity, null);
                     getMoviesCallback.onFailure(t);
                 }
             }

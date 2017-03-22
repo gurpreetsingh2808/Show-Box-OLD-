@@ -14,6 +14,10 @@
     <color name="lightGrey">#E0E0E0</color>
     <color name="lighterGrey">#EEEEEE</color>
     <color name="black">#212121</color>
+    <color name="pureBlack">#000</color>
+    <color name="black_transparency_60">#60000000</color>
+    <color name="transparent">#00000000</color>
+
 
     <array name="progress_colors">
         <item>#2196F3</item>

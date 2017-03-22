@@ -23,7 +23,6 @@ import com.popular_movies.ui.activity.MainActivity;
 import com.popular_movies.ui.activity.MovieDetailActivity;
 import com.popular_movies.ui.fragment.DetailedViewFragment;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,7 +51,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.movie_data, parent, false);
+        View view = inflater.inflate(R.layout.movie_item_horizontal, parent, false);
         return new MyViewHolder(view);
     }
 

@@ -24,7 +24,23 @@ public interface MovieService {
 
     public interface MovieResource {
         @GET("movie/{movieType}?api_key="+ BuildConfig.TMDB_API_KEY)
+   //     Call<MovieResponse> getMovies(@Path("movieType") String movieType, @Query("page") String page);
         Call<MovieResponse> getMovies(@Path("movieType") String movieType);
+
+        @GET("movie/popular?api_key="+ BuildConfig.TMDB_API_KEY)
+        Call<MovieResponse> getPopularMovies();
+
+        @GET("movie/top_rated?api_key="+ BuildConfig.TMDB_API_KEY)
+        Call<MovieResponse> getTopRatedMovies();
+
+        @GET("movie/upcoming?api_key="+ BuildConfig.TMDB_API_KEY)
+        Call<MovieResponse> getUpcomingMovies();
+
+        @GET("movie/latest?api_key="+ BuildConfig.TMDB_API_KEY)
+        Call<MovieResponse> getLatestMovies();
+
+        @GET("movie/now_playing?api_key="+ BuildConfig.TMDB_API_KEY)
+        Call<MovieResponse> getNowPlayingMovies();
 
         @GET ("movie/{id}/videos?api_key="+ BuildConfig.TMDB_API_KEY)
         Call<TrailerResponse> getTrailers(@Path("id") int id);
@@ -46,6 +62,17 @@ public interface MovieService {
 
         void onFailure(Throwable throwable);
     }
+
+    void getPopularMovies(Activity activity, GetMoviesCallback getMoviesCardCalback);
+
+    void getTopRatedMovies(Activity activity, GetMoviesCallback getMoviesCardCalback);
+
+    void getUpcomingMovies(Activity activity, GetMoviesCallback getUpcomingMoviesCardCalback);
+
+    void getNowPlayingMovies(Activity activity, GetMoviesCallback getNowPlayingMoviesCardCalback);
+
+    void getLatestMovies(Activity activity, GetMoviesCallback getNowPlayingMoviesCardCalback);
+
 
     /**
      * Get movie trailers model

@@ -24,10 +24,7 @@ import static okhttp3.OkHttpClient.Builder;
  */
 public class ResourceBuilder {
 
-    // The google api base url
-    private static final String GOOGLE_API_BASE_URL = "https://www.googleapis.com";
-
-    public static <T> T buildResource(final Class<T> service, String url, Activity activity) {
+    private static <T> T buildResource(final Class<T> service, String url, Activity activity) {
         OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
 
         setTimeSettings(okHttpClient);
@@ -63,21 +60,10 @@ public class ResourceBuilder {
 
         // Add error processing interceptor
         okHttpClient.addInterceptor(new ErrorInterceptor(activity));
-/*
-        if(SharedPreferenceData.getInstance().isCacheEnabled()) {
-            //  Add caching interceptor and setup cache
-            CachingControlInterceptor cachingControlInterceptor = new CachingControlInterceptor();
-            okHttpClient.addNetworkInterceptor(cachingControlInterceptor);
-            okHttpClient.cache(cachingControlInterceptor.setupCache(context));
-
-            //  Add offline caching interceptor
-            //okHttpClient.addInterceptor(new OfflineCachingInterceptor(activity));
-        }
-        */
 
         // Add  logging interceptor as the last interceptor, because this will also log the information
         // which you added with previous interceptors to your request.
-        if (BuildConfig.BUILD_TYPE.equalsIgnoreCase("RELEASE") || BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
 
             HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT);
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

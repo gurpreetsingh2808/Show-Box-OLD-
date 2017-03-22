@@ -7,49 +7,71 @@
     android:fitsSystemWindows="true"
     tools:context="com.popular_movies.ui.activity.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/actionbar"
+    <FrameLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <View
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:navigationIcon="@drawable/app_icon_without_bg"
-            app:popupTheme="@style/AppTheme.PopupOverlay" >
+            android:layout_gravity="top"
+            android:background="@color/colorPrimary" />
 
-            </android.support.v7.widget.Toolbar>
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/actionbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-        </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--
 
-    </android.support.design.widget.AppBarLayout>
+                        <android.support.v7.widget.Toolbar
+                            android:id="@+id/toolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize"
+                            android:background="?attr/colorPrimary"
+                            app:navigationIcon="@drawable/app_icon_without_bg"
+                            app:popupTheme="@style/AppTheme.PopupOverlay" />
+                -->
 
-    <include layout="@layout/content_main" />
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    style="@style/Toolbar">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/content_hamburger"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_hamburger" />
 
-    <!-- Content Container -->
+                    <TextView
+                        android:id="@+id/tvToolbarTitleMain"
+                        android:layout_gravity="center"
+                        android:textColor="@color/white"
+                        android:text="@string/app_name_caps"
+                        style="@style/TextView.Menu" />
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:itemIconTint="@color/selector"
-        app:itemTextColor="@color/selector"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_navigation_items" />
-</RelativeLayout>
+                </android.support.v7.widget.Toolbar>
+            </FrameLayout>
+
+        </android.support.design.widget.AppBarLayout>
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize">
+
+            <include layout="@layout/content_main" />
+
+        </RelativeLayout>
+
+    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>
 

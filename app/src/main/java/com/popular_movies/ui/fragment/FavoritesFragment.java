@@ -9,39 +9,37 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
-import com.popular_movies.domain.MovieData;
 import com.popular_movies.domain.MovieDataTable;
 import com.popular_movies.ui.activity.MainActivity;
 import com.popular_movies.R;
-import com.popular_movies.database.MovieProviderHelper;
 import com.popular_movies.ui.adapter.FavouriteAdapter;
-import com.popular_movies.ui.adapter.MovieAdapter;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class FavoritesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private RecyclerView recyclerView;
+
+    //  recycler view
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
     private FavouriteAdapter mAdapter;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.favorites_list, container, false);
-        recyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
+        ButterKnife.bind(this, layout);
+
         if (MainActivity.mIsDualPane) {
             DisplayMetrics metrics = getResources().getDisplayMetrics();
             int width = (int) (metrics.widthPixels / metrics.density);
@@ -57,7 +55,6 @@ public class FavoritesFragment extends Fragment implements LoaderManager.LoaderC
         }
         mAdapter = new FavouriteAdapter(getContext(), null);
         recyclerView.setAdapter(mAdapter);
-
         return layout;
     }
 
