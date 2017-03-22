@@ -108,7 +108,7 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+               // ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
 
         }
@@ -116,8 +116,8 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
         if (movieData != null) {
             title.setText(movieData.getOriginal_title());
 
-            releaseDate.append(" " + DateConvert.convert(movieData.getRelease_date()));
-            //releaseDate.setText(DateConvert.convert(movieData.getRelease_date()));
+            //releaseDate.append(" " + DateConvert.convert(movieData.getRelease_date()));
+            releaseDate.setText(DateConvert.convert(movieData.getRelease_date()));
             synopsis.setText(movieData.getOverview());
             userRatings.setText(movieData.getVote_average());
             btnUserReview.setOnClickListener(new View.OnClickListener() {
