@@ -1,22 +1,14 @@
-package com.popular_movies.ui.activity;
+package com.popular_movies.ui.moviedetail;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.AutoTransition;
-import android.transition.Explode;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
-import android.view.WindowManager;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.firebase.crash.FirebaseCrash;
-import com.popular_movies.ui.fragment.DetailedViewFragment;
 import com.popular_movies.R;
 import com.popular_movies.util.AppUtils;
 
@@ -60,13 +52,13 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         if(getSupportActionBar() != null) {
             Log.d("moviedetail", "action bar not null");
-            getSupportActionBar().setTitle(DetailedViewFragment.getInstance(getIntent().
+            getSupportActionBar().setTitle(MovieDetailFragment.getInstance(getIntent().
                     getParcelableExtra(getString(R.string.key_movie))).getTitle().toString());
         }
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.detailFragment, DetailedViewFragment.getInstance(getIntent()
+                    .replace(R.id.detailFragment, MovieDetailFragment.getInstance(getIntent()
                             .getParcelableExtra(getString(R.string.key_movie))), getString(R.string.tag))
                     .commit();
         }

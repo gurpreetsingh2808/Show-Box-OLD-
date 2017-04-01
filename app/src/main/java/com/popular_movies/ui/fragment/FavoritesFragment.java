@@ -15,10 +15,9 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.popular_movies.domain.MovieDataTable;
-import com.popular_movies.ui.activity.MainActivity;
+import com.popular_movies.ui.main.MainActivity;
 import com.popular_movies.R;
 import com.popular_movies.ui.adapter.FavouriteAdapter;
 

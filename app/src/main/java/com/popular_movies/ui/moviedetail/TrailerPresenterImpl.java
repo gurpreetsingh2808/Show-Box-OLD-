@@ -1,9 +1,7 @@
-package com.popular_movies.mvp.presenter;
+package com.popular_movies.ui.moviedetail;
 
 import android.app.Activity;
 
-import com.popular_movies.domain.MovieResponse;
-import com.popular_movies.domain.Trailer;
 import com.popular_movies.domain.TrailerResponse;
 import com.popular_movies.mvp.service.movie.MovieService;
 import com.popular_movies.mvp.service.movie.MovieServiceImpl;

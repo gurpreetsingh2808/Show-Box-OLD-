@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.popular_movies.ui.activity.MovieDetailActivity"
+    tools:context="com.popular_movies.ui.moviedetail.MovieDetailActivity"
     tools:showIn="@layout/activity_movie_detail">
 
     <FrameLayout

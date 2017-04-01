@@ -1,4 +1,4 @@
-package com.popular_movies.ui.fragment;
+package com.popular_movies.ui.main;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -17,15 +17,6 @@ import android.widget.ProgressBar;
 import com.popular_movies.R;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.domain.MovieResponse;
-import com.popular_movies.mvp.presenter.NowPlayingMoviesPresenter;
-import com.popular_movies.mvp.presenter.NowPlayingMoviesPresenterImpl;
-import com.popular_movies.mvp.presenter.PopularMoviesPresenter;
-import com.popular_movies.mvp.presenter.PopularMoviesPresenterImpl;
-import com.popular_movies.mvp.presenter.TopRatedMoviesPresenter;
-import com.popular_movies.mvp.presenter.TopRatedMoviesPresenterImpl;
-import com.popular_movies.mvp.presenter.UpcomingMoviesPresenter;
-import com.popular_movies.mvp.presenter.UpcomingMoviesPresenterImpl;
-import com.popular_movies.ui.activity.MainActivity;
 import com.popular_movies.ui.adapter.MovieAdapterHorizontal;
 import com.popular_movies.ui.adapter.MovieAdapterVertical;
 
@@ -36,8 +27,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
-        TopRatedMoviesPresenter.View, PopularMoviesPresenter.View, UpcomingMoviesPresenter.View, NowPlayingMoviesPresenter.View /*, MovieAdapterHorizontal.ClickListener*/{
+public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+        MainPresenter.View /*, MovieAdapterHorizontal.ClickListener*/{
 
     //  recycler view
     @BindView(R.id.rvTopRated)
@@ -66,17 +57,14 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private static final String KEY_TITLE = "KEY_TITLE";
     static String movieType;
     private View view;
-    private TopRatedMoviesPresenterImpl topRatedMoviesPresenterImpl;
-    private PopularMoviesPresenterImpl popularMoviesPresenterImpl;
-    private NowPlayingMoviesPresenterImpl nowPlayingMoviesPresenterImpl;
-    private UpcomingMoviesPresenterImpl upcomingMoviesPresenterImpl;
+    private MainPresenterImpl mainPresenterImpl;
 
-    public HomeFragment() {
+    public MainFragment() {
 
     }
 
-    public static HomeFragment getInstance(String title) {
-        HomeFragment fragment = new HomeFragment();
+    public static MainFragment getInstance(String title) {
+        MainFragment fragment = new MainFragment();
         Bundle bundle = new Bundle();
         bundle.putString(KEY_TITLE, title);
         //bundle.putString(fragment.getActivity().getString(R.string.key_title), title);
@@ -124,10 +112,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         refreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.progress_colors));
     */
 
-        topRatedMoviesPresenterImpl = new TopRatedMoviesPresenterImpl(this, getActivity());
-        popularMoviesPresenterImpl = new PopularMoviesPresenterImpl(this, getActivity());
-        nowPlayingMoviesPresenterImpl = new NowPlayingMoviesPresenterImpl(this, getActivity());
-        upcomingMoviesPresenterImpl = new UpcomingMoviesPresenterImpl(this, getActivity());
+        mainPresenterImpl = new MainPresenterImpl(this, getActivity());
 
         pbTopRated.setVisibility(View.VISIBLE);
         pbPopular.setVisibility(View.VISIBLE);
@@ -145,10 +130,11 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             pbTopRated.setVisibility(View.GONE);
             setHorizontalAdapter(movieDataList, rvTopRated);
         } else {
-            nowPlayingMoviesPresenterImpl.fetchNowPlayingMovies();
-            upcomingMoviesPresenterImpl.fetchUpcomingMovies();
-            popularMoviesPresenterImpl.fetchPopularMovies();
-            topRatedMoviesPresenterImpl.fetchTopRatedMovies();
+            mainPresenterImpl.fetchNowPlayingMovies();
+            mainPresenterImpl.fetchUpcomingMovies();
+            mainPresenterImpl.fetchTopRatedMovies();
+            mainPresenterImpl.fetchPopularMovies();
+            //mainPresenterImpl.fetchLatestMovies();
         }
     }
 
@@ -198,9 +184,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefresh() {
-        popularMoviesPresenterImpl.fetchPopularMovies();
-        topRatedMoviesPresenterImpl.fetchTopRatedMovies();
-        pbPopular.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -241,6 +224,16 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onUpcomingMoviesRetreivalFailure(Throwable throwable) {
         pbUpcoming.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onLatestMoviesRetreivalSuccess(MovieResponse movieResponse) {
+
+    }
+
+    @Override
+    public void onLatestMoviesRetreivalFailure(Throwable throwable) {
+
     }
 
     @Override

@@ -3,13 +3,9 @@ package com.popular_movies.mvp.service.movie;
 import android.app.Activity;
 
 import com.popular_movies.BuildConfig;
-import com.popular_movies.domain.MovieData;
 import com.popular_movies.domain.MovieResponse;
 import com.popular_movies.domain.ReviewResponse;
-import com.popular_movies.domain.Trailer;
 import com.popular_movies.domain.TrailerResponse;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -23,32 +19,32 @@ import retrofit2.http.Query;
 public interface MovieService {
 
     public interface MovieResource {
-        @GET("movie/{movieType}?api_key="+ BuildConfig.TMDB_API_KEY)
-   //     Call<MovieResponse> getMovies(@Path("movieType") String movieType, @Query("page") String page);
+        @GET("movie/{movieType}?api_key=" + BuildConfig.TMDB_API_KEY)
+            //     Call<MovieResponse> getMovies(@Path("movieType") String movieType, @Query("page") String page);
         Call<MovieResponse> getMovies(@Path("movieType") String movieType);
 
-        @GET("movie/popular?api_key="+ BuildConfig.TMDB_API_KEY)
+        @GET("movie/popular?api_key=" + BuildConfig.TMDB_API_KEY)
         Call<MovieResponse> getPopularMovies();
 
-        @GET("movie/top_rated?api_key="+ BuildConfig.TMDB_API_KEY)
+        @GET("movie/top_rated?api_key=" + BuildConfig.TMDB_API_KEY)
         Call<MovieResponse> getTopRatedMovies();
 
-        @GET("movie/upcoming?api_key="+ BuildConfig.TMDB_API_KEY)
+        @GET("movie/upcoming?api_key=" + BuildConfig.TMDB_API_KEY)
         Call<MovieResponse> getUpcomingMovies();
 
-        @GET("movie/latest?api_key="+ BuildConfig.TMDB_API_KEY)
+        @GET("movie/latest?api_key=" + BuildConfig.TMDB_API_KEY)
         Call<MovieResponse> getLatestMovies();
 
-        @GET("movie/now_playing?api_key="+ BuildConfig.TMDB_API_KEY)
+        @GET("movie/now_playing?api_key=" + BuildConfig.TMDB_API_KEY)
         Call<MovieResponse> getNowPlayingMovies();
 
-        @GET ("movie/{id}/videos?api_key="+ BuildConfig.TMDB_API_KEY)
+        @GET("movie/{id}/videos?api_key=" + BuildConfig.TMDB_API_KEY)
         Call<TrailerResponse> getTrailers(@Path("id") int id);
 
-        @GET ("movie/{id}/reviews?api_key="+BuildConfig.TMDB_API_KEY)
+        @GET("movie/{id}/reviews?api_key=" + BuildConfig.TMDB_API_KEY)
         Call<ReviewResponse> getReview(@Path("id") int id);
 
-        @GET ("search/movie?api_key="+BuildConfig.TMDB_API_KEY )
+        @GET("search/movie?api_key=" + BuildConfig.TMDB_API_KEY)
         Call<MovieResponse> getSearchResults(@Query("query") String searchQuery);
     }
 

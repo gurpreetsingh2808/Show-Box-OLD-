@@ -1,9 +1,8 @@
-package com.popular_movies.ui.fragment;
+package com.popular_movies.ui.moviedetail;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
@@ -16,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,18 +31,16 @@ import com.popular_movies.domain.Trailer;
 import com.popular_movies.domain.TrailerResponse;
 import com.popular_movies.util.DateConvert;
 import com.popular_movies.framework.ImageLoader;
-import com.popular_movies.mvp.presenter.TrailerPresenter;
-import com.popular_movies.mvp.presenter.TrailerPresenterImpl;
-import com.popular_movies.ui.activity.MainActivity;
+import com.popular_movies.ui.main.MainActivity;
 import com.popular_movies.ui.activity.ReviewActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.relex.circleindicator.CircleIndicator;
 
-public class DetailedViewFragment extends Fragment implements TrailerPresenter.View {
+public class MovieDetailFragment extends Fragment implements TrailerPresenter.View {
 
-    private static final String TAG = DetailedViewFragment.class.getSimpleName();
+    private static final String TAG = MovieDetailFragment.class.getSimpleName();
     //  toolbar
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -81,8 +77,8 @@ public class DetailedViewFragment extends Fragment implements TrailerPresenter.V
     private InterstitialAd mInterstitialAd;
     private View view;
 
-    public static DetailedViewFragment getInstance(Parcelable movie) {
-        DetailedViewFragment detailsFragment = new DetailedViewFragment();
+    public static MovieDetailFragment getInstance(Parcelable movie) {
+        MovieDetailFragment detailsFragment = new MovieDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(KEY_MOVIE, movie);
         //bundle.putParcelable(detailsFragment.getString(R.string.key_movie), movie);

@@ -1,4 +1,4 @@
-package com.popular_movies.ui.activity;
+package com.popular_movies.ui.main;
 
 import android.content.Context;
 import android.os.Build;
@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.ChangeClipBounds;
-import android.transition.Explode;
 import android.transition.Slide;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.popular_movies.R;
-import com.popular_movies.ui.fragment.HomeFragment;
 import com.popular_movies.util.AppUtils;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
 import com.yalantis.guillotine.interfaces.GuillotineListener;
@@ -72,13 +69,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.main_content, new HomeFragment())
+                    .replace(R.id.main_content, new MainFragment())
                     .commit();
         }
 
-        if (toolbar != null ) {
+        if (toolbar != null) {
             setSupportActionBar(toolbar);
-            if(getSupportActionBar() != null) {
+            if (getSupportActionBar() != null) {
                 getSupportActionBar().setTitle(null);
             }
         }
@@ -89,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *   This method adds navigation menu to rootview
+     * This method adds navigation menu to rootview
      */
     private void addMenu() {
         View guillotineMenu = LayoutInflater.from(this).inflate(R.layout.navigation, null);

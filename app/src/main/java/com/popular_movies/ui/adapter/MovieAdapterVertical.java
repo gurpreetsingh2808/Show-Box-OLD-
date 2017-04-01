@@ -19,9 +19,9 @@ import android.widget.TextView;
 import com.popular_movies.R;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.framework.ImageLoader;
-import com.popular_movies.ui.activity.MainActivity;
-import com.popular_movies.ui.activity.MovieDetailActivity;
-import com.popular_movies.ui.fragment.DetailedViewFragment;
+import com.popular_movies.ui.main.MainActivity;
+import com.popular_movies.ui.moviedetail.MovieDetailActivity;
+import com.popular_movies.ui.moviedetail.MovieDetailFragment;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class MovieAdapterVertical extends RecyclerView.Adapter<MovieAdapterVerti
             this.movieItemArrayList = movieDataList;
             if (MainActivity.mIsDualPane) {
                 ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.movie_detail, DetailedViewFragment.getInstance(movieItemArrayList.get(0)))
+                        .replace(R.id.movie_detail, MovieDetailFragment.getInstance(movieItemArrayList.get(0)))
                         .commit();
             }
         } else {
@@ -115,7 +115,7 @@ public class MovieAdapterVertical extends RecyclerView.Adapter<MovieAdapterVerti
                     public void onClick(View v) {
                         ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
                                 .setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top)
-                                .replace(R.id.movie_detail, DetailedViewFragment.getInstance(movieData))
+                                .replace(R.id.movie_detail, MovieDetailFragment.getInstance(movieData))
                                 .commit();
                     }
                 });

@@ -1,4 +1,4 @@
-package com.popular_movies.mvp.presenter;
+package com.popular_movies.ui.moviedetail;
 
 import com.popular_movies.domain.TrailerResponse;
 
