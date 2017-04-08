@@ -40,18 +40,22 @@ import com.popular_movies.domain.Trailer;
 import com.popular_movies.domain.TrailerResponse;
 import com.popular_movies.framework.util.animation.ExpandableTextView;
 import com.popular_movies.ui.adapter.ReviewsAdapter;
+import com.popular_movies.ui.adapter.TrailerAdapter;
 import com.popular_movies.util.DateConvert;
 import com.popular_movies.framework.ImageLoader;
 import com.popular_movies.ui.main.MainActivity;
 import com.popular_movies.ui.activity.ReviewActivity;
+import com.yarolegovich.discretescrollview.DiscreteScrollView;
+import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.relex.circleindicator.CircleIndicator;
 
-public class MovieDetailFragment extends Fragment implements MovieDetailPresenter.View, ReviewsAdapter.NavigateReviewListener {
+public class MovieDetailFragment extends Fragment implements MovieDetailPresenter.View, ReviewsAdapter.NavigateReviewListener, TrailerAdapter.TrailerClickListener {
 
     private static final String TAG = MovieDetailFragment.class.getSimpleName();
     //  toolbar
@@ -82,6 +86,8 @@ public class MovieDetailFragment extends Fragment implements MovieDetailPresente
     //  progress bar
     @BindView(R.id.pbReviews)
     ProgressBar pbReviews;
+    @BindView(R.id.pbTrailers)
+    ProgressBar pbTrailers;
 
     //  favoite icon
     @BindView(R.id.ivFavorite)
@@ -92,12 +98,11 @@ public class MovieDetailFragment extends Fragment implements MovieDetailPresente
 
     @BindView(R.id.diagonalLayout)
     DiagonalLayout diagonalLayout;
+    @BindView(R.id.dsvTrailers)
+    DiscreteScrollView dsvTrailers;
 
     private static final String KEY_MOVIE = "KEY_MOVIE";
-    AppBarLayout.OnOffsetChangedListener mListener;
-    String trailerKey = null;
     MovieData movieData;
-    private Cursor cursor;
     private InterstitialAd mInterstitialAd;
     private View view;
     private ReviewsAdapter reviewsAdapter;
@@ -154,20 +159,8 @@ public class MovieDetailFragment extends Fragment implements MovieDetailPresente
             });
 
             ImageLoader.loadBackdropImage(getContext(), movieData.getBackdrop_path(), toolbarImage);
-            toolbarImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (trailerKey != null) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(BuildConfig.BASE_URL_TRAILER + trailerKey));
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(getActivity(), getString(R.string.trailer_error), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
             ////ImageLoader.loadPosterImage(getContext(), movieData.getPoster_path(), toolbarImage, 4);
+
             ivFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -252,6 +245,16 @@ public class MovieDetailFragment extends Fragment implements MovieDetailPresente
         startActivity(intent);
     }
 
+    private void viewTrailerInYoutube(String trailerKey) {
+        if (trailerKey != null) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(BuildConfig.BASE_URL_TRAILER + trailerKey));
+            startActivity(intent);
+        } else {
+            Toast.makeText(getActivity(), getString(R.string.trailer_error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     public TextView getTitle() {
         return title;
@@ -268,7 +271,6 @@ public class MovieDetailFragment extends Fragment implements MovieDetailPresente
             rvReviews.setAdapter(reviewsAdapter);
         }
         /////////////////////////////////////////////
-        rvReviews.setVisibility(View.VISIBLE);
         pbReviews.setVisibility(View.GONE);
     }
 
@@ -281,18 +283,24 @@ public class MovieDetailFragment extends Fragment implements MovieDetailPresente
 
     @Override
     public void onTrailersRetreivalSuccess(TrailerResponse trailerResponse) {
+        pbTrailers.setVisibility(View.GONE);
+        List<Trailer> listTrailers = new ArrayList<>();
         if(getContext() != null) {
             for (Trailer trailer : trailerResponse.getResults()) {
                 if (trailer.getSite().equalsIgnoreCase(getContext().getString(R.string.youtube))) {
-                    trailerKey = trailer.getKey();
-                    break;
+                    listTrailers.add(trailer);
                 }
             }
+            dsvTrailers.setAdapter(new TrailerAdapter(listTrailers, this));
+            dsvTrailers.setItemTransformer(new ScaleTransformer.Builder()
+                    .setMinScale(0.8f)
+                    .build());
         }
     }
 
     @Override
     public void onTrailersRetreivalFailure(Throwable throwable) {
+        pbTrailers.setVisibility(View.GONE);
         Snackbar.make(view, getString(R.string.connection_error), Snackbar.LENGTH_LONG)
                 .show();
     }
@@ -307,5 +315,10 @@ public class MovieDetailFragment extends Fragment implements MovieDetailPresente
         if(pos > 0) {
             rvReviews.smoothScrollToPosition(pos - 1);
         }
+    }
+
+    @Override
+    public void onTrailerClick(String key) {
+        viewTrailerInYoutube(key);
     }
 }

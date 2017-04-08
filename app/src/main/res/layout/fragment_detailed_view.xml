@@ -279,10 +279,12 @@
                                 android:layout_below="@+id/tvHeadingTrailer"
                                 android:layout_marginTop="@dimen/margin_24">
 
-                                <android.support.v7.widget.RecyclerView
-                                    android:id="@+id/rvTrailers"
+                                <com.yarolegovich.discretescrollview.DiscreteScrollView
+                                    android:id="@+id/dsvTrailers"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"/>
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    app:dsv_orientation="horizontal"/>
 
                                 <ProgressBar
                                     android:id="@+id/pbTrailers"
@@ -428,7 +430,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_48">
+                    android:layout_marginTop="@dimen/margin_48"
+                    android:visibility="gone">
 
                     <Button
                         android:id="@+id/buttonUserReviews"
