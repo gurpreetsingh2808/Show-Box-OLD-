@@ -98,13 +98,14 @@ public class MovieAdapterHorizontal extends RecyclerView.Adapter<MovieAdapterHor
                     public void onClick(View v) {
                         Intent intent = new Intent(context, MovieDetailActivity.class);
                         intent.putExtra(context.getString(R.string.key_movie), movieData);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             AppBarLayout barLayout = (AppBarLayout) ((AppCompatActivity) context).findViewById(R.id.actionbar);
                             ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation((AppCompatActivity) context,
                                     Pair.create((View) thumbnail, context.getString(R.string.transition_name)),
                                     Pair.create((View) barLayout, context.getString(R.string.transition_name_action_bar)));
                             context.startActivity(intent, compat.toBundle());
                         } else
+                        */
                             context.startActivity(intent);
                     }
                 });

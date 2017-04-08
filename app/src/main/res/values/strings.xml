@@ -47,5 +47,6 @@
     <string name="Collection.NowPlaying">NOW PLAYING</string>
     <string name="Collection.Upcoming">UPCOMING</string>
     <string name="inTheaters">In theaters</string>
+    <string name="trailer">Trailers</string>
 
 </resources>

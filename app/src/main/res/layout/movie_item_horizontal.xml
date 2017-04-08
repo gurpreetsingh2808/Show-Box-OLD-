@@ -23,7 +23,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:adjustViewBounds="true"
-                android:transitionName="@string/transition_name"
                 android:scaleType="centerCrop"
                 android:contentDescription="@string/movie_icon"/>
 

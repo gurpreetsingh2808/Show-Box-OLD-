@@ -3,6 +3,7 @@ package com.popular_movies.ui.moviedetail;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
@@ -10,6 +11,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,9 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.florent37.diagonallayout.DiagonalLayout;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -27,18 +34,24 @@ import com.popular_movies.BuildConfig;
 import com.popular_movies.R;
 import com.popular_movies.database.MovieProviderHelper;
 import com.popular_movies.domain.MovieData;
+import com.popular_movies.domain.Review;
+import com.popular_movies.domain.ReviewResponse;
 import com.popular_movies.domain.Trailer;
 import com.popular_movies.domain.TrailerResponse;
+import com.popular_movies.framework.util.animation.ExpandableTextView;
+import com.popular_movies.ui.adapter.ReviewsAdapter;
 import com.popular_movies.util.DateConvert;
 import com.popular_movies.framework.ImageLoader;
 import com.popular_movies.ui.main.MainActivity;
 import com.popular_movies.ui.activity.ReviewActivity;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.relex.circleindicator.CircleIndicator;
 
-public class MovieDetailFragment extends Fragment implements TrailerPresenter.View {
+public class MovieDetailFragment extends Fragment implements MovieDetailPresenter.View, ReviewsAdapter.NavigateReviewListener {
 
     private static final String TAG = MovieDetailFragment.class.getSimpleName();
     //  toolbar
@@ -62,12 +75,23 @@ public class MovieDetailFragment extends Fragment implements TrailerPresenter.Vi
     @BindView(R.id.indicator)
     CircleIndicator indicator;
 
+    //  recycler view
+    @BindView(R.id.rvReviews)
+    RecyclerView rvReviews;
+
+    //  progress bar
+    @BindView(R.id.pbReviews)
+    ProgressBar pbReviews;
+
     //  favoite icon
     @BindView(R.id.ivFavorite)
     AppCompatImageView ivFavorite;
     //  button
     @BindView(R.id.buttonUserReviews)
     Button btnUserReview;
+
+    @BindView(R.id.diagonalLayout)
+    DiagonalLayout diagonalLayout;
 
     private static final String KEY_MOVIE = "KEY_MOVIE";
     AppBarLayout.OnOffsetChangedListener mListener;
@@ -76,6 +100,8 @@ public class MovieDetailFragment extends Fragment implements TrailerPresenter.Vi
     private Cursor cursor;
     private InterstitialAd mInterstitialAd;
     private View view;
+    private ReviewsAdapter reviewsAdapter;
+    private LinearLayoutManager layoutManagerReview;
 
     public static MovieDetailFragment getInstance(Parcelable movie) {
         MovieDetailFragment detailsFragment = new MovieDetailFragment();
@@ -99,7 +125,11 @@ public class MovieDetailFragment extends Fragment implements TrailerPresenter.Vi
         ButterKnife.bind(this, view);
 
         initializeAd();
+        diagonalLayout.setVisibility(View.VISIBLE);
         movieData = getArguments().getParcelable(getString(R.string.key_movie));
+        layoutManagerReview = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        rvReviews.setLayoutManager(layoutManagerReview);
+
         if (!MainActivity.mIsDualPane) {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
@@ -159,8 +189,9 @@ public class MovieDetailFragment extends Fragment implements TrailerPresenter.Vi
                 }
             });
 
-            TrailerPresenterImpl trailerPresenterImpl = new TrailerPresenterImpl(this, getActivity());
-            trailerPresenterImpl.fetchTrailers(movieData.getId());
+            MovieDetailPresenterImpl movieDetailPresenterImpl = new MovieDetailPresenterImpl(this, getActivity());
+            movieDetailPresenterImpl.fetchTrailers(movieData.getId());
+            movieDetailPresenterImpl.fetchReviews(movieData.getId());
 
         }
         if (MovieProviderHelper.getInstance().doesMovieExist(movieData.getId())) {
@@ -228,6 +259,27 @@ public class MovieDetailFragment extends Fragment implements TrailerPresenter.Vi
 
 
     @Override
+    public void onReviewsRetreivalSuccess(ReviewResponse reviewResponse) {
+        List<Review> reviewList = reviewResponse.getResults();
+        if (reviewList != null) {
+            SnapHelper snapHelper = new LinearSnapHelper();
+            snapHelper.attachToRecyclerView(rvReviews);
+            reviewsAdapter = new ReviewsAdapter(getContext(), reviewList, this);
+            rvReviews.setAdapter(reviewsAdapter);
+        }
+        /////////////////////////////////////////////
+        rvReviews.setVisibility(View.VISIBLE);
+        pbReviews.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onReviewsRetreivalFailure(Throwable throwable) {
+        Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.connection_error) , Snackbar.LENGTH_LONG)
+                .show();
+        pbReviews.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onTrailersRetreivalSuccess(TrailerResponse trailerResponse) {
         if(getContext() != null) {
             for (Trailer trailer : trailerResponse.getResults()) {
@@ -243,5 +295,17 @@ public class MovieDetailFragment extends Fragment implements TrailerPresenter.Vi
     public void onTrailersRetreivalFailure(Throwable throwable) {
         Snackbar.make(view, getString(R.string.connection_error), Snackbar.LENGTH_LONG)
                 .show();
+    }
+
+    @Override
+    public void onNextClick(int pos) {
+            rvReviews.smoothScrollToPosition(pos + 1);
+    }
+
+    @Override
+    public void onPreviousClick(int pos) {
+        if(pos > 0) {
+            rvReviews.smoothScrollToPosition(pos - 1);
+        }
     }
 }

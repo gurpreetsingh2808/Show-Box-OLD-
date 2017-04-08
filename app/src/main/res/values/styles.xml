@@ -48,7 +48,23 @@
         <item name="android:textSize">@dimen/navigation_item_text_size</item>
         <item name="android:textColor">@color/themeDark</item>
         <item name="fontPath">fonts/Brandon_Regular.otf</item>
+    </style>
 
+    <style name="TextView.MovieDetailDiagonalHeadings" parent="TextView">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">@dimen/diagonal_heading_text_size</item>
+        <item name="fontPath">fonts/Brandon_Regular.otf</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <style name="View.MovieDetailDiagonalHeadings" parent="AppTheme">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">@dimen/margin_8</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
 </resources>
