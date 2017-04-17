@@ -23,8 +23,8 @@ public class MoviesPresenterImpl implements MoviesPresenter.Presenter {
     }
 
     @Override
-    public void fetchMovies(String movieType) {
-        movieService.getMovies(movieType, activity, new MovieService.GetMoviesCallback() {
+    public void fetchMovies(String movieType, String pageNumber) {
+        movieService.getMovies(movieType, pageNumber, activity, new MovieService.GetMoviesCallback() {
             @Override
             public void onSuccess(MovieResponse movieResponse) {
                 view.onMoviesRetreivalSuccess(movieResponse);

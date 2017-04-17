@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.popular_movies.ui.movies_listing.MoviesListingActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/MovieListing.AppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/MovieListing.ToolBar"
+                style="@style/Toolbar">
+
+                <TextView
+                    android:id="@+id/tvToolbarTitleMoviesListing"
+                    style="@style/TextView.Menu"
+                    android:layout_gravity="center"
+                    android:text="@string/app_name_caps"
+                    android:textColor="@color/white" />
+
+            </android.support.v7.widget.Toolbar>
+        </FrameLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
+        android:id="@+id/movies_listing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize" />
+
+
+</android.support.design.widget.CoordinatorLayout>

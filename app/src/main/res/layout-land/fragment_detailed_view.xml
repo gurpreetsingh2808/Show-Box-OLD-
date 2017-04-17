@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lighterGrey"
-    tools:context="com.popular_movies.ui.moviedetail.MovieDetailActivity">
+    tools:context="com.popular_movies.ui.movie_details.MovieDetailActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -126,29 +126,23 @@
 
                             </RelativeLayout>
 
-                            <View
-                                android:layout_width="50dp"
-                                android:layout_height="0.5dp"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/text_margin"
-                                android:background="@color/pureBlack" />
-
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/margin_8"
+                                style="@style/TextView.MovieDetailDiagonalHeadings"
+                                android:layout_marginTop="@dimen/text_margin"
                                 android:text="@string/inTheaters"
-                                android:textColor="@color/black"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:textColor="@color/black" />
+
+                            <View
+                                style="@style/View.MovieDetailDiagonalHeadings"
+                                android:layout_gravity="center"
+                                />
 
                             <TextView
                                 android:id="@+id/releaseDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/margin_4"
+                                android:layout_marginTop="@dimen/margin_12"
                                 android:text="@string/empty_view_text"
                                 android:textColor="@color/grey"
                                 android:textSize="14sp"

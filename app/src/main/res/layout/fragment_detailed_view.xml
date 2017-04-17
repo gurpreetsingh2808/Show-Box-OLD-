@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="com.popular_movies.ui.moviedetail.MovieDetailActivity">
+    tools:context="com.popular_movies.ui.movie_details.MovieDetailActivity">
 
     <ScrollView
         android:layout_width="match_parent"

@@ -20,7 +20,7 @@ public class MoviesPresenter {
     }
 
     interface Presenter {
-        void fetchMovies(String movieType);
+        void fetchMovies(String movieType, String pageNumber);
 
         void getSearchResults(String query);
     }

@@ -1,12 +1,9 @@
-package com.popular_movies.ui.moviedetail;
+package com.popular_movies.ui.movie_details;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -38,7 +35,6 @@ import com.popular_movies.domain.Review;
 import com.popular_movies.domain.ReviewResponse;
 import com.popular_movies.domain.Trailer;
 import com.popular_movies.domain.TrailerResponse;
-import com.popular_movies.framework.util.animation.ExpandableTextView;
 import com.popular_movies.ui.adapter.ReviewsAdapter;
 import com.popular_movies.ui.adapter.TrailerAdapter;
 import com.popular_movies.util.DateConvert;

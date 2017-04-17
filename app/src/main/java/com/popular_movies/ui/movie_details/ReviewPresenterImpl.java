@@ -1,9 +1,8 @@
-package com.popular_movies.ui.moviedetail;
+package com.popular_movies.ui.movie_details;
 
 import android.app.Activity;
 
 import com.popular_movies.domain.ReviewResponse;
-import com.popular_movies.domain.TrailerResponse;
 import com.popular_movies.mvp.service.movie.MovieService;
 import com.popular_movies.mvp.service.movie.MovieServiceImpl;
 
@@ -13,13 +12,13 @@ import com.popular_movies.mvp.service.movie.MovieServiceImpl;
  */
 
 
-public class MovieDetailPresenterImpl implements MovieDetailPresenter.Presenter {
+public class ReviewPresenterImpl implements ReviewPresenter.Presenter {
 
-    private final MovieDetailPresenter.View view;
+    private final ReviewPresenter.View view;
     private final Activity activity;
     private MovieService movieService;
 
-    public MovieDetailPresenterImpl(MovieDetailPresenter.View view, Activity activity) {
+    public ReviewPresenterImpl(ReviewPresenter.View view, Activity activity) {
         this.view = view;
         this.activity = activity;
         this.movieService = new MovieServiceImpl();
@@ -36,21 +35,6 @@ public class MovieDetailPresenterImpl implements MovieDetailPresenter.Presenter 
             @Override
             public void onFailure(Throwable throwable) {
                 view.onReviewsRetreivalFailure(throwable);
-            }
-        });
-    }
-
-    @Override
-    public void fetchTrailers(int movieId) {
-        movieService.getTrailers(movieId, activity, new MovieService.GetTrailersCallback() {
-            @Override
-            public void onSuccess(TrailerResponse trailerResponse) {
-                view.onTrailersRetreivalSuccess(trailerResponse);
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                view.onTrailersRetreivalFailure(throwable);
             }
         });
     }

@@ -14,19 +14,19 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.moviedetail.MovieDetailActivity"
+            android:name=".ui.movie_details.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
             android:theme="@style/AppTheme.ActionBar.Transparent" />
         <activity
             android:name=".ui.activity.ReviewActivity"
             android:label="@string/title_activity_review"
-            android:parentActivityName=".ui.moviedetail.MovieDetailActivity"
+            android:parentActivityName=".ui.movie_details.MovieDetailActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.popular_movies.ui.moviedetail.MovieDetailActivity" />
+                android:value="com.popular_movies.ui.movie_details.MovieDetailActivity" />
         </activity>
 
         <receiver
@@ -45,6 +45,7 @@
             android:name=".database.MovieProvider"
             android:authorities="com.capstone.showbox"
             android:exported="false" />
+
         <service android:name=".widget.FavouritesWidgetService" />
 
         <activity android:name=".SplashActivity">
@@ -54,7 +55,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".ui.movies_listing.MoviesListingActivity"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,5 @@
-package com.popular_movies.ui.moviedetail;
+package com.popular_movies.ui.movie_details;
 
-import com.popular_movies.domain.MovieResponse;
 import com.popular_movies.domain.ReviewResponse;
 import com.popular_movies.domain.TrailerResponse;
 

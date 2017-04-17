@@ -1,15 +1,10 @@
 package com.popular_movies.ui.adapter;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +15,8 @@ import com.popular_movies.R;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.framework.ImageLoader;
 import com.popular_movies.ui.main.MainActivity;
-import com.popular_movies.ui.moviedetail.MovieDetailActivity;
-import com.popular_movies.ui.moviedetail.MovieDetailFragment;
+import com.popular_movies.ui.movie_details.MovieDetailActivity;
+import com.popular_movies.ui.movie_details.MovieDetailFragment;
 
 import java.util.List;
 

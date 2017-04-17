@@ -1,5 +1,6 @@
 package com.popular_movies.ui.main;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,12 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.popular_movies.R;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.domain.MovieResponse;
 import com.popular_movies.ui.adapter.MovieAdapterHorizontal;
 import com.popular_movies.ui.adapter.MovieAdapterVertical;
+import com.popular_movies.ui.movies_listing.MoviesListingActivity;
+import com.popular_movies.util.constants.IntentKeys;
+import com.popular_movies.util.constants.TitleKeyValues;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +33,7 @@ import butterknife.ButterKnife;
 
 
 public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
-        MainPresenter.View /*, MovieAdapterHorizontal.ClickListener*/{
+        MainPresenter.View, View.OnClickListener /*, MovieAdapterHorizontal.ClickListener*/ {
 
     //  recycler view
     @BindView(R.id.rvTopRated)
@@ -49,6 +54,15 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     ProgressBar pbNowPlaying;
     @BindView(R.id.pbUpcoming)
     ProgressBar pbUpcoming;
+
+    @BindView(R.id.tvNowPlayingViewAll)
+    TextView tvNowPlayingViewAll;
+    @BindView(R.id.tvUpcomingViewAll)
+    TextView tvUpcomingViewAll;
+    @BindView(R.id.tvTopRatedViewAll)
+    TextView tvTopRatedViewAll;
+    @BindView(R.id.tvPopularViewAll)
+    TextView tvPopularViewAll;
 
     public ArrayList<MovieData> movieDataList = new ArrayList<>();
     public MovieAdapterHorizontal adapterHorizontal;
@@ -76,8 +90,8 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.list_layout, container, false);
-        ButterKnife.bind(this,view);
+        view = inflater.inflate(R.layout.layout_main, container, false);
+        ButterKnife.bind(this, view);
 
         if (MainActivity.mIsDualPane) {
 
@@ -119,6 +133,11 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         pbNowPlaying.setVisibility(View.VISIBLE);
         pbUpcoming.setVisibility(View.VISIBLE);
 
+        tvNowPlayingViewAll.setOnClickListener(this);
+        tvTopRatedViewAll.setOnClickListener(this);
+        tvUpcomingViewAll.setOnClickListener(this);
+        tvPopularViewAll.setOnClickListener(this);
+
         return view;
     }
 
@@ -152,7 +171,7 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void setHorizontalAdapter(List<MovieData> listMovies, RecyclerView recyclerView) {
-        List<MovieData> movieDataList  = new ArrayList<>();
+        List<MovieData> movieDataList = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             movieDataList.add(listMovies.get(i));
         }
@@ -168,9 +187,9 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-         //   recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 5));
+            //   recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 5));
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-         //   recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+            //   recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         }
     }
 
@@ -178,7 +197,7 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (movieDataList != null) {
-            outState.putParcelableArrayList(getString(R.string.key_data),  movieDataList);
+            outState.putParcelableArrayList(getString(R.string.key_data), movieDataList);
         }
     }
 
@@ -195,21 +214,21 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onTopRatedMoviesRetreivalFailure(Throwable throwable) {
         pbTopRated.setVisibility(View.GONE);
-        Snackbar.make(view, getString(R.string.connection_error) , Snackbar.LENGTH_LONG)
+        Snackbar.make(view, getString(R.string.connection_error), Snackbar.LENGTH_LONG)
                 .show();
         //progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void onPopularMoviesRetreivalSuccess(MovieResponse movieResponse) {
-        setVerticalAdapter(movieResponse.getResults(),rvPopular);
+        setVerticalAdapter(movieResponse.getResults(), rvPopular);
         ////////// refreshLayout.setRefreshing(false);
         pbPopular.setVisibility(View.GONE);
     }
 
     @Override
     public void onPopularMoviesRetreivalFailure(Throwable throwable) {
-        Snackbar.make(view, getString(R.string.connection_error) , Snackbar.LENGTH_LONG)
+        Snackbar.make(view, getString(R.string.connection_error), Snackbar.LENGTH_LONG)
                 .show();
         //////////// refreshLayout.setRefreshing(false);
         pbPopular.setVisibility(View.GONE);
@@ -246,4 +265,30 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onNowPlayingMoviesRetreivalFailure(Throwable throwable) {
         pbNowPlaying.setVisibility(View.GONE);
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tvNowPlayingViewAll:
+                openMoviesListing(IntentKeys.KEY_NOW_PLAYING, TitleKeyValues.now_playing);
+                break;
+            case R.id.tvUpcomingViewAll:
+                openMoviesListing(IntentKeys.KEY_UPCOMING, TitleKeyValues.upcoming);
+                break;
+            case R.id.tvTopRatedViewAll:
+                openMoviesListing(IntentKeys.KEY_TOP_RATED, TitleKeyValues.top_rated);
+                break;
+            case R.id.tvPopularViewAll:
+                openMoviesListing(IntentKeys.KEY_POPULAR, TitleKeyValues.popular);
+                break;
+        }
+    }
+
+    private void openMoviesListing(String movieType, String title) {
+        Intent intent = new Intent(getActivity(), MoviesListingActivity.class);
+        intent.putExtra(getString(R.string.key_movie_type), movieType);
+        intent.putExtra(getString(R.string.key_title), title);
+        startActivity(intent);
+    }
+
 }

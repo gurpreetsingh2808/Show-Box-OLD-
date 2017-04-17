@@ -18,9 +18,9 @@ import retrofit2.Response;
 public class MovieServiceImpl implements MovieService {
 
     @Override
-    public void getMovies(String movieType, final Activity activity, final GetMoviesCallback getMoviesCardCalback) {
+    public void getMovies(String movieType, String pageNumber, final Activity activity, final GetMoviesCallback getMoviesCardCalback) {
         MovieResource movieResource = ResourceBuilder.buildResource(MovieResource.class, activity);
-        Call<MovieResponse> call = movieResource.getMovies(movieType);
+        Call<MovieResponse> call = movieResource.getMovies(movieType, pageNumber);
         call.enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {

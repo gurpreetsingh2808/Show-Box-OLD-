@@ -1,4 +1,4 @@
-package com.popular_movies.ui.moviedetail;
+package com.popular_movies.ui.movie_details;
 
 import android.content.Context;
 import android.os.Build;

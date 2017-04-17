@@ -20,8 +20,8 @@ public interface MovieService {
 
     public interface MovieResource {
         @GET("movie/{movieType}?api_key=" + BuildConfig.TMDB_API_KEY)
-            //     Call<MovieResponse> getMovies(@Path("movieType") String movieType, @Query("page") String page);
-        Call<MovieResponse> getMovies(@Path("movieType") String movieType);
+        Call<MovieResponse> getMovies(@Path("movieType") String movieType, @Query("page") String page);
+        //Call<MovieResponse> getMovies(@Path("movieType") String movieType);
 
         @GET("movie/popular?api_key=" + BuildConfig.TMDB_API_KEY)
         Call<MovieResponse> getPopularMovies();
@@ -51,7 +51,7 @@ public interface MovieService {
     /**
      * Get movies model
      */
-    void getMovies(String movieType, Activity activity, GetMoviesCallback getMoviesCardCalback);
+    void getMovies(String movieType, String pageNumber, Activity activity, GetMoviesCallback getMoviesCardCalback);
 
     interface GetMoviesCallback {
         void onSuccess(MovieResponse movieResponse);

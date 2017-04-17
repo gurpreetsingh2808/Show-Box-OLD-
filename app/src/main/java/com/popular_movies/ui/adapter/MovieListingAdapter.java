@@ -2,6 +2,7 @@ package com.popular_movies.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.popular_movies.R;
@@ -26,15 +28,17 @@ import butterknife.ButterKnife;
 /**
  * Created by Gurpreet on 1/17/2016.
  */
-public class MovieAdapterVertical extends RecyclerView.Adapter<MovieAdapterVertical.ViewHolder> {
+public class MovieListingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static String TAG = MovieAdapterVertical.class.getSimpleName();
+    private static String TAG = MovieListingAdapter.class.getSimpleName();
     private List<MovieData> movieItemArrayList;
     private LayoutInflater inflater;
     private Context context;
-    private static ClickListener clickListener;
+    private ClickListener clickListener;
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
 
-    public MovieAdapterVertical(Context context, List<MovieData> movieDataList) {
+    public MovieListingAdapter(Context context, List<MovieData> movieDataList) {
         if (context != null) {
             this.context = context;
             inflater = LayoutInflater.from(context);
@@ -50,27 +54,72 @@ public class MovieAdapterVertical extends RecyclerView.Adapter<MovieAdapterVerti
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.movie_item_vertical, parent, false);
-        return new ViewHolder(view);
+    public int getItemViewType(int position) {
+        return movieItemArrayList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        final MovieData movieData = movieItemArrayList.get(position);
-        holder.setData(movieData);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View view = inflater.inflate(R.layout.item_movie_listing, parent, false);
+            return new MovieViewHolder(view);
+        } else if (viewType == VIEW_TYPE_LOADING) {
+            View view = inflater.inflate(R.layout.item_pagination_loader, parent, false);
+            return new LoadingViewHolder(view);
+        }
+        return null;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof MovieViewHolder) {
+            final MovieData movieData = movieItemArrayList.get(position);
+            MovieViewHolder movieViewHolder = (MovieViewHolder) holder;
+            movieViewHolder.setData(movieData);
+
+        } else if (holder instanceof LoadingViewHolder) {
+            LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
+            //loadingViewHolder.progressBar.setIndeterminate(true);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return movieItemArrayList == null ? 0 : movieItemArrayList.size();
+    }
+
+    public void addAll(List<MovieData> results) {
+        movieItemArrayList.addAll(results);
+        notifyDataSetChanged();
+    }
+
+    public void add(MovieData movie) {
+        movieItemArrayList.add(movie);
+        Handler handler = new Handler();
+        final Runnable r = new Runnable() {
+            public void run() {
+                notifyItemInserted(movieItemArrayList.size() - 1);
+            }
+        };
+
+        handler.post(r);
+    }
+
+    public void remove() {
+        movieItemArrayList.remove(movieItemArrayList.size() - 1);
+        notifyItemRemoved(movieItemArrayList.size());
+    }
+
+    class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.movie_title)
         TextView title;
         @BindView(R.id.movie_thumbnail)
         ImageView thumbnail;
-        @BindView(R.id.movie_synopsis)
-        TextView synopsis;
+        @BindView(R.id.tvRating)
+        TextView tvRating;
         //public MovieAdapterHorizontal.ClickListener clickListener;
 
-        ViewHolder(View itemView) {
+        MovieViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
@@ -78,15 +127,15 @@ public class MovieAdapterVertical extends RecyclerView.Adapter<MovieAdapterVerti
 
         @Override
         public void onClick(View v) {
-            if (MovieAdapterHorizontal.clickListener != null) {
-                MovieAdapterHorizontal.clickListener.itemClicked(v, getPosition());
+            if (clickListener != null) {
+                clickListener.itemClicked(v, getPosition());
             }
         }
 
         private void setData(final MovieData movieData) {
             title.setText(movieData.getOriginal_title());
             ImageLoader.loadPosterImage(context, movieData.getPoster_path(), thumbnail);
-            synopsis.setText(movieData.getOverview());
+            tvRating.setText(movieData.getVote_average());
 
             if (!MainActivity.mIsDualPane) {
                 thumbnail.setOnClickListener(new View.OnClickListener() {
@@ -118,13 +167,17 @@ public class MovieAdapterVertical extends RecyclerView.Adapter<MovieAdapterVerti
         }
     }
 
-    public void setClickListener(ClickListener clickListener) {
-        this.clickListener = clickListener;
+    class LoadingViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.pbPagination)
+        ProgressBar progressBar;
+
+        LoadingViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 
-    @Override
-    public int getItemCount() {
-        return movieItemArrayList.size();
+    public void setClickListener(ClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 
     public interface ClickListener {
