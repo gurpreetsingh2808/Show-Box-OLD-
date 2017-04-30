@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <com.emilsjolander.components.StickyScrollViewItems.StickyScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lighterGrey"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--     NOW PLAYING MOVIES REGION STARTS HERE  -->
+
+            <RelativeLayout
+                android:id="@+id/rlNowPlayingOuter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rlNowPlaying"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/lighterGrey"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="sticky">
+
+                    <TextView
+                        fontPath="fonts/Brandon_Bold.otf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="20dp"
+                        android:singleLine="true"
+                        android:text="@string/Collection.NowPlaying"
+                        android:textColor="@color/black"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        android:id="@+id/tvNowPlayingViewAll"
+                        fontPath="fonts/Brandon_Regular.otf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical|end"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/Collection.ViewAll"
+                        android:textColor="@color/colorPrimary"
+                        tools:ignore="MissingPrefix" />
+
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvNowPlaying"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rlNowPlaying"
+                    android:orientation="vertical" />
+
+                <ProgressBar
+                    android:id="@+id/pbNowPlaying"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="65dp"
+                    android:background="@drawable/circular_progress_bar_bg"
+                    android:elevation="8dp"
+                    android:padding="8dp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <!--     LATEST MOVIES REGION ENDS HERE  -->
+
+            <!--     UPCOMING MOVIES REGION STARTS HERE  -->
+
+            <RelativeLayout
+                android:id="@+id/rlUpcomingOuter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/rlNowPlayingOuter"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"   >
+
+                <RelativeLayout
+                    android:id="@+id/rlUpcoming"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/lighterGrey"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="sticky">
+
+                    <TextView
+                        fontPath="fonts/Brandon_Bold.otf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="20dp"
+                        android:singleLine="true"
+                        android:text="@string/Collection.Upcoming"
+                        android:textColor="@color/black"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        android:id="@+id/tvUpcomingViewAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|end"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="16dp"
+                        android:paddingLeft="16dp"
+                        android:textColor="@color/colorPrimary"
+                        android:text="@string/Collection.ViewAll"
+                        fontPath="fonts/Brandon_Regular.otf"
+                        tools:ignore="MissingPrefix"/>
+
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvUpcoming"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rlUpcoming"
+                    android:orientation="vertical" />
+
+                <ProgressBar
+                    android:id="@+id/pbUpcoming"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="65dp"
+                    android:background="@drawable/circular_progress_bar_bg"
+                    android:elevation="8dp"
+                    android:padding="8dp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <!--     UPCOMING MOVIES REGION ENDS HERE  -->
+
+            <!--     TOP RATED MOVIES REGION STARTS HERE  -->
+
+            <RelativeLayout
+                android:id="@+id/rlOuterTopRated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlUpcomingOuter">
+
+                <RelativeLayout
+                    android:id="@+id/rlTopRated"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/lighterGrey"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="sticky">
+
+                    <TextView
+                        fontPath="fonts/Brandon_Bold.otf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="20dp"
+                        android:singleLine="true"
+                        android:text="@string/Collection.TopRated"
+                        android:textColor="@color/black"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        android:id="@+id/tvTopRatedViewAll"
+                        fontPath="fonts/Brandon_Regular.otf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical|end"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/Collection.ViewAll"
+                        android:textColor="@color/colorPrimary"
+                        tools:ignore="MissingPrefix" />
+
+                </RelativeLayout>
+
+                <!--
+
+                                <android.support.v4.widget.SwipeRefreshLayout
+                                    android:id="@+id/refresh"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/rlTopRated">
+                -->
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvTopRated"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rlTopRated"
+                    android:orientation="horizontal" />
+                <!--
+
+                                </android.support.v4.widget.SwipeRefreshLayout>
+                -->
+
+
+                <ProgressBar
+                    android:id="@+id/pbTopRated"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="65dp"
+                    android:background="@drawable/circular_progress_bar_bg"
+                    android:elevation="8dp"
+                    android:padding="8dp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <!--     TOP RATED MOVIES REGION ENDS HERE  -->
+
+            <!--     POPULAR MOVIES REGION STARTS HERE  -->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/rlOuterTopRated"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rlPopular"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/lighterGrey"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:tag="sticky">
+
+                    <TextView
+                        fontPath="fonts/Brandon_Bold.otf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="20dp"
+                        android:singleLine="true"
+                        android:text="@string/Collection.Popular"
+                        android:textColor="@color/black"
+                        tools:ignore="MissingPrefix" />
+
+                    <TextView
+                        android:id="@+id/tvPopularViewAll"
+                        fontPath="fonts/Brandon_Regular.otf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical|end"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="@string/Collection.ViewAll"
+                        android:textColor="@color/colorPrimary"
+                        tools:ignore="MissingPrefix" />
+
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvPopular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rlPopular"
+                    android:orientation="vertical" />
+
+                <ProgressBar
+                    android:id="@+id/pbPopular"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="65dp"
+                    android:background="@drawable/circular_progress_bar_bg"
+                    android:elevation="8dp"
+                    android:padding="8dp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <!--    POPULAR MOVIES REGION ENDS HERE  -->
+
+
+        </RelativeLayout>
+
+    </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>
+</FrameLayout>

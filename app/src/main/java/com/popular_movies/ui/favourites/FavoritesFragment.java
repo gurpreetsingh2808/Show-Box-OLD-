@@ -1,4 +1,4 @@
-package com.popular_movies.ui.fragment;
+package com.popular_movies.ui.favourites;
 
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import com.popular_movies.domain.MovieDataTable;
 import com.popular_movies.ui.main.MainActivity;
 import com.popular_movies.R;
-import com.popular_movies.ui.adapter.FavouriteAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,12 +38,12 @@ public class FavoritesFragment extends Fragment implements LoaderManager.LoaderC
         View layout = inflater.inflate(R.layout.favorites_list, container, false);
         ButterKnife.bind(this, layout);
 
-        if (MainActivity.mIsDualPane) {
+        if (getResources().getBoolean(R.bool.isTablet)) {
             DisplayMetrics metrics = getResources().getDisplayMetrics();
             int width = (int) (metrics.widthPixels / metrics.density);
             //For Tabs
-            boolean isTablet = getResources().getBoolean(R.bool.isTablet);
-            width = isTablet ? (width / 2) : width;
+            ///////////////////////////boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+            ///////////////////////////width = isTablet ? (width / 2) : width;
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), width / 140));
         } else {
             if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)

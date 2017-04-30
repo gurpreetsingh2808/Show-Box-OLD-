@@ -1,4 +1,4 @@
-package com.popular_movies.mvp.service.interceptors;
+package com.popular_movies.service.interceptors;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.popular_movies.mvp.service.ApiErrorResponse;
+import com.popular_movies.service.ApiErrorResponse;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;

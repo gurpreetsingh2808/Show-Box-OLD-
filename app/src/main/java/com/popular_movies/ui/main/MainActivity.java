@@ -1,11 +1,13 @@
 package com.popular_movies.ui.main;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.ChangeClipBounds;
 import android.transition.Slide;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +26,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
-    public static boolean mIsDualPane;
 
     //  toolbar
     @BindView(R.id.toolbar)
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
             getWindow().setEnterTransition(new Slide());
             getWindow().setExitTransition(new Slide());
-            //getWindow().setSharedElementExitTransition(new ChangeClipBounds());
+            getWindow().setSharedElementExitTransition(new ChangeClipBounds());
         }
     }
 
@@ -64,11 +65,10 @@ public class MainActivity extends AppCompatActivity {
         AppUtils.initializeCalligraphy();
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        mIsDualPane = detailView != null && detailView.getVisibility() == View.VISIBLE;
         setSupportActionBar(toolbar);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
+                    //.replace(R.id.main_content, new MainFragment())
                     .replace(R.id.main_content, new MainFragment())
                     .commit();
         }
@@ -116,7 +116,15 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //  to replace the single pane fragment with the dual pane one
+        getSupportFragmentManager().beginTransaction()
+                //.replace(R.id.main_content, new MainFragment())
+                .replace(R.id.main_content, new MainFragment())
+                .commit();
+    }
 }
 
 

@@ -1,4 +1,4 @@
-package com.popular_movies.ui.adapter;
+package com.popular_movies.ui.movie_details;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

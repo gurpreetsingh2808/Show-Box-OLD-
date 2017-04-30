@@ -1,9 +1,9 @@
-package com.popular_movies.mvp;
+package com.popular_movies.service;
 
 import android.app.Activity;
 
 import com.popular_movies.BuildConfig;
-import com.popular_movies.mvp.service.interceptors.ErrorInterceptor;
+import com.popular_movies.service.interceptors.ErrorInterceptor;
 
 import java.util.concurrent.TimeUnit;
 

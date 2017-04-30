@@ -1,4 +1,4 @@
-package com.popular_movies.mvp.service;
+package com.popular_movies.service;
 
 /**
  * <code>ApiErrorResponse</code> represents an error which is sent by the backend api

@@ -21,6 +21,5 @@ public class MovieDetailPresenter {
     interface Presenter {
         void fetchReviews(int movieId);
         void fetchTrailers(int movieId);
-
     }
 }

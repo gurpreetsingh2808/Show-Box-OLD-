@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -19,9 +20,11 @@ import android.widget.TextView;
 import com.popular_movies.R;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.domain.MovieResponse;
-import com.popular_movies.ui.adapter.MovieAdapterHorizontal;
-import com.popular_movies.ui.adapter.MovieAdapterVertical;
+import com.popular_movies.ui.MovieItemClickListener;
+import com.popular_movies.ui.movie_details.MovieDetailActivity;
+import com.popular_movies.ui.movie_details.MovieDetailFragment;
 import com.popular_movies.ui.movies_listing.MoviesListingActivity;
+import com.popular_movies.util.AppUtils;
 import com.popular_movies.util.constants.IntentKeys;
 import com.popular_movies.util.constants.TitleKeyValues;
 
@@ -33,7 +36,7 @@ import butterknife.ButterKnife;
 
 
 public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
-        MainPresenter.View, View.OnClickListener /*, MovieAdapterHorizontal.ClickListener*/ {
+        MainPresenter.View, View.OnClickListener,  MovieItemClickListener  {
 
     //  recycler view
     @BindView(R.id.rvTopRated)
@@ -93,25 +96,11 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         view = inflater.inflate(R.layout.layout_main, container, false);
         ButterKnife.bind(this, view);
 
-        if (MainActivity.mIsDualPane) {
-
-            DisplayMetrics metrics = getResources().getDisplayMetrics();
-            int width = (int) (metrics.widthPixels / metrics.density);
-            //For Tabs
-            boolean isTablet = getResources().getBoolean(R.bool.isTablet);
-            //width = isTablet ? (width / 2) : width;
-            //recyclerView.setLayoutManager(new GridLayoutManager(getContext(), width / 140));
-            rvTopRated.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             rvPopular.setLayoutManager(new LinearLayoutManager(getContext()));
-            rvNowPlaying.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             rvUpcoming.setLayoutManager(new LinearLayoutManager(getContext()));
-        } else {
+        rvTopRated.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvNowPlaying.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-            rvTopRated.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            rvPopular.setLayoutManager(new LinearLayoutManager(getContext()));
-            rvNowPlaying.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            rvUpcoming.setLayoutManager(new LinearLayoutManager(getContext()));
-        }
         rvPopular.setHasFixedSize(true);
         rvPopular.setNestedScrollingEnabled(false);
         rvTopRated.setHasFixedSize(true);
@@ -163,6 +152,7 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             movieDataList.add(listMovies.get(i));
         }
         adapterVertical = new MovieAdapterVertical(getContext(), movieDataList);
+        adapterVertical.setClickListener(this);
         if (recyclerView.getAdapter() != null) {
             recyclerView.swapAdapter(adapterVertical, false);
         } else {
@@ -176,6 +166,7 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             movieDataList.add(listMovies.get(i));
         }
         adapterHorizontal = new MovieAdapterHorizontal(getContext(), movieDataList);
+        adapterHorizontal.setClickListener(this);
         if (recyclerView.getAdapter() != null) {
             recyclerView.swapAdapter(adapterHorizontal, false);
         } else {
@@ -186,11 +177,13 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            //   recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 5));
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            //   recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        }
+            if (AppUtils.isTablet(getContext()) && newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                rvPopular.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                rvUpcoming.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            } else {
+                rvPopular.setLayoutManager(new LinearLayoutManager(getContext()));
+                rvUpcoming.setLayoutManager(new LinearLayoutManager(getContext()));
+            }
     }
 
     @Override
@@ -291,4 +284,27 @@ public class MainFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         startActivity(intent);
     }
 
+
+    @Override
+    public void itemClicked(View view, int position, MovieData movieData) {
+        if (AppUtils.isTablet(getContext()) && AppUtils.isLandscape(getContext())) {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top)
+                    .replace(R.id.movie_detail, MovieDetailFragment.getInstance(movieData))
+                    .commit();
+        }
+        else {
+            Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+            intent.putExtra(getString(R.string.key_movie), movieData);
+                        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            AppBarLayout barLayout = (AppBarLayout) ((AppCompatActivity) context).findViewById(R.id.actionbar);
+                            ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation((AppCompatActivity) context,
+                                    Pair.create((View) thumbnail, context.getString(R.string.transition_name)),
+                                    Pair.create((View) barLayout, context.getString(R.string.transition_name_action_bar)));
+                            context.startActivity(intent, compat.toBundle());
+                        } else*/
+            startActivity(intent);
+        }
+
+    }
 }

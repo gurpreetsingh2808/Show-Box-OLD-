@@ -1,11 +1,15 @@
-package com.popular_movies.mvp.service.movie;
+package com.popular_movies.service.movie;
 
 import android.app.Activity;
 
 import com.popular_movies.BuildConfig;
+import com.popular_movies.domain.Genre;
+import com.popular_movies.domain.GenreResponse;
 import com.popular_movies.domain.MovieResponse;
 import com.popular_movies.domain.ReviewResponse;
 import com.popular_movies.domain.TrailerResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -46,6 +50,9 @@ public interface MovieService {
 
         @GET("search/movie?api_key=" + BuildConfig.TMDB_API_KEY)
         Call<MovieResponse> getSearchResults(@Query("query") String searchQuery);
+
+        @GET("genre/movie/list?api_key=" + BuildConfig.TMDB_API_KEY)
+        Call<GenreResponse> getGenres();
     }
 
     /**
@@ -88,7 +95,6 @@ public interface MovieService {
 
     interface GetReviewsCallback {
         void onSuccess(ReviewResponse reviewResponse);
-
         void onFailure(Throwable throwable);
     }
 
@@ -96,5 +102,15 @@ public interface MovieService {
      * search model
      */
     void getSearchResults(String query, Activity activity, GetMoviesCallback getMoviesCardCalback);
+
+    /**
+     * genre model
+     */
+    void getGenre(Activity activity, FetchGenresCallback fetchGenresCallback);
+
+    interface FetchGenresCallback {
+        void onSuccess(GenreResponse genreResponse);
+        void onFailure(Throwable throwable);
+    }
 
 }

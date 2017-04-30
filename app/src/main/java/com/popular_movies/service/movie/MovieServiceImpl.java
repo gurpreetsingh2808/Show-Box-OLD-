@@ -1,11 +1,15 @@
-package com.popular_movies.mvp.service.movie;
+package com.popular_movies.service.movie;
 
 import android.app.Activity;
 
+import com.popular_movies.domain.Genre;
+import com.popular_movies.domain.GenreResponse;
 import com.popular_movies.domain.MovieResponse;
 import com.popular_movies.domain.ReviewResponse;
 import com.popular_movies.domain.TrailerResponse;
-import com.popular_movies.mvp.ResourceBuilder;
+import com.popular_movies.service.ResourceBuilder;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -216,6 +220,28 @@ public class MovieServiceImpl implements MovieService {
             public void onFailure(Call<MovieResponse> call, Throwable t) {
                 if (!call.isCanceled()) {
                     getMoviesCallback.onFailure(t);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getGenre(Activity activity, final FetchGenresCallback fetchGenresCallback) {
+        MovieResource movieResource = ResourceBuilder.buildResource(MovieResource.class, activity);
+        Call<GenreResponse> call = movieResource.getGenres();
+        call.enqueue(new Callback<GenreResponse>() {
+            @Override
+            public void onResponse(Call<GenreResponse> call, Response<GenreResponse> response) {
+                if (response.body() != null && response.isSuccessful())
+                    fetchGenresCallback.onSuccess(response.body());
+                else
+                    fetchGenresCallback.onFailure(new Throwable("Error"));
+            }
+
+            @Override
+            public void onFailure(Call<GenreResponse> call, Throwable t) {
+                if (!call.isCanceled()) {
+                    fetchGenresCallback.onFailure(t);
                 }
             }
         });

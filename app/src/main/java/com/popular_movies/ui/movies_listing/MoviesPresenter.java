@@ -1,5 +1,7 @@
-package com.popular_movies.mvp.presenter;
+package com.popular_movies.ui.movies_listing;
 
+import com.popular_movies.domain.Genre;
+import com.popular_movies.domain.GenreResponse;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.domain.MovieResponse;
 
@@ -12,16 +14,15 @@ import java.util.List;
 public class MoviesPresenter {
 
     public interface View {
-        //  handle response
         void onMoviesRetreivalSuccess(MovieResponse movieResponse);
-
-        //  handle failure
         void onMoviesRetreivalFailure(Throwable throwable);
+        void onGenresRetreivalSuccess(GenreResponse genreResponse);
+        void onGenresRetreivalFailure(Throwable throwable);
     }
 
     interface Presenter {
         void fetchMovies(String movieType, String pageNumber);
-
+        void fetchGenres();
         void getSearchResults(String query);
     }
 }

@@ -1,4 +1,4 @@
-package com.popular_movies.ui.adapter;
+package com.popular_movies.ui.favourites;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.popular_movies.R;
 import com.popular_movies.domain.MovieData;
@@ -17,13 +19,17 @@ import com.popular_movies.framework.ImageLoader;
 import com.popular_movies.ui.main.MainActivity;
 import com.popular_movies.ui.movie_details.MovieDetailActivity;
 import com.popular_movies.ui.movie_details.MovieDetailFragment;
+import com.popular_movies.util.AppUtils;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Gurpreet on 1/17/2016.
  */
-public class FavouriteAdapter extends RecyclerView.Adapter<MyViewHolder> {
+public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyViewHolder> {
 
     private static String TAG = FavouriteAdapter.class.getSimpleName();
     private List<MovieData> movieItemArrayList;
@@ -69,23 +75,23 @@ public class FavouriteAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
         final MovieData movieData = new MovieData(title, description, posterPath, backdrop, voteAverage, new java.sql.Date(Long.valueOf(releaseDate)), Integer.valueOf(id));
 
-        if (!MainActivity.mIsDualPane) {
-            holder.thumbnail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, MovieDetailActivity.class);
-                    intent.putExtra(context.getString(R.string.key_movie), movieData);
-                        context.startActivity(intent);
-                }
-            });
-        } else {
-            holder.thumbnail.setOnClickListener(new View.OnClickListener() {
+        if (AppUtils.isTablet(context) && AppUtils.isLandscape(context)) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top)
                             .replace(R.id.movie_detail, MovieDetailFragment.getInstance(movieData))
                             .commit();
+                }
+            });
+        } else {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, MovieDetailActivity.class);
+                    intent.putExtra(context.getString(R.string.key_movie), movieData);
+                    context.startActivity(intent);
                 }
             });
         }
@@ -110,6 +116,29 @@ public class FavouriteAdapter extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public int getItemCount() {
          return (dataCursor == null) ? 0 : dataCursor.getCount();
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @BindView(R.id.movie_title)
+        TextView title;
+        @BindView(R.id.movie_thumbnail)
+        ImageView thumbnail;
+        //public MovieAdapterHorizontal.ClickListener clickListener;
+
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(clickListener!=null) {
+                clickListener.itemClicked(v, getPosition());
+            }
+        }
     }
 
     public interface ClickListener {

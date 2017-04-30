@@ -6,100 +6,149 @@
     android:layout_height="wrap_content"
     android:foreground="?selectableItemBackground">
 
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_margin="10dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="131dp"
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/movie_thumbnail"
-                    android:layout_width="90dp"
-                    android:layout_height="120dp"
-                    android:adjustViewBounds="true"
-                    android:background="@color/bgPrimary"
-                    android:contentDescription="@string/movie_icon"
-                    android:scaleType="centerCrop" />
+            <ImageView
+                android:id="@+id/movie_thumbnail"
+                android:layout_width="90dp"
+                android:layout_height="130dp"
+                android:adjustViewBounds="true"
+                android:background="@color/bgPrimary"
+                android:contentDescription="@string/movie_icon"
+                android:scaleType="centerCrop" />
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/movie_thumbnail"
+                android:layout_marginLeft="@dimen/margin_12"
+                android:layout_marginTop="@dimen/margin_12"
+                android:layout_marginRight="@dimen/margin_12"
                 android:visibility="visible">
 
                 <TextView
                     android:id="@+id/movie_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_12"
                     android:text="@string/empty_view_text"
-                    android:textSize="15sp" />
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvReleaseYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/movie_title"
+                    android:layout_marginTop="@dimen/margin_4"
+                    android:text="@string/empty_view_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvGenre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvReleaseYear"
+                    android:layout_marginTop="@dimen/margin_4"
+                    android:text="@string/empty_view_text"
+                    android:textSize="14sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/lightGrey"
-                    android:layout_marginRight="@dimen/margin_8"
-                    android:layout_marginLeft="@dimen/margin_8"
-                    android:layout_above="@+id/llFooter"/>
-
-                    <LinearLayout
-                        android:id="@+id/llFooter"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:weightSum="3"
-android:gravity="center_vertical|end"
-                        android:layout_alignParentBottom="true">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:layout_weight="1">
-
-                            <android.support.v7.widget.AppCompatImageView
-                                android:id="@+id/ivFavorite"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                app:srcCompat="@drawable/ic_favorite_border" />
-                        </LinearLayout>
+                    android:layout_above="@+id/llFooter"
+                    android:background="@color/lightGrey" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:layout_weight="1">
+                    android:id="@+id/llFooter"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center_vertical|end"
+                    android:weightSum="3">
 
-                        <TextView
-                            android:id="@+id/tvRating"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:id="@+id/llRating"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/ivRating"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginRight="@dimen/margin_4"
+                                app:srcCompat="@drawable/ic_rating_filled" />
+
+                            <TextView
+                                android:id="@+id/tvRating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:text="@string/empty_view_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llPopularity"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:text="@string/empty_view_text"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                             />
+                            android:layout_weight="1"
+                            android:gravity="center">
 
-                    <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/ivRating"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginRight="@dimen/margin_8"
-                        app:srcCompat="@drawable/ic_rating_filled" />
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/ivPopularity"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginRight="@dimen/margin_4"
+                                app:srcCompat="@drawable/ic_popularity_low" />
+
+                            <TextView
+                                android:id="@+id/tvPopularity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:text="@string/empty_view_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/ivAdult"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginRight="@dimen/margin_8"
+                            app:srcCompat="@drawable/ic_18_plus"
+                            android:visibility="gone"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                    </LinearLayout>
+
+
+
+
             </RelativeLayout>
 
-
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/movie_thumbnail"
+                android:background="@color/lightGrey" />
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+
 </FrameLayout>

@@ -1,7 +1,6 @@
-package com.popular_movies.ui.adapter;
+package com.popular_movies.ui.movies_listing;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -16,11 +15,15 @@ import android.widget.TextView;
 import com.popular_movies.R;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.framework.ImageLoader;
+import com.popular_movies.ui.MovieItemClickListener;
 import com.popular_movies.ui.main.MainActivity;
-import com.popular_movies.ui.movie_details.MovieDetailActivity;
 import com.popular_movies.ui.movie_details.MovieDetailFragment;
+import com.popular_movies.util.AppUtils;
+import com.popular_movies.util.DateConvert;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,20 +37,21 @@ public class MovieListingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<MovieData> movieItemArrayList;
     private LayoutInflater inflater;
     private Context context;
-    private ClickListener clickListener;
+    private MovieItemClickListener clickListener;
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
+    private Map<Integer, String> mapGenre = new HashMap<>();
 
     public MovieListingAdapter(Context context, List<MovieData> movieDataList) {
         if (context != null) {
             this.context = context;
             inflater = LayoutInflater.from(context);
             this.movieItemArrayList = movieDataList;
-            if (MainActivity.mIsDualPane) {
+            /*if (AppUtils.isTablet(context)) {
                 ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
                         .replace(R.id.movie_detail, MovieDetailFragment.getInstance(movieItemArrayList.get(0)))
                         .commit();
-            }
+            }*/
         } else {
             Log.e(TAG, "MovieAdapterHorizontal: context is null");
         }
@@ -88,6 +92,10 @@ public class MovieListingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return movieItemArrayList == null ? 0 : movieItemArrayList.size();
     }
 
+    public void setGenre(Map<Integer,String> mapGenre) {
+        this.mapGenre = mapGenre;
+    }
+
     public void addAll(List<MovieData> results) {
         movieItemArrayList.addAll(results);
         notifyDataSetChanged();
@@ -113,10 +121,20 @@ public class MovieListingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.movie_title)
         TextView title;
+        @BindView(R.id.tvReleaseYear)
+        TextView tvReleaseYear;
         @BindView(R.id.movie_thumbnail)
         ImageView thumbnail;
         @BindView(R.id.tvRating)
         TextView tvRating;
+        @BindView(R.id.ivPopularity)
+        ImageView ivPopularity;
+        @BindView(R.id.tvPopularity)
+        TextView tvPopularity;
+        @BindView(R.id.ivAdult)
+        ImageView ivAdult;
+        @BindView(R.id.tvGenre)
+        TextView tvGenre;
         //public MovieAdapterHorizontal.ClickListener clickListener;
 
         MovieViewHolder(View itemView) {
@@ -128,42 +146,56 @@ public class MovieListingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @Override
         public void onClick(View v) {
             if (clickListener != null) {
-                clickListener.itemClicked(v, getPosition());
+                clickListener.itemClicked(v, getAdapterPosition(), movieItemArrayList.get(getAdapterPosition()));
             }
         }
 
         private void setData(final MovieData movieData) {
+            //  set title
             title.setText(movieData.getOriginal_title());
+            //  set poster/movie image
             ImageLoader.loadPosterImage(context, movieData.getPoster_path(), thumbnail);
+            //  set rating
             tvRating.setText(movieData.getVote_average());
-
-            if (!MainActivity.mIsDualPane) {
-                thumbnail.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, MovieDetailActivity.class);
-                        intent.putExtra(context.getString(R.string.key_movie), movieData);
-                        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            AppBarLayout barLayout = (AppBarLayout) ((AppCompatActivity) context).findViewById(R.id.actionbar);
-                            ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation((AppCompatActivity) context,
-                                    Pair.create((View) thumbnail, context.getString(R.string.transition_name)),
-                                    Pair.create((View) barLayout, context.getString(R.string.transition_name_action_bar)));
-                            context.startActivity(intent, compat.toBundle());
-                        } else*/
-                            context.startActivity(intent);
-                    }
-                });
-            } else {
-                thumbnail.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
-                                .setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top)
-                                .replace(R.id.movie_detail, MovieDetailFragment.getInstance(movieData))
-                                .commit();
-                    }
-                });
+            //  set popularity icon
+            if(Float.valueOf(movieData.getPopularity()) < 100f ) {
+                ivPopularity.setImageResource(R.drawable.ic_popularity_low);
             }
+            else if(Float.valueOf(movieData.getPopularity()) >= 100f && Float.valueOf(movieData.getPopularity()) < 200f) {
+                ivPopularity.setImageResource(R.drawable.ic_popularity_ok);
+            }
+            else if(Float.valueOf(movieData.getPopularity()) >= 200f) {
+                ivPopularity.setImageResource(R.drawable.ic_popularity_high);
+            }
+            int roundedPopularity = Math.round(Float.valueOf(movieData.getPopularity()));
+            //  set popularity text
+            tvPopularity.setText(String.valueOf(roundedPopularity));
+            //  set release date
+            tvReleaseYear.setText(DateConvert.convert(movieData.getRelease_date()));
+            //  set adult image
+            if(movieData.getAdult()) {
+                ivAdult.setVisibility(View.VISIBLE);
+            }
+
+            for (int i = 0; i < movieData.getGenre_ids().length; i++) {
+                Log.d(TAG, "genre "+movieData.getGenre_ids()[i]);
+            }
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < movieData.getGenre_ids().length; i++) {
+                for (Map.Entry<Integer, String> genre : mapGenre.entrySet()) {
+                    Log.d(TAG, "genre "+genre.getValue());
+                    if (movieData.getGenre_ids()[i].intValue() == genre.getKey()) {
+                        Log.d(TAG, "setData: genre matched");
+                        sb.append(genre.getValue());
+                        break;
+                    }
+                }
+                if(i != movieData.getGenre_ids().length-1) {
+                    sb.append(", ");
+                }
+            }
+            tvGenre.setText(sb);
         }
     }
 
@@ -176,11 +208,8 @@ public class MovieListingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public void setClickListener(ClickListener clickListener) {
+    public void setClickListener(MovieItemClickListener clickListener) {
         this.clickListener = clickListener;
     }
 
-    public interface ClickListener {
-        void itemClicked(View view, int position);
-    }
 }

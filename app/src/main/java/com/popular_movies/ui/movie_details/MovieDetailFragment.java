@@ -21,7 +21,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.florent37.diagonallayout.DiagonalLayout;
 import com.google.android.gms.ads.AdListener;
@@ -35,8 +34,7 @@ import com.popular_movies.domain.Review;
 import com.popular_movies.domain.ReviewResponse;
 import com.popular_movies.domain.Trailer;
 import com.popular_movies.domain.TrailerResponse;
-import com.popular_movies.ui.adapter.ReviewsAdapter;
-import com.popular_movies.ui.adapter.TrailerAdapter;
+import com.popular_movies.util.AppUtils;
 import com.popular_movies.util.DateConvert;
 import com.popular_movies.framework.ImageLoader;
 import com.popular_movies.ui.main.MainActivity;
@@ -131,7 +129,7 @@ public class MovieDetailFragment extends Fragment implements MovieDetailPresente
         layoutManagerReview = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvReviews.setLayoutManager(layoutManagerReview);
 
-        if (!MainActivity.mIsDualPane) {
+        if (!AppUtils.isTablet(getContext())) {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
@@ -247,7 +245,8 @@ public class MovieDetailFragment extends Fragment implements MovieDetailPresente
             intent.setData(Uri.parse(BuildConfig.BASE_URL_TRAILER + trailerKey));
             startActivity(intent);
         } else {
-            Toast.makeText(getActivity(), getString(R.string.trailer_error), Toast.LENGTH_SHORT).show();
+            Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.trailer_error),
+                    Snackbar.LENGTH_SHORT).show();
         }
     }
 

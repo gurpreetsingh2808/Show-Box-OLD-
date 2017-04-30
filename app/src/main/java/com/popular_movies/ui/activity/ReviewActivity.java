@@ -17,7 +17,7 @@ import com.popular_movies.domain.Review;
 import com.popular_movies.domain.ReviewResponse;
 import com.popular_movies.ui.movie_details.ReviewPresenter;
 import com.popular_movies.ui.movie_details.ReviewPresenterImpl;
-import com.popular_movies.ui.adapter.ReviewsAdapter;
+import com.popular_movies.ui.movie_details.ReviewsAdapter;
 import com.popular_movies.util.AppUtils;
 
 import java.util.ArrayList;

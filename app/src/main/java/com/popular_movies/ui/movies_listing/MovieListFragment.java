@@ -1,38 +1,44 @@
 package com.popular_movies.ui.movies_listing;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.popular_movies.R;
+import com.popular_movies.domain.Genre;
+import com.popular_movies.domain.GenreResponse;
 import com.popular_movies.domain.MovieData;
 import com.popular_movies.domain.MovieResponse;
-import com.popular_movies.mvp.presenter.MoviesPresenter;
-import com.popular_movies.mvp.presenter.MoviesPresenterImpl;
-import com.popular_movies.ui.adapter.MovieAdapterHorizontal;
-import com.popular_movies.ui.adapter.MovieListingAdapter;
+import com.popular_movies.ui.MovieItemClickListener;
+import com.popular_movies.ui.main.MainActivity;
+import com.popular_movies.ui.movie_details.MovieDetailActivity;
+import com.popular_movies.ui.movie_details.MovieDetailFragment;
+import com.popular_movies.util.AppUtils;
 import com.popular_movies.util.pagination.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class MovieListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
-        MoviesPresenter.View
+        MoviesPresenter.View, MovieItemClickListener
 /*, MovieAdapterHorizontal.ClickListener*/
  {
 
@@ -44,6 +50,7 @@ public class MovieListFragment extends Fragment implements SwipeRefreshLayout.On
     @BindView(R.id.pbMoviesList)
     ProgressBar pbMoviesList;
 
+     private String TAG = MovieListFragment.class.getSimpleName();
     public ArrayList<MovieData> movieDataList = new ArrayList<>();
     public MovieListingAdapter adapterHorizontal;
     // public SwipeRefreshLayout refreshLayout;
@@ -54,6 +61,7 @@ public class MovieListFragment extends Fragment implements SwipeRefreshLayout.On
      private Integer pageNumber = 1;
      private LinearLayoutManager layoutManager;
      private Boolean loadingInProgress = false;
+     private Map<Integer, String> mapGenre = new HashMap<>();
 
      public MovieListFragment() {
 
@@ -99,8 +107,9 @@ public class MovieListFragment extends Fragment implements SwipeRefreshLayout.On
             pbMoviesList.setVisibility(View.GONE);
             setHorizontalAdapter(movieDataList, rvMoviesList);
         } else {*/
-            moviesPresenterImpl.fetchMovies(movieType, String.valueOf(pageNumber));
+//            moviesPresenterImpl.fetchMovies(movieType, String.valueOf(pageNumber));
        // }
+        moviesPresenterImpl.fetchGenres();
         rvMoviesList.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore() {
@@ -120,11 +129,13 @@ public class MovieListFragment extends Fragment implements SwipeRefreshLayout.On
 
     private void setHorizontalAdapter(List<MovieData> listMovies, RecyclerView recyclerView) {
         adapterHorizontal = new MovieListingAdapter(getContext(), listMovies);
+        adapterHorizontal.setClickListener(this);
         if (recyclerView.getAdapter() != null) {
             recyclerView.swapAdapter(adapterHorizontal, false);
         } else {
             recyclerView.setAdapter(adapterHorizontal);
         }
+        adapterHorizontal.setGenre(mapGenre);
     }
 
     @Override
@@ -176,5 +187,43 @@ public class MovieListFragment extends Fragment implements SwipeRefreshLayout.On
         Snackbar.make(view, getString(R.string.connection_error), Snackbar.LENGTH_LONG)
                 .show();
     }
-}
+
+     @Override
+     public void onGenresRetreivalSuccess(GenreResponse genreResponse) {
+         for (Genre genre : genreResponse.getGenres()) {
+             mapGenre.put(genre.getId(), genre.getName());
+             Log.e(TAG, "genre: id "+genre.getId() + ", name "+genre.getName());
+         }
+         moviesPresenterImpl.fetchMovies(movieType, String.valueOf(pageNumber));
+     }
+
+     @Override
+     public void onGenresRetreivalFailure(Throwable throwable) {
+         Log.e(TAG, "onGenresRetreivalFailure: ");
+         moviesPresenterImpl.fetchMovies(movieType, String.valueOf(pageNumber));
+     }
+
+     @Override
+     public void itemClicked(View view, int position, MovieData movieData) {
+         //if (!AppUtils.isTablet(getContext())) {
+             Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+             intent.putExtra(getString(R.string.key_movie), movieData);
+                        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            AppBarLayout barLayout = (AppBarLayout) ((AppCompatActivity) context).findViewById(R.id.actionbar);
+                            ActivityOptions compat = ActivityOptions.makeSceneTransitionAnimation((AppCompatActivity) context,
+                                    Pair.create((View) thumbnail, context.getString(R.string.transition_name)),
+                                    Pair.create((View) barLayout, context.getString(R.string.transition_name_action_bar)));
+                            context.startActivity(intent, compat.toBundle());
+                        } else*/
+             startActivity(intent);
+       /*  }
+         else {
+             getActivity().getSupportFragmentManager().beginTransaction()
+                     .setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_top)
+                     .replace(R.id.movie_detail, MovieDetailFragment.getInstance(movieData))
+                     .commit();
+         }*/
+
+     }
+ }
 
