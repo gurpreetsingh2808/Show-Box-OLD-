@@ -50,5 +50,6 @@
     <string name="inTheaters">In theaters</string>
     <string name="trailer">Trailers</string>
     <string name="key_movie_type">KEY_MOVIE_TYPE</string>
+    <string name="Menu.Favourites">FAVOURITES</string>
 
 </resources>

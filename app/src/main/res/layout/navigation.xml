@@ -43,13 +43,14 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/profile_group"
+            android:id="@+id/llMovies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp">
+            android:paddingBottom="8dp"
+            android:onClick="onNavigationItemSelected">
 
-            <ImageView
+        <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 app:srcCompat="@drawable/ic_popular" />
@@ -62,10 +63,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llFavourites"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
-            android:paddingTop="8dp">
+            android:paddingTop="8dp"
+            android:onClick="onNavigationItemSelected">
 
             <ImageView
                 android:layout_width="24dp"
@@ -77,7 +80,7 @@
                 style="@style/TextView.Menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Menu.TvShows" />
+                android:text="@string/Menu.Favourites" />
         </LinearLayout>
 
         <LinearLayout

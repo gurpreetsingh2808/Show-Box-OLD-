@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeClipBounds;
@@ -16,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.popular_movies.R;
+import com.popular_movies.ui.favourites.FavoritesFragment;
 import com.popular_movies.util.AppUtils;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
 import com.yalantis.guillotine.interfaces.GuillotineListener;
@@ -27,6 +29,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private GuillotineAnimation guillotineAnimation;
     //  toolbar
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -68,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    //.replace(R.id.main_content, new MainFragment())
                     .replace(R.id.main_content, new MainFragment())
                     .commit();
         }
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         View guillotineMenu = LayoutInflater.from(this).inflate(R.layout.navigation, null);
         root.addView(guillotineMenu);
 
-        GuillotineAnimation guillotineAnimation = new GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.guillotine_hamburger), contentHamburger)
+        guillotineAnimation = new GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.guillotine_hamburger), contentHamburger)
                 //.setStartDelay(500)
                 .setActionBarViewForAnimation(toolbar)
                 .setClosedOnStart(true)
@@ -123,6 +125,34 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 //.replace(R.id.main_content, new MainFragment())
                 .replace(R.id.main_content, new MainFragment())
+                .commit();
+    }
+
+    /**
+     * Listener for menu item
+     *
+     * @param view
+     */
+    public void onNavigationItemSelected(View view) {
+        guillotineAnimation.close();
+        switch(view.getId()) {
+            case R.id.llMovies :
+                setFragment(new MainFragment());
+                break;
+            case R.id.llFavourites :
+                setFragment(new FavoritesFragment());
+                break;
+        }
+    }
+
+    /**
+     * This method sets the fragment for selected menu option
+     *
+     * @param fragment
+     */
+    private void setFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_content, fragment)
                 .commit();
     }
 }
