@@ -12,6 +12,7 @@ import com.popular_movies.util.AppUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MoviesListingActivity extends AppCompatActivity {
@@ -36,7 +37,6 @@ public class MoviesListingActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //  type MUAT BE PASSED THROUGH INTENT
         if (savedInstanceState == null) {
             if(getIntent() != null && getIntent().hasExtra(getString(R.string.key_title))) {
@@ -46,5 +46,10 @@ public class MoviesListingActivity extends AppCompatActivity {
                 tvToolbarTitle.setText(getIntent().getStringExtra(getString(R.string.key_title)));
             }
         }
+    }
+
+    @OnClick(R.id.ivBack)
+    public void goBack() {
+        finish();
     }
 }

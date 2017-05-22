@@ -42,11 +42,14 @@ import com.popular_movies.ui.activity.ReviewActivity;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.relex.circleindicator.CircleIndicator;
 
 public class MovieDetailFragment extends Fragment implements MovieDetailPresenter.View, ReviewsAdapter.NavigateReviewListener, TrailerAdapter.TrailerClickListener {
@@ -64,10 +67,16 @@ public class MovieDetailFragment extends Fragment implements MovieDetailPresente
     TextView synopsis;
     @BindView(R.id.userRatings)
     TextView userRatings;
+    @BindView(R.id.tvNoTrailers)
+    TextView tvNoTrailers;
+    @BindView(R.id.tvNoReviews)
+    TextView tvNoReviews;
 
     //  image view
     @BindView(R.id.toolbarImage)
     ImageView toolbarImage;
+    @BindView(R.id.ivBack)
+    AppCompatImageView acivBack;
 
     //  circular progress bar
     @BindView(R.id.indicator)
@@ -258,15 +267,20 @@ public class MovieDetailFragment extends Fragment implements MovieDetailPresente
 
     @Override
     public void onReviewsRetreivalSuccess(ReviewResponse reviewResponse) {
-        List<Review> reviewList = reviewResponse.getResults();
-        if (reviewList != null) {
-            SnapHelper snapHelper = new LinearSnapHelper();
-            snapHelper.attachToRecyclerView(rvReviews);
-            reviewsAdapter = new ReviewsAdapter(getContext(), reviewList, this);
-            rvReviews.setAdapter(reviewsAdapter);
-        }
-        /////////////////////////////////////////////
         pbReviews.setVisibility(View.GONE);
+        if(reviewResponse.getResults().size() > 0) {
+            List<Review> reviewList = reviewResponse.getResults();
+            if (reviewList != null) {
+                SnapHelper snapHelper = new LinearSnapHelper();
+                snapHelper.attachToRecyclerView(rvReviews);
+                reviewsAdapter = new ReviewsAdapter(getContext(), reviewList, this);
+                rvReviews.setAdapter(reviewsAdapter);
+            }
+        }
+        //  if no reviews available
+        else {
+            tvNoReviews.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -279,17 +293,23 @@ public class MovieDetailFragment extends Fragment implements MovieDetailPresente
     @Override
     public void onTrailersRetreivalSuccess(TrailerResponse trailerResponse) {
         pbTrailers.setVisibility(View.GONE);
-        List<Trailer> listTrailers = new ArrayList<>();
-        if(getContext() != null) {
-            for (Trailer trailer : trailerResponse.getResults()) {
-                if (trailer.getSite().equalsIgnoreCase(getContext().getString(R.string.youtube))) {
-                    listTrailers.add(trailer);
+        if(trailerResponse.getResults().size() > 0) {
+            List<Trailer> listTrailers = new ArrayList<>();
+            if (getContext() != null) {
+                for (Trailer trailer : trailerResponse.getResults()) {
+                    if (trailer.getSite().equalsIgnoreCase(getContext().getString(R.string.youtube))) {
+                        listTrailers.add(trailer);
+                    }
                 }
+                dsvTrailers.setAdapter(new TrailerAdapter(listTrailers, this));
+                dsvTrailers.setItemTransformer(new ScaleTransformer.Builder()
+                        .setMinScale(0.8f)
+                        .build());
             }
-            dsvTrailers.setAdapter(new TrailerAdapter(listTrailers, this));
-            dsvTrailers.setItemTransformer(new ScaleTransformer.Builder()
-                    .setMinScale(0.8f)
-                    .build());
+        }
+        //  if no trailers available
+        else {
+            tvNoTrailers.setVisibility(View.VISIBLE);
         }
     }
 
@@ -315,5 +335,10 @@ public class MovieDetailFragment extends Fragment implements MovieDetailPresente
     @Override
     public void onTrailerClick(String key) {
         viewTrailerInYoutube(key);
+    }
+
+    @OnClick(R.id.ivBack)
+    public void goBack() {
+        getActivity().finish();
     }
 }

@@ -122,10 +122,12 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         //  to replace the single pane fragment with the dual pane one
-        getSupportFragmentManager().beginTransaction()
-                //.replace(R.id.main_content, new MainFragment())
-                .replace(R.id.main_content, new MainFragment())
-                .commit();
+        //  TODO : test it properly (cannot call after onsaveinstancestate)
+        if (AppUtils.isTablet(this) && newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_content, new MainFragment())
+                    .commit();
+        }
     }
 
     /**

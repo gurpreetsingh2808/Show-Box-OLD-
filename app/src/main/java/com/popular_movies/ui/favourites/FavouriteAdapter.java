@@ -58,9 +58,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyVi
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-
         dataCursor.moveToPosition(position);
-
         String title = dataCursor.getString(dataCursor.getColumnIndex(MovieDataTable.FIELD_COL_TITLE));
         String description = dataCursor.getString(dataCursor.getColumnIndex(MovieDataTable.FIELD_COL_OVERVIEW));
         String posterPath = dataCursor.getString(dataCursor.getColumnIndex(MovieDataTable.FIELD_COL_POSTER_PATH));

@@ -51,62 +51,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         app:layout_scrollFlags="scroll|enterAlways"
-                        app:popupTheme="@style/AppTheme.PopupOverlay" />
+                        app:popupTheme="@style/AppTheme.PopupOverlay" >
+                        </android.support.v7.widget.Toolbar>
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/ivBack"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="@dimen/margin_4"
+                        android:adjustViewBounds="true"
+                        app:srcCompat="@drawable/ic_back_white"/>
 
                 </com.github.florent37.diagonallayout.DiagonalLayout>
 
-                <!--
-
-                                <com.github.florent37.diagonallayout.DiagonalLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="120dp"
-                                    android:layout_alignParentLeft="true"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentBottom="true"
-                                    app:layout_collapseMode="parallax"
-                                    diagonal:diagonal_angle="10"
-                                    diagonal:diagonal_direction="left"
-                                    diagonal:diagonal_position="bottom" >
-
-                                    <com.github.florent37.diagonallayout.DiagonalLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="120dp"
-                                        android:layout_alignParentLeft="true"
-                                        android:layout_alignParentStart="true"
-                                        app:layout_collapseMode="parallax"
-                                        diagonal:diagonal_angle="20"
-                                        diagonal:diagonal_direction="left"
-                                        diagonal:diagonal_position="top" >
-
-                                        <ImageView
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            android:background="@color/black_transparency_60"
-                                            />
-                                    </com.github.florent37.diagonallayout.DiagonalLayout>
-
-
-                                <com.github.florent37.diagonallayout.DiagonalLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="120dp"
-                                    android:layout_alignParentLeft="true"
-                                    android:layout_alignParentStart="true"
-                                    app:layout_collapseMode="parallax"
-                                    diagonal:diagonal_angle="10"
-                                    diagonal:diagonal_direction="left"
-                                    diagonal:diagonal_position="top" >
-
-                                    <ImageView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="120dp"
-                                        android:background="@color/black_transparency_60"
-                                        />
-                                    </com.github.florent37.diagonallayout.DiagonalLayout>
-                -->
-
-                <!--
-                                </com.github.florent37.diagonallayout.DiagonalLayout>
-                -->
 
             </RelativeLayout>
 
@@ -294,6 +251,14 @@
                                     android:layout_marginTop="80dp"
                                     android:background="@drawable/circular_indicator_bg"
                                     android:padding="10dp" />
+
+                                <TextView
+                                    android:id="@+id/tvNoTrailers"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:visibility="gone"
+                                    android:text="@string/Trailer.NotAvailable"/>
                             </RelativeLayout>
 
                         </RelativeLayout>
@@ -380,6 +345,15 @@
                             android:layout_marginRight="@dimen/margin_8"
                             app:srcCompat="@drawable/ic_arrow_next"/>
 
+                        <TextView
+                            android:id="@+id/tvNoReviews"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:layout_centerInParent="true"
+                            android:visibility="gone"
+                            android:text="@string/Review.NotAvailable"/>
+
                         <ProgressBar
                             android:id="@+id/pbReviews"
                             android:layout_width="40dp"
@@ -387,6 +361,7 @@
                             android:layout_centerInParent="true"
                             android:background="@drawable/circular_indicator_bg"
                             android:padding="10dp" />
+
                     </RelativeLayout>
 
                 </RelativeLayout>

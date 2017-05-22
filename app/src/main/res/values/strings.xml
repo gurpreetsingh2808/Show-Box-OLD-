@@ -51,5 +51,7 @@
     <string name="trailer">Trailers</string>
     <string name="key_movie_type">KEY_MOVIE_TYPE</string>
     <string name="Menu.Favourites">FAVOURITES</string>
+    <string name="Trailer.NotAvailable">No trailers available</string>
+    <string name="Review.NotAvailable">No reviews available</string>
 
 </resources>
