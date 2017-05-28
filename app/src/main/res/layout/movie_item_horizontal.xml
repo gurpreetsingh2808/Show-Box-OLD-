@@ -7,7 +7,7 @@
 
     <android.support.v7.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="4dp"
@@ -20,10 +20,9 @@
 
             <ImageView
                 android:id="@+id/movie_thumbnail"
-                android:layout_width="match_parent"
+                android:layout_width="120dp"
                 android:layout_height="150dp"
                 android:adjustViewBounds="true"
-                android:transitionName="@string/transition_name"
                 android:scaleType="centerCrop"
                 android:contentDescription="@string/movie_icon"/>
 
@@ -34,6 +33,8 @@
                 android:layout_below="@id/movie_thumbnail"
                 android:background="@color/white"
                 android:gravity="center_horizontal"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:padding="6dp"
                 android:text="@string/empty_view_text"
                 android:textSize="15sp" />

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
     android:fitsSystemWindows="false"
-    tools:context="com.popular_movies.ui.activity.MovieDetailActivity">
+    tools:context="com.popular_movies.ui.movie_details.MovieDetailActivity">
 
     <include layout="@layout/content_movie_detail" />
 

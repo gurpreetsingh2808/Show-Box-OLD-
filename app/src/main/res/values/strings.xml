@@ -34,6 +34,7 @@
     <string name="state_reviews">STATE_REVIEWS</string>
     <string name="tag">TAG</string>
 
+
     <string name="Menu.Movies">MOVIES</string>
     <string name="Menu.TvShows">TV SHOWS</string>
     <string name="Menu.People">PEOPLE</string>
@@ -47,5 +48,10 @@
     <string name="Collection.NowPlaying">NOW PLAYING</string>
     <string name="Collection.Upcoming">UPCOMING</string>
     <string name="inTheaters">In theaters</string>
+    <string name="trailer">Trailers</string>
+    <string name="key_movie_type">KEY_MOVIE_TYPE</string>
+    <string name="Menu.Favourites">FAVOURITES</string>
+    <string name="Trailer.NotAvailable">No trailers available</string>
+    <string name="Review.NotAvailable">No reviews available</string>
 
 </resources>

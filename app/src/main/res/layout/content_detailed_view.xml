@@ -9,7 +9,7 @@
     android:background="@color/black"
     android:paddingTop="70dp"
     app:theme="@style/AppTheme"
-    tools:context="com.popular_movies.ui.activity.MovieDetailActivity"
+    tools:context="com.popular_movies.ui.movie_details.MovieDetailActivity"
     tools:showIn="@layout/fragment_detailed_view">
 
 

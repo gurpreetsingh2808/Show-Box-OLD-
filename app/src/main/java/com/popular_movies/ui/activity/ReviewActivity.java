@@ -11,14 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.popular_movies.R;
 import com.popular_movies.domain.Review;
 import com.popular_movies.domain.ReviewResponse;
-import com.popular_movies.mvp.presenter.ReviewPresenter;
-import com.popular_movies.mvp.presenter.ReviewPresenterImpl;
-import com.popular_movies.ui.adapter.ReviewsAdapter;
+import com.popular_movies.ui.movie_details.ReviewPresenter;
+import com.popular_movies.ui.movie_details.ReviewPresenterImpl;
+import com.popular_movies.ui.movie_details.ReviewsAdapter;
 import com.popular_movies.util.AppUtils;
 
 import java.util.ArrayList;

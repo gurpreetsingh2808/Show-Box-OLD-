@@ -38,4 +38,9 @@ public class ImageLoader {
                 .placeholder(R.drawable.no_img_preview).into(imageView);
     }
 
+    public static void loadTrailer(Context context, String key, ImageView imageView) {
+        Picasso.with(context).load(BuildConfig.BASE_URL_TRAILER_IMAGE + key +"/0.jpg")
+                .error(R.drawable.no_img_preview).into(imageView);
+    }
+
 }

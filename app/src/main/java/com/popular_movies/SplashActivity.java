@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.popular_movies.ui.activity.MainActivity;
+import com.popular_movies.ui.main.MainActivity;
 import com.popular_movies.util.AppUtils;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;

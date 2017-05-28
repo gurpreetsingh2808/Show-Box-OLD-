@@ -11,6 +11,12 @@ public class DateConvert {
         return monthToName(cal.get(Calendar.MONTH)) + " " + cal.get(Calendar.DAY_OF_MONTH) + ", " + cal.get(Calendar.YEAR);
     }
 
+    public static String getYear(Date date) {
+        Calendar cal= Calendar.getInstance();
+        cal.setTime(date);
+        return String.valueOf(cal.get(Calendar.YEAR));
+    }
+
     private static String monthToName(int id) {
         switch (id) {
             case 0:

@@ -1,5 +1,7 @@
 package com.popular_movies.domain;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by Gurpreet on 22-01-2017.
  */
@@ -16,7 +18,7 @@ public class Trailer {
     public Trailer() {
     }
 
-    public Trailer(String id, String key, String site, String type) {
+    private Trailer(String id, String key, String site, String type) {
         this.id = id;
         this.key = key;
         this.site = site;
@@ -24,7 +26,6 @@ public class Trailer {
     }
 
     public String getId() {
-
         return id;
     }
 
@@ -70,5 +71,50 @@ public class Trailer {
 
     public void setSize(Integer size) {
         this.size = size;
+    }
+
+    public static class Builder {
+
+        private String id;
+        private String name;
+        private String key;
+        private String site;
+        private Integer size;
+        private String type;
+
+        public Builder setId(@NonNull String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setKey(@NonNull String key) {
+            this.key = key;
+            return this;
+        }
+
+        public Builder setSite(@NonNull String site) {
+            this.site = site;
+            return this;
+        }
+
+        public Builder setType(@NonNull String type) {
+            this.type = type;
+            return this;
+        }
+
+        public Builder setName(@NonNull String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setSize(@NonNull Integer size) {
+            this.size = size;
+            return this;
+        }
+
+        public Trailer build() {
+            return new Trailer(id, key, site, type);
+        }
+
     }
 }
